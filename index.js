@@ -4,6 +4,6 @@
 
 import {AppRegistry} from 'react-native';
 import App from './App';
-const appName ='UniEase'
+const appName ='uniease'
 
 AppRegistry.registerComponent(appName, () => App);

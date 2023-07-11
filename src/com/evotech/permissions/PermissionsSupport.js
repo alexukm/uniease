@@ -1,0 +1,22 @@
+import {Platform} from "react-native";
+import {iosLocationPermission, iosPhotoLibraryPermission} from "./ios/IOSPermissionsSupport";
+import {androidLocationPermission, androidPhotoLibraryPermission} from "./android/AndroidPermissionsSupport";
+
+export const checkPhotoLibraryPermission = (granted, denied, err) => {
+    if (Platform.OS === 'ios') {
+        return iosPhotoLibraryPermission(granted, denied, err);
+    }
+    if (Platform.OS === 'android') {
+        return androidPhotoLibraryPermission(granted, denied, err);
+    }
+}
+
+
+export const locationPermission = (granted, denied, err) => {
+    if (Platform.OS === 'ios') {
+        return iosLocationPermission(granted, denied, err);
+    }
+    if (Platform.OS === 'android') {
+        return androidLocationPermission(granted, denied, err);
+    }
+}

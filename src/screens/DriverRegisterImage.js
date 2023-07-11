@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, TouchableWithoutFeedback, Keyboard,ScrollView} from 'react-native';
+import {SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
 import {Center, Box, VStack, Button, FormControl, NativeBaseProvider, Icon, Text} from 'native-base';
 import RemixIcon from 'react-native-remix-icon';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -8,6 +8,7 @@ import {DriverImageType, removeUserToken} from "../com/evotech/common/appUser/Us
 import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
 import {useNavigation} from "@react-navigation/native";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import {checkPhotoLibraryPermission} from "../com/evotech/permissions/PermissionsSupport";
 
 
 const ImageUploadPage = () => {
@@ -49,30 +50,39 @@ const ImageUploadPage = () => {
             },
         };
 
-        launchImageLibrary(options, async response => {
-            if (response.didCancel) {
-                showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
-            } else if (response.error) {
-                showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
-            } else {
-                const uri = response.assets[0].uri;
-                const userInfo = await getUserInfoWithLocal()
-                const params = {
-                    uploadType: uploadType,
-                    userPhone: userInfo.userPhone
+
+        checkPhotoLibraryPermission(() => {
+            //允许访问
+            launchImageLibrary(options, async response => {
+                if (response.didCancel) {
+                    showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
+                } else if (response.error) {
+                    showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
+                } else {
+                    const uri = response.assets[0].uri;
+                    const userInfo = await getUserInfoWithLocal()
+                    const params = {
+                        uploadType: uploadType,
+                        userPhone: userInfo.userPhone
+                    }
+                    try {
+                        driverUpload(uri, params)
+                            .then(data => {
+                                showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
+                                setUploadStatus(true);
+                            }).catch(err => {
+                            showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
+                        });
+                    } catch (error) {
+                        showDialog('DANGER', 'Upload Failed', 'Failed to upload file: ' + error.message);
+                    }
                 }
-                try {
-                    driverUpload(uri, params)
-                        .then(data => {
-                            showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
-                            setUploadStatus(true);
-                        }).catch(err => {
-                        showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
-                    });
-                } catch (error) {
-                    showDialog('DANGER', 'Upload Failed', 'Failed to upload file: ' + error.message);
-                }
-            }
+            }).then();
+        }, () => {
+            //TODO  不允许访问 弹窗提示
+
+        }, () => {
+            //TODO  异常情况
         });
     }
 

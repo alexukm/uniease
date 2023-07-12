@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {
-    PermissionsAndroid,
     Dimensions,
     Image,
     Pressable,
@@ -15,7 +14,7 @@ import RemixIcon from 'react-native-remix-icon';
 import DatePicker from 'react-native-date-picker';
 import Geocoder from 'react-native-geocoding';
 import MapView, {Polyline} from 'react-native-maps';
-import { Marker } from 'react-native-maps';
+import {Marker} from 'react-native-maps';
 import {useNavigation} from '@react-navigation/native';
 import {
     orderPriceCheck,
@@ -26,9 +25,10 @@ import {format} from 'date-fns';
 import {googleMapsApiKey} from "../com/evotech/common/apiKey/mapsApiKey";
 import apiService from "../com/evotech/common/apiKey/apiService";
 import {formatDate} from "../com/evotech/common/formatDate";
-import { userOrderWebsocket} from "../com/evotech/common/websocket/UserChatWebsocket";
+import {userOrderWebsocket} from "../com/evotech/common/websocket/UserChatWebsocket";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import { Toast } from "react-native-alert-notification";
+import {locationPermission} from "../com/evotech/permissions/PermissionsSupport";
 
 
 // 初始化Geocoder库，这个库用于处理地址和地理坐标的相互转化
@@ -218,7 +218,7 @@ const RideOrderScreen = () => {
                     await moveToLocation(placeId); // 使用地点ID移动到当前位置
                     const predictions = await apiService.getAutocomplete(address);
                     if (predictions.length > 0) {
-                        setDepartureAddress(predictions[predictions.length-1].terms)
+                        setDepartureAddress(predictions[predictions.length - 1].terms)
                     }
                 } catch (error) {
                     console.error(error);
@@ -229,26 +229,34 @@ const RideOrderScreen = () => {
 
     // 这个函数请求地理位置权限
     const requestLocationPermission = async () => {
-        try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                {
-                    title: "Location Permission",
-                    message: "This app needs access to your location",
-                    buttonNeutral: "Ask Me Later",
-                    buttonNegative: "Cancel",
-                    buttonPositive: "OK"
-                }
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                getCurrentLocation();
-            } else {
-                console.log("Location permission denied");
-                showDialog('WARNING', 'Action Required', 'Location permission denied. For automatic location input, please enable location access.');
-            }
-        } catch (err) {
-            console.warn(err);
-        }
+        await locationPermission((result) => {
+            getCurrentLocation()
+        }, (result) => {
+            console.log("Location permission denied");
+            showDialog('WARNING', 'Action Required', 'Location permission denied. For automatic location input, please enable location access.');
+        }, (error) => {
+            console.warn(error);
+        })
+        /*   try {
+               const granted = await PermissionsAndroid.request(
+                   PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                   {
+                       title: "Location Permission",
+                       message: "This app needs access to your location",
+                       buttonNeutral: "Ask Me Later",
+                       buttonNegative: "Cancel",
+                       buttonPositive: "OK"
+                   }
+               );
+               if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                   getCurrentLocation();
+               } else {
+                   console.log("Location permission denied");
+                   showDialog('WARNING', 'Action Required', 'Location permission denied. For automatic location input, please enable location access.');
+               }
+           } catch (err) {
+               console.warn(err);
+           }*/
     };
 
     // 在组件渲染后请求地理位置权限
@@ -480,8 +488,6 @@ const RideOrderScreen = () => {
             });
 
     };
-
-
 
 
     // 处理返回的逻辑，根据当前的状态，取消预订或返回到主页

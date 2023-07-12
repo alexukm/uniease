@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
+import { SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView, Platform } from "react-native";
 import {Center, Box, VStack, Button, FormControl, NativeBaseProvider, Icon, Text} from 'native-base';
 import RemixIcon from 'react-native-remix-icon';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -9,6 +9,8 @@ import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
 import {useNavigation} from "@react-navigation/native";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import {checkPhotoLibraryPermission} from "../com/evotech/permissions/PermissionsSupport";
+import { PERMISSIONS, request, RESULTS } from 'react-native-permissions';
+
 
 
 const ImageUploadPage = () => {
@@ -50,31 +52,41 @@ const ImageUploadPage = () => {
             },
         };
 
-        launchImageLibrary(options, async response => {
-            if (response.didCancel) {
-                showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
-            } else if (response.error) {
-                showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
+        const permissionType = Platform.OS === 'ios' ?
+          PERMISSIONS.IOS.PHOTO_LIBRARY :
+          PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+
+        request(permissionType).then(result => {
+            if (result === RESULTS.GRANTED) {
+                launchImageLibrary(options, async response => {
+                    if (response.didCancel) {
+                        showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
+                    } else if (response.error) {
+                        showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
+                    } else {
+                        const uri = response.assets[0].uri;
+                        const userInfo = await getUserInfoWithLocal()
+                        const params = {
+                            uploadType: uploadType,
+                            userPhone: userInfo.userPhone
+                        }
+                        try {
+                            driverUpload(uri, params)
+                              .then(data => {
+                                  showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
+                                  setUploadStatus(true);
+                              }).catch(err => {
+                                showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
+                            });
+                        } catch (error) {
+                            showDialog('DANGER', 'Upload Failed', 'Failed to upload file: ' + error.message);
+                        }
+                    }
+                }).then();
             } else {
-                const uri = response.assets[0].uri;
-                const userInfo = await getUserInfoWithLocal()
-                const params = {
-                    uploadType: uploadType,
-                    userPhone: userInfo.userPhone
-                }
-                try {
-                    driverUpload(uri, params)
-                      .then(data => {
-                          showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
-                          setUploadStatus(true);
-                      }).catch(err => {
-                        showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
-                    });
-                } catch (error) {
-                    showDialog('DANGER', 'Upload Failed', 'Failed to upload file: ' + error.message);
-                }
+                showToast('DANGER', 'Permission Denied', 'We need permission to access your photo library to upload images');
             }
-        }).then();
+        });
     }
 
 

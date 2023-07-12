@@ -103,9 +103,13 @@ renderItem 函数也被封装在 useCallback 钩子中。
 //todo 34 司机接单，u过订单被接就要消失在订单列表；现在的问题是别人接了，成功失败，其他司机都不能接了。如果接单失败，用户的订单依然没有被接，但是其他司机不能接了。
 //Done
 
-//todo 35. 替换 react-native-picker/picker
+
 
 //todo 36. 司机乘客电话接口
+
+//todo 35. 替换 react-native-picker/picker
+
+//todo 37. ios获取图片/Android测试不可以直接点开就获取图片信息
 
 // 后续内容------------------------------------
 // 司机接口

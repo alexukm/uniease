@@ -3,7 +3,6 @@ import {
     SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView,  Modal, View, TouchableHighlight
 } from 'react-native';
 import {
-
     Box,
     VStack,
     Button,
@@ -12,7 +11,6 @@ import {
     NativeBaseProvider,
     Icon,
     Text,
-
     Flex
 } from 'native-base';
 import RemixIcon from 'react-native-remix-icon';

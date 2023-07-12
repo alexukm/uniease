@@ -14,7 +14,7 @@ import {
 import { MD5 } from 'crypto-js';
 import { smsSend, userRegistry } from "../com/evotech/common/http/BizHttpUtil";
 import {setUserToken, userType} from "../com/evotech/common/appUser/UserConstant";
-import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
@@ -265,7 +265,7 @@ const RegisterScreen = () => {
                                 <HStack space={2} width="100%">
                                     <View style={{flex: 0.4}}>
                                         <View style={{ borderWidth: 1, borderColor: '#d3d3d3', borderRadius: 4, overflow: 'hidden' }}>
-                                            <RNPickerSelect
+                                          {/*  <RNPickerSelect
                                               onValueChange={(value) => setSelectedValue(value)}
                                               items={countryData.map(item => (
                                                 { label: `${item.code} +${item.label}`, value: item.label, key: item.code }
@@ -274,7 +274,7 @@ const RegisterScreen = () => {
                                               useNativeAndroidPickerStyle={false}
                                               placeholder={{}}
                                               value={selectedValue}
-                                            />
+                                            />*/}
                                         </View>
                                     </View>
                                     <Input

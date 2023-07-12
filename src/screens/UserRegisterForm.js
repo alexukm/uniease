@@ -8,14 +8,13 @@ import {
     HStack,
     Input,
     NativeBaseProvider,
-    Select,
     VStack,
     Text,
 } from 'native-base';
 import { MD5 } from 'crypto-js';
 import { smsSend, userRegistry } from "../com/evotech/common/http/BizHttpUtil";
 import {setUserToken, userType} from "../com/evotech/common/appUser/UserConstant";
-import { Picker } from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
@@ -266,19 +265,16 @@ const RegisterScreen = () => {
                                 <HStack space={2} width="100%">
                                     <View style={{flex: 0.4}}>
                                         <View style={{ borderWidth: 1, borderColor: '#d3d3d3', borderRadius: 4, overflow: 'hidden' }}>
-                                            <Picker
-                                                selectedValue={selectedValue}
-                                                style={{ height: 50 }}
-                                                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                                            >
-                                                {countryData.map(item => (
-                                                    <Picker.Item
-                                                        key={item.code}
-                                                        label={`${item.code} +${item.label}`}
-                                                        value={item.label}
-                                                    />
-                                                ))}
-                                            </Picker>
+                                            <RNPickerSelect
+                                              onValueChange={(value) => setSelectedValue(value)}
+                                              items={countryData.map(item => (
+                                                { label: `${item.code} +${item.label}`, value: item.label, key: item.code }
+                                              ))}
+                                              style={{ inputIOS: { height: 50 } }}
+                                              useNativeAndroidPickerStyle={false}
+                                              placeholder={{}}
+                                              value={selectedValue}
+                                            />
                                         </View>
                                     </View>
                                     <Input

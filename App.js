@@ -20,6 +20,7 @@ import {userSkipLogin} from "./src/com/evotech/common/appUser/UserInfo";
 import DriverAccount from "./src/screens/DriverAccountScreen";
 import {AlertNotificationRoot} from "react-native-alert-notification";
 import {enableScreens} from 'react-native-screens';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 enableScreens();
 

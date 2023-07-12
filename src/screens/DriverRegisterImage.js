@@ -50,40 +50,31 @@ const ImageUploadPage = () => {
             },
         };
 
-
-        checkPhotoLibraryPermission(() => {
-            //允许访问
-            launchImageLibrary(options, async response => {
-                if (response.didCancel) {
-                    showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
-                } else if (response.error) {
-                    showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
-                } else {
-                    const uri = response.assets[0].uri;
-                    const userInfo = await getUserInfoWithLocal()
-                    const params = {
-                        uploadType: uploadType,
-                        userPhone: userInfo.userPhone
-                    }
-                    try {
-                        driverUpload(uri, params)
-                            .then(data => {
-                                showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
-                                setUploadStatus(true);
-                            }).catch(err => {
-                            showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
-                        });
-                    } catch (error) {
-                        showDialog('DANGER', 'Upload Failed', 'Failed to upload file: ' + error.message);
-                    }
+        launchImageLibrary(options, async response => {
+            if (response.didCancel) {
+                showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
+            } else if (response.error) {
+                showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
+            } else {
+                const uri = response.assets[0].uri;
+                const userInfo = await getUserInfoWithLocal()
+                const params = {
+                    uploadType: uploadType,
+                    userPhone: userInfo.userPhone
                 }
-            }).then();
-        }, () => {
-            //TODO  不允许访问 弹窗提示
-
-        }, () => {
-            //TODO  异常情况
-        });
+                try {
+                    driverUpload(uri, params)
+                      .then(data => {
+                          showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
+                          setUploadStatus(true);
+                      }).catch(err => {
+                        showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
+                    });
+                } catch (error) {
+                    showDialog('DANGER', 'Upload Failed', 'Failed to upload file: ' + error.message);
+                }
+            }
+        }).then();
     }
 
 

@@ -17,7 +17,7 @@ import {getUserID, setUserToken, userType} from "../com/evotech/common/appUser/U
 import {useNavigation} from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
-import { Picker } from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 
 
@@ -272,21 +272,11 @@ const RegisterScreen = () => {
                                 <FormControl.Label>Phone Number</FormControl.Label>
                                 <HStack space={2} width="100%">
                                     <View style={{flex: 0.4, borderWidth: 1, borderColor: '#d9d9d9', borderRadius: 4}}>
-                                        <Picker
-                                            selectedValue={selectedValue}
-                                            onValueChange={itemValue => {
-                                                setSelectedValue(itemValue);
-                                            }}
-                                            style={{ height: 50, width: '100%' }}
-                                        >
-                                            {countryData.map(item => (
-                                                <Picker.Item
-                                                    key={item.code}
-                                                    label={`${item.code} +${item.label}`}
-                                                    value={item.label}
-                                                />
-                                            ))}
-                                        </Picker>
+                                        <RNPickerSelect
+                                          onValueChange={value => setSelectedValue(value)}
+                                          style={{inputAndroid: {height: 50, width: '100%'}}}
+                                          items={countryData.map(item => ({label: `${item.code} +${item.label}`, value: item.label, key: item.code}))}
+                                        />
                                     </View>
                                     <Input
                                         placeholder={selectedValue === '60' ? 'Enter 9 digit number' : 'Enter 11 digit number'}

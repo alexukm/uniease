@@ -1,5 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {PermissionsAndroid, Dimensions, Image, Pressable, View, Alert, ActivityIndicator} from 'react-native';
+import {
+    PermissionsAndroid,
+    Dimensions,
+    Image,
+    Pressable,
+    View,
+    Alert,
+    ActivityIndicator,
+    TouchableOpacity,
+} from "react-native";
 import Geolocation from '@react-native-community/geolocation';
 import {Box, Button, HStack, Input, NativeBaseProvider, Text, VStack, Modal, Spinner, Heading} from 'native-base';
 import RemixIcon from 'react-native-remix-icon';
@@ -19,6 +28,7 @@ import apiService from "../com/evotech/common/apiKey/apiService";
 import {formatDate} from "../com/evotech/common/formatDate";
 import { userOrderWebsocket} from "../com/evotech/common/websocket/UserChatWebsocket";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import { Toast } from "react-native-alert-notification";
 
 
 // 初始化Geocoder库，这个库用于处理地址和地理坐标的相互转化
@@ -253,9 +263,9 @@ const RideOrderScreen = () => {
         setOpen(true);
     };
 
-    const navigateHome = () => {
-        navigation.navigate('Tabs', {screen: 'Home'});
-    };
+    // const navigateHome = () => {
+    //     navigation.navigate('Tabs', {screen: 'Home'});
+    // };
     const allowOrder = () => {
         userOrderCheck()
             .then(data => {
@@ -527,11 +537,11 @@ const RideOrderScreen = () => {
                 </MapView>
 
 
-                {!isSuccessScreen && !isBookingConfirmed && (
-                    <Button variant="link" onPress={navigateHome} position="absolute" left={5} top={5}>
-                        <RemixIcon name="arrow-left-circle-line" size={30} color="black"/>
-                    </Button>
-                )}
+                {/*{!isSuccessScreen && !isBookingConfirmed && (*/}
+                {/*    <Button variant="link" onPress={navigateHome} position="absolute" left={5} top={5}>*/}
+                {/*        <RemixIcon name="arrow-left-circle-line" size={30} color="black"/>*/}
+                {/*    </Button>*/}
+                {/*)}*/}
 
                 {isBookingConfirmed ? (
                     <Box
@@ -559,7 +569,10 @@ const RideOrderScreen = () => {
                                     style={{width: 100, height: 100}}
                                 />
                                 <Text>{estimatedDuration}</Text>
-                                <Text>MYR {orderPrice}</Text>
+                                <TouchableOpacity onPress={() => showToast('WARNING', 'Payment checking', 'We are only accept Cash now, E-wallet will be coming next update.')}>
+                                    <Text>MYR {orderPrice} {'>'}</Text>
+                                </TouchableOpacity>
+
                             </HStack>
                             <Input
                                 placeholder="Remarks (Optional)"

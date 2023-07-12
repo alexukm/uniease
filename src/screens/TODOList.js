@@ -97,11 +97,15 @@ renderItem 函数也被封装在 useCallback 钩子中。
 
 //todo 31 司机接单页面，定时刷新，下滑刷新
 //todo 32 乘客 下滑不能刷新
+//Done
 
 //todo 33 乘客订单详情取消订单之后，Property 'orderStatus' doesn't exist
 //todo 34 司机接单，u过订单被接就要消失在订单列表；现在的问题是别人接了，成功失败，其他司机都不能接了。如果接单失败，用户的订单依然没有被接，但是其他司机不能接了。
+//Done
 
 //todo 35. 替换 react-native-picker/picker
+
+//todo 36. 司机乘客电话接口
 
 // 后续内容------------------------------------
 // 司机接口

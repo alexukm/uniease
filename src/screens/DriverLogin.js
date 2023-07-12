@@ -92,6 +92,7 @@ function DriverScreen() {
     const [secondsRemaining, setSecondsRemaining] = useState(30);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const [isResendOtpActive, setIsResendOtpActive] = useState(false);
+    const [otp, setOtp] = useState("");
 
     useEffect(() => {
         let intervalId;
@@ -113,6 +114,12 @@ function DriverScreen() {
     };
 
     const handleOtpInputChange = (text) => {
+
+        if (!isTimerActive) {
+            showToast('WARNING', 'Warning', 'Please get OTP first before entering it.');
+            return;
+        }
+
         setOtp(text);
         if (text.length === 4) {
             const userPhone = countryCodes[selectedValue] + value;

@@ -81,12 +81,21 @@ const featureAndPath = {
     QUERY_USER_ORDER_STATUS: {method: supportRequestMethod.POST, path: '/v1/oms/api/user/order/queryUserOrderStatus'},
 
     QUERY_DRIVER_ORDER_STATUS: {method: supportRequestMethod.POST, path: '/v1/oms/api/driver/order/queryDriverOrderStatus'},
+
+    DRIVER_QUERY_USER_PHONE: {method: supportRequestMethod.POST, path: '/v1/oms/api/driver/order/queryUserPhone'},
+
+    USER_QUERY_DRIVER_PHONE: {method: supportRequestMethod.POST, path: '/v1/oms/api/user/order/queryUserPhone'},
 }
 
 export function driverSupplyInfo(params = {}) {
     return request.post(featureAndPath.DRIVER_SUPPLY_INFO.path, SupportContextType.APPLICATION_JSON, {params: params});
 }
-
+export function driverQueryUserPhone(params = {}) {
+    return request.post(featureAndPath.DRIVER_QUERY_USER_PHONE.path, SupportContextType.APPLICATION_JSON, {params: params});
+}
+export function userQueryDriverPhone(params = {}) {
+    return request.post(featureAndPath.USER_QUERY_DRIVER_PHONE.path, SupportContextType.APPLICATION_JSON, {params: params});
+}
 export function queryDriverOrderStatus() {
     return request.post(featureAndPath.QUERY_DRIVER_ORDER_STATUS.path, SupportContextType.APPLICATION_JSON, {});
 }

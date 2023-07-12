@@ -125,7 +125,7 @@ const UserHome = () => {
                 flexDirection: 'row',
                 paddingLeft: 20
             }}>
-                <Image source={{uri: "https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg"}}
+                <Image source={require('../picture/logo.png')}
                        style={{width: 100, height: 100}}/>
             </View>
 

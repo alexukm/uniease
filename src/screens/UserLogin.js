@@ -18,7 +18,7 @@ import {
 } from "native-base";
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
-import {showToast} from "../com/evotech/common/alert/toastHelper";
+import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 
 const countryCodes = {
     my: "60",
@@ -131,6 +131,10 @@ function UserScreen() {
     };
 
     const handleOtpInputChange = (text) => {
+        if (!isTimerActive) {
+            showToast('WARNING', 'Warning', 'Please get OTP first before entering it.');
+            return;
+        }
         setOtp(text);
         if (text.length === 4) {
             const userPhone = countryCodes[selectedValue] + value;

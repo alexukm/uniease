@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {NativeBaseProvider, Box, VStack, HStack, Button, Text, Avatar, Input} from 'native-base';
 import MapView, {Marker} from 'react-native-maps';
-import {View, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import { View, Dimensions, ScrollView, TouchableOpacity, Platform, Linking } from "react-native";
 import {StyleSheet} from 'react-native';
 import Geocoder from 'react-native-geocoding';
 import RemixIcon from 'react-native-remix-icon';
@@ -9,7 +9,7 @@ import {
     userOrderInfo,
     userReviewOrder,
     userCancelOrder,
-    passerGetDriverCode
+    passerGetDriverCode, driverQueryUserPhone, userQueryDriverPhone,
 } from "../com/evotech/common/http/BizHttpUtil";
 import {OrderStateEnum} from "../com/evotech/common/constant/BizEnums";
 import {Rating} from 'react-native-ratings';
@@ -73,19 +73,19 @@ const UserOrderDetailScreen = ({route, navigation}) => {
     };
 
 // 这是返回按钮的组件
-    const BackButton = () => (
-        <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-                position: 'absolute', // 使用绝对定位
-                top: 20, // 顶部距离
-                left: 20, // 左边距离
-                zIndex: 1, // z-index 属性设定了元素的堆叠顺序
-            }}
-        >
-            <RemixIcon name="arrow-left-circle-line" size={35} color="black"/>
-        </TouchableOpacity>
-    );
+//     const BackButton = () => (
+//         <TouchableOpacity
+//             onPress={() => navigation.goBack()}
+//             style={{
+//                 position: 'absolute', // 使用绝对定位
+//                 top: 20, // 顶部距离
+//                 left: 20, // 左边距离
+//                 zIndex: 1, // z-index 属性设定了元素的堆叠顺序
+//             }}
+//         >
+//             <RemixIcon name="arrow-left-circle-line" size={35} color="black"/>
+//         </TouchableOpacity>
+//     );
 
 
     useEffect(() => {
@@ -198,6 +198,28 @@ const UserOrderDetailScreen = ({route, navigation}) => {
         });
     }
 
+    const userOpenSystemPhone = (orderId) => {
+        const params = {
+            orderId: orderId,
+        };
+        userQueryDriverPhone(params).then((response) => {
+            if (response.code === 200) {
+                let phoneNumber = response.data;
+                if (Platform.OS !== "android") {
+                    phoneNumber = `prompt:${phoneNumber}`;
+                } else {
+                    phoneNumber = `tel:${phoneNumber}`;
+                }
+                Linking.openURL(phoneNumber);
+            } else {
+                console.log("查询失败"+response.message);
+                //TODO 查询失败
+            }
+        }).catch((error) => {
+            //todo 查询异常
+            console.log("查询异常"+error.message);
+        });
+    };
     const ReviewBox = () => (
         <InfoBox title="Comment your driver">
             <VStack space={4} alignItems="stretch">
@@ -346,65 +368,67 @@ const UserOrderDetailScreen = ({route, navigation}) => {
         </InfoBox>
     );
 
-    const DriverInfoBox = ({showBack, status}) => (
-        <InfoBox title="Driver Information" showBack={showBack}>
-            <VStack space={4} alignItems="stretch">
-                <HStack justifyContent='space-between' alignItems='center'>
-                    <VStack>
-                        <Avatar
-                            size="lg"
-                            source={{
-                                uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                            }}
-                        />
-                        <Text>Driver: {orderDetailInfo.userName}</Text>
-                    </VStack>
-                    <View style={{alignItems: 'flex-end'}}>
-                        {/*<Text style={{...styles.licensePlateText, lineHeight: 30}}>License Plate: {orderDetailInfo.licensePlate}</Text>*/}
-                        {/*<Text>Car Model: {orderDetailInfo.carBrand}</Text>*/}
-                        <Text style={{...styles.licensePlateText, lineHeight: 30}}>UKM 6869</Text>
-                        <Text>GRAY - PROTON SAGA (GRAY)</Text>
-                    </View>
-                </HStack>
-                {status !== OrderStateEnum.DELIVERED ? (
-                    <HStack space={2}>
-                        <Button
-                            bg="#f0f0f0"
-                            onPress={() => openChatRoom()}
-                            variant="ghost"
-                            style={{height: 40, justifyContent: 'center', flex: 8}} // 添加自定义样式
-                        >
-                            <HStack space={2}>
-                                <RemixIcon name="message-3-line" size={24} color="black"/>
-                                <Text>Chat</Text>
-                            </HStack>
-                        </Button>
-                        <Button
-                            bg="#e0e0e0"
-                            onPress={() => console.log('Call Driver')}
-                            variant="ghost"
-                            style={{height: 40, justifyContent: 'center', flex: 2}} // 添加自定义样式
-                        >
-                            <HStack space={2}>
-                                <RemixIcon name="phone-line" size={24} color="black"/>
-                            </HStack>
-                        </Button>
-                    </HStack>
-                ) : (
+    const DriverInfoBox = ({ status }) => (
+      <InfoBox>
+          <VStack space={4} alignItems="stretch">
+              <HStack justifyContent="space-between" alignItems="center">
+                  <VStack>
+                      <Avatar
+                        size="lg"
+                        source={{
+                            uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                        }}
+                      />
+                      <Text>Driver: {orderDetailInfo.userName}</Text>
+                  </VStack>
+                  <View style={{ alignItems: "flex-end" }}>
+                      {/*<Text style={{...styles.licensePlateText, lineHeight: 30}}>License Plate: {orderDetailInfo.licensePlate}</Text>*/}
+                      {/*<Text>Car Model: {orderDetailInfo.carBrand}</Text>*/}
+                      <Text style={{ ...styles.licensePlateText, lineHeight: 30 }}>UKM 6869</Text>
+                      <Text>GRAY - PROTON SAGA (GRAY)</Text>
+                  </View>
+              </HStack>
+              {status !== OrderStateEnum.DELIVERED ? (
+                <HStack space={2}>
                     <Button
-                        bg="#f0f0f0"
-                        onPress={() => refRBSheetReview.current.open()}
-                        variant="ghost"
-                        style={{height: 40, justifyContent: 'center', flex: 1}}
+                      bg="#f0f0f0"
+                      onPress={() => openChatRoom()}
+                      variant="ghost"
+                      style={{ height: 40, justifyContent: "center", flex: 8 }} // 添加自定义样式
                     >
                         <HStack space={2}>
-                            <RemixIcon name="star-line" size={24} color="black"/>
-                            <Text>Rate</Text>
+                            <RemixIcon name="message-3-line" size={24} color="black" />
+                            <Text>Chat</Text>
                         </HStack>
                     </Button>
-                )}
-            </VStack>
-        </InfoBox>
+                    <Button
+                      bg="#e0e0e0"
+                      onPress={()=>{
+                          userOpenSystemPhone(orderDetailInfo.driverOrderId)
+                      }}
+                      variant="ghost"
+                      style={{ height: 40, justifyContent: "center", flex: 2 }} // 添加自定义样式
+                    >
+                        <HStack space={2}>
+                            <RemixIcon name="phone-line" size={24} color="black" />
+                        </HStack>
+                    </Button>
+                </HStack>
+              ) : (
+                <Button
+                  bg="#f0f0f0"
+                  onPress={() => refRBSheetReview.current.open()}
+                  variant="ghost"
+                  style={{ height: 40, justifyContent: "center", flex: 1 }}
+                >
+                    <HStack space={2}>
+                        <RemixIcon name="star-line" size={24} color="black" />
+                        <Text>Rate</Text>
+                    </HStack>
+                </Button>
+              )}
+          </VStack>
+      </InfoBox>
     );
 
 
@@ -449,7 +473,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                     <ScrollView style={styles.fullScreen}>
                         {DepartureCoords && DestinationCoords && <MapComponent/>}
                         <OrderInfoBox showStatus={true}/>
-                        {existDriverInfo && <DriverInfoBox showBack={existDriverInfo}/>}
+                        {existDriverInfo && <DriverInfoBox/>}
                         <RBSheet
                             ref={refRBSheetPayment}
                             closeOnDragDown={true}
@@ -468,7 +492,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                             <ScrollView style={styles.fullScreen}>
                                 <MapComponent/>
                                 <OrderInfoBox showStatus={false}/>
-                                {existDriverInfo && <DriverInfoBox showBack={existDriverInfo}/>}
+                                {existDriverInfo && <DriverInfoBox/>}
                             </ScrollView>
                         )}
                     </>
@@ -478,7 +502,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                 return (
                     <ScrollView style={styles.fullScreen}>
                         <OrderInfoBox showStatus={true}/>
-                        <DriverInfoBox showBack={true} status={Status}/>
+                        <DriverInfoBox status={Status}/>
                         <RBSheet
                             ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
                             closeOnDragDown={true}
@@ -537,7 +561,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
     return (
         <NativeBaseProvider>
             <View style={styles.container}>
-                <BackButton/>
+                {/*<BackButton/>*/}
                 {renderContentBasedOnStatus()}
             </View>
         </NativeBaseProvider>

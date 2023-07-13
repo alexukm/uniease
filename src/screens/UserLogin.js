@@ -80,12 +80,12 @@ function UserScreen() {
                     console.log(data.code)
                     showToast('SUCCESS', 'Success', 'The SMS has been sent successfully.');
                 } else {
-                    showToast('WARNING', 'Warning', data.message);
+                    showDialog('WARNING', 'Warning', data.message);
                 }
             })
             .catch(error => {
                 console.log(error);
-                showToast('DANGER', 'Error', 'There was an error submitting your data. Please try again.');
+                showDialog('DANGER', 'Error', 'There was an error submitting your data. Please try again.');
             });
     };
 
@@ -157,12 +157,12 @@ function UserScreen() {
                     navigation.navigate("User");
                     showToast('SUCCESS', 'Login Successful', 'You have successfully logged in!');
                 } else {
-                    showToast('WARNING', 'Login Failed', data.message);
+                    showDialog('WARNING', 'Login Failed', data.message);
                 }
             })
             .catch(error => {
                 console.log(error);
-                showToast('WARNING', 'Login Error', 'Error: ' + error.message);
+                showDialog('WARNING', 'Login Error', 'Error: ' + error.message);
             });
     };
 

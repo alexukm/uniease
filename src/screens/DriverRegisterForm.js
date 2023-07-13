@@ -9,15 +9,14 @@ import {
     Input,
     NativeBaseProvider,
     VStack,
-    Text,
-} from 'native-base';
+    Text, Modal, Radio,
+} from "native-base";
 import {MD5} from 'crypto-js';
 import {smsSend, driverRegister} from "../com/evotech/common/http/BizHttpUtil";
 import {getUserID, setUserToken, userType} from "../com/evotech/common/appUser/UserConstant";
 import {useNavigation} from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
-import { Picker } from '@react-native-picker/picker';
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 
 
@@ -26,7 +25,7 @@ const RegisterScreen = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [selectedValue, setSelectedValue] = useState('60');
+    // const [selectedValue, setSelectedValue] = useState('60');
     const [verificationCode, setVerificationCode] = useState('');
     const [isTimerActive, setIsTimerActive] = useState(false);
     const [isResendOtpActive, setIsResendOtpActive] = useState(false);
@@ -40,11 +39,24 @@ const RegisterScreen = () => {
     //页面跳转
     const navigation = useNavigation();
 
+    const [selectedValue, setSelectedValue] = useState('my');
+    const [showModal, setShowModal] = useState(false);
 
-    const countryData = [
-        {code: 'MY', label: '60'},
-        {code: 'CHN', label: '86'},
-    ];
+    const handleSelect = (value) => {
+        setSelectedValue(value);
+        setShowModal(false);
+    };
+
+    const buttonText = () => {
+        switch (selectedValue) {
+            case 'my':
+                return 'MY +60';
+            case 'cn':
+                return 'CHN +86';
+            default:
+                return 'Select Country Code';
+        }
+    };
 
     // 创建一个ref
     const firstNameInputRef = useRef(null);
@@ -91,7 +103,7 @@ const RegisterScreen = () => {
             }
         }
         // 调用后端函数发送验证码
-        const userPhone = selectedValue + phoneNumber;
+        const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
 
         smsSend(userPhone,UserTypeEnum.DRIVER)
             .then(data => {
@@ -125,7 +137,7 @@ const RegisterScreen = () => {
 
     const handleResendOtp = () => {
         // 再次发送验证码
-        const userPhone = selectedValue + phoneNumber;
+        const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
         smsSend(userPhone,UserTypeEnum.DRIVER)
             .then(data => {
                 if (data.code === 200) {
@@ -159,7 +171,7 @@ const RegisterScreen = () => {
         }
     }
     const doUserRegistry = () => {
-        const userPhone = selectedValue + phoneNumber;
+        const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
 
         const md5VerificationCode = MD5(verificationCode).toString();
 
@@ -271,23 +283,38 @@ const RegisterScreen = () => {
                             <FormControl width="100%">
                                 <FormControl.Label>Phone Number</FormControl.Label>
                                 <HStack space={2} width="100%">
-                                    <View style={{flex: 0.4, borderWidth: 1, borderColor: '#d9d9d9', borderRadius: 4}}>
-                                        <Picker
-                                          selectedValue={selectedValue}
-                                          onValueChange={(itemValue) => setSelectedValue(itemValue)}
-                                          style={{height: 50, width: '100%'}}
-                                        >
-                                            {countryData.map((item, index) => (
-                                              <Picker.Item key={index} label={`${item.code} +${item.label}`} value={item.label} />
-                                            ))}
-                                        </Picker>
-                                    </View>
+                                    <Button flex={3} onPress={() => setShowModal(true)}>
+                                        {buttonText()}
+                                    </Button>
+                                    <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
+                                        <Modal.Content maxWidth="350">
+                                            <Modal.CloseButton />
+                                            <Modal.Header>Select Country Code</Modal.Header>
+                                            <Modal.Body>
+                                                <Radio.Group defaultValue={selectedValue} name="countryCode" size="sm" onChange={handleSelect}>
+                                                    <VStack space={3}>
+                                                        <Radio alignItems="flex-start" _text={{ mt: "-1", ml: "2", fontSize: "sm" }} value="my">
+                                                            +60 Malaysia
+                                                        </Radio>
+                                                        <Radio alignItems="flex-start" _text={{ mt: "-1", ml: "2", fontSize: "sm" }} value="cn">
+                                                            +86 China
+                                                        </Radio>
+                                                    </VStack>
+                                                </Radio.Group>
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <Button flex="1" onPress={() => { setShowModal(false); }}>
+                                                    Continue
+                                                </Button>
+                                            </Modal.Footer>
+                                        </Modal.Content>
+                                    </Modal>
                                     <Input
-                                      placeholder={selectedValue === '60' ? 'Enter 9 digit number' : 'Enter 11 digit number'}
+                                      placeholder={selectedValue === 'my' ? 'Enter 9 or 10 digit number' : 'Enter 11 digit number'}
                                       value={phoneNumber}
                                       onChangeText={setPhoneNumber}
                                       keyboardType="numeric"
-                                      flex={0.6}
+                                      flex={7}
                                       size="lg"
                                     />
                                 </HStack>

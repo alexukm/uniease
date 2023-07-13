@@ -14,7 +14,6 @@ import {
 import { MD5 } from 'crypto-js';
 import { smsSend, userRegistry } from "../com/evotech/common/http/BizHttpUtil";
 import {setUserToken, userType} from "../com/evotech/common/appUser/UserConstant";
-import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
@@ -26,7 +25,6 @@ const RegisterScreen = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    // const [selectedValue, setSelectedValue] = useState('60');
     const [verificationCode, setVerificationCode] = useState('');
     const [isTimerActive, setIsTimerActive] = useState(false);
     const [isResendOtpActive, setIsResendOtpActive] = useState(false);
@@ -49,19 +47,13 @@ const RegisterScreen = () => {
     const buttonText = () => {
         switch (selectedValue) {
             case 'my':
-                return '+60';
+                return 'MY +60';
             case 'cn':
-                return '+86';
+                return 'CHN +86';
             default:
                 return 'Select Country Code';
         }
     };
-
-
-    const countryData = [
-        { code: 'MY', label: '60' },
-        { code: 'CHN', label: '86' },
-    ];
 
     // 创建一个ref
     const firstNameInputRef = useRef(null);
@@ -91,6 +83,12 @@ const RegisterScreen = () => {
             return;
         }
 
+        // 验证电话号码不以60或0开头
+        if (phoneNumber.startsWith('60') || phoneNumber.startsWith('0')) {
+            showDialog('WARNING', 'Invalid Input', 'Please enter a valid phone number without including 60 or 0 at the beginning.');
+            return;
+        }
+
         // 根据选择的国家代码，验证电话号码
         let phonePattern;
         if (selectedValue === '60') {
@@ -108,7 +106,7 @@ const RegisterScreen = () => {
         }
 
         // 调用后端函数发送验证码
-        const userPhone = selectedValue + phoneNumber;
+        const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
         console.log(userPhone);
         smsSend(userPhone,UserTypeEnum.PASSER)
             .then(data => {
@@ -142,7 +140,7 @@ const RegisterScreen = () => {
 
     const handleResendOtp = () => {
         // 再次发送验证码
-        const userPhone = selectedValue + phoneNumber;
+        const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
         smsSend(userPhone,UserTypeEnum.PASSER)
             .then(data => {
                 if (data.code === 200) {
@@ -176,7 +174,7 @@ const RegisterScreen = () => {
         }
     }
     const doUserRegistry = () => {
-        const userPhone = selectedValue + phoneNumber;
+        const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
 
         const md5VerificationCode = MD5(verificationCode).toString();
 

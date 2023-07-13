@@ -91,7 +91,7 @@ const App = () => {
                         initialRouteName={initialRoute}
                         screenOptions={{
                             headerStyle: {backgroundColor: '#FFF'},
-                            cardStyle: {backgroundColor: 'transparent'},
+                            // cardStyle: {backgroundColor: 'transparent'},
                             headerShown: false // 这里添加这行代码
                         }}
                     >

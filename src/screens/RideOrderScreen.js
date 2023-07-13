@@ -6,10 +6,22 @@ import {
     View,
     Alert,
     ActivityIndicator,
-    TouchableOpacity,
+    TouchableOpacity, Platform,
 } from "react-native";
 import Geolocation from '@react-native-community/geolocation';
-import {Box, Button, HStack, Input, NativeBaseProvider, Text, VStack, Modal, Spinner, Heading} from 'native-base';
+import {
+    Box,
+    Button,
+    HStack,
+    Input,
+    NativeBaseProvider,
+    Text,
+    VStack,
+    Modal,
+    Spinner,
+    Heading,
+    KeyboardAvoidingView,
+} from "native-base";
 import RemixIcon from 'react-native-remix-icon';
 import DatePicker from 'react-native-date-picker';
 import Geocoder from 'react-native-geocoding';
@@ -550,6 +562,10 @@ const RideOrderScreen = () => {
                 {/*)}*/}
 
                 {isBookingConfirmed ? (
+                  <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={{ flex: 1 }}
+                  >
                     <Box
                         bg="white"
                         p={4}
@@ -605,6 +621,7 @@ const RideOrderScreen = () => {
                             )}
                         </VStack>
                     </Box>
+                  </KeyboardAvoidingView>
                 ) : (
                     <Box
                         bg="white"

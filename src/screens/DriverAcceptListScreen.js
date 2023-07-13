@@ -1,5 +1,5 @@
 import React, {useState, useRef, useCallback, useEffect} from 'react';
-import {StyleSheet, FlatList, TouchableOpacity, RefreshControl} from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, RefreshControl, SafeAreaView } from "react-native";
 import {Box, HStack, VStack, Text} from 'native-base';
 
 import RemixIcon from 'react-native-remix-icon';
@@ -209,7 +209,7 @@ const DriverAcceptListScreen = ({navigation}) => {
                                                          openSheet={openSheet}/>, [navigation, openSheet]);
 
     return (
-        <>
+      <SafeAreaView style={{flex: 1}}>
             <FlatList
                 contentContainerStyle={styles.container}
                 data={orders}
@@ -234,7 +234,7 @@ const DriverAcceptListScreen = ({navigation}) => {
                 ListFooterComponent={<Box height={20}/>}
                 keyExtractor={(item, index) => index.toString()}
             />
-        </>
+      </SafeAreaView>
     );
 };
 

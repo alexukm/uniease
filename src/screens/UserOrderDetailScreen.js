@@ -540,7 +540,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                 );
             case OrderStateEnum.COMPLETED:
                 return (
-                  <NativeBaseProvider>
+                  <SafeAreaView style={{flex: 1}}>
                     <ScrollView style={styles.fullScreen}>
                         <OrderInfoBox showStatus={true}/>
                         {/*{existDriverInfo && <DriverInfoBox showBack={true} status={Status}/>}*/}
@@ -553,7 +553,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                             <PaymentInfoBox/>
                         </RBSheet>
                     </ScrollView>
-                  </NativeBaseProvider>
+                  </SafeAreaView>
                 );
             default:
                 return null;
@@ -561,12 +561,12 @@ const UserOrderDetailScreen = ({route, navigation}) => {
     };
 
     return (
-      <SafeAreaView style={{flex: 1}}>
+        <NativeBaseProvider>
             <View style={styles.container}>
                 {/*<BackButton/>*/}
                 {renderContentBasedOnStatus()}
             </View>
-      </SafeAreaView>
+        </NativeBaseProvider>
     );
 };
 

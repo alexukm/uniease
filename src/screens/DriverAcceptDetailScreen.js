@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
 
-  Keyboard,
+  Keyboard, SafeAreaView,
 } from "react-native";
 import { StyleSheet } from "react-native";
 import Geocoder from "react-native-geocoding";
@@ -318,15 +318,15 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
 
     const actionSheet = useRef();
 
-  //  const [animatePress, setAnimatePress] = useState(new Animated.Value(1));
+    //  const [animatePress, setAnimatePress] = useState(new Animated.Value(1));
 
- /*   const animateIn = () => {
-      Animated.timing(animatePress, {
-        toValue: 0.5,
-        duration: 500,
-        useNativeDriver: true, // Add This line
-      }).start();
-    };*/
+    /*   const animateIn = () => {
+         Animated.timing(animatePress, {
+           toValue: 0.5,
+           duration: 500,
+           useNativeDriver: true, // Add This line
+         }).start();
+       };*/
     const showActionSheet = () => {
       actionSheet.current.show();
     };
@@ -360,22 +360,22 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
           }
           Linking.canOpenURL(phoneNumber).then((supported) => {
             if (!supported) {
-              console.log('Can\'t handle url: ' + phoneNumber);
+              console.log("Can't handle url: " + phoneNumber);
             } else {
-               Linking.openURL(phoneNumber);
+              Linking.openURL(phoneNumber);
             }
           }).catch((err) => {
-            console.error('An error occurred', err);
+            console.error("An error occurred", err);
 
           });
           //Linking.openURL(phoneNumber);
         } else {
-          console.log("查询失败"+response.message);
+          console.log("查询失败" + response.message);
           //TODO 查询失败
         }
       }).catch((error) => {
         //todo 查询异常
-        console.log("查询异常"+error.message);
+        console.log("查询异常" + error.message);
       });
     };
 
@@ -397,7 +397,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
               {(Status === OrderStateEnum.IN_TRANSIT) && (
                 <View>
                   <Text>Focus On Driving, Enjoy Your Journey.</Text>
-                  <TouchableOpacity onPress={() => Linking.openURL('tel://1234567890')}
+                  <TouchableOpacity onPress={() => Linking.openURL("tel://1234567890")}
                                     style={{ alignSelf: "flex-start" }}>
                     <Text fontSize="sm" style={{ fontWeight: "bold" }}>Emergency Call</Text>
                   </TouchableOpacity>
@@ -682,58 +682,64 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       // 已送达
       case OrderStateEnum.DELIVERED:
         return (
-          <ScrollView style={styles.fullScreen}>
-            <OrderInfoBox showStatus={true} />
-            <RBSheet
-              ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
-              closeOnDragDown={true}
-              closeOnPressMask={true}
-              height={Dimensions.get("window").height * 0.184}
-            >
-              <PaymentInfoBox />
-            </RBSheet>
-            <RBSheet
-              ref={refRBSheetReview} // 添加了一个新的RBSheet
-              closeOnDragDown={true}
-              closeOnPressMask={true}
-              height={Dimensions.get("window").height * 0.28}
-            >
-              <ReviewBox />
-            </RBSheet>
-          </ScrollView>
+          <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView style={styles.fullScreen}>
+              <OrderInfoBox showStatus={true} />
+              <RBSheet
+                ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                height={Dimensions.get("window").height * 0.184}
+              >
+                <PaymentInfoBox />
+              </RBSheet>
+              <RBSheet
+                ref={refRBSheetReview} // 添加了一个新的RBSheet
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                height={Dimensions.get("window").height * 0.28}
+              >
+                <ReviewBox />
+              </RBSheet>
+            </ScrollView>
+          </SafeAreaView>
         );
 
       //已取消
       case OrderStateEnum.CANCELLED:
         return (
-          <ScrollView style={styles.fullScreen}>
-            <OrderInfoBox showStatus={true} />
-            <RBSheet
-              ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
-              closeOnDragDown={true}
-              closeOnPressMask={true}
-              height={Dimensions.get("window").height * 0.184}
-            >
-              <PaymentInfoBox />
-            </RBSheet>
-          </ScrollView>
+          <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView style={styles.fullScreen}>
+              <OrderInfoBox showStatus={true} />
+              <RBSheet
+                ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                height={Dimensions.get("window").height * 0.184}
+              >
+                <PaymentInfoBox />
+              </RBSheet>
+            </ScrollView>
+          </SafeAreaView>
         );
 
       //已完成
       case OrderStateEnum.COMPLETED:
         return (
-          <ScrollView style={styles.fullScreen}>
-            <OrderInfoBox showStatus={true} status={Status} />
-            {/*{existDriverInfo && <DriverInfoBox showBack={existDriverInfo}/>}*/}
-            <RBSheet
-              ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
-              closeOnDragDown={true}
-              closeOnPressMask={true}
-              height={Dimensions.get("window").height * 0.184}
-            >
-              <PaymentInfoBox />
-            </RBSheet>
-          </ScrollView>
+          <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView style={styles.fullScreen}>
+              <OrderInfoBox showStatus={true} status={Status} />
+              {/*{existDriverInfo && <DriverInfoBox showBack={existDriverInfo}/>}*/}
+              <RBSheet
+                ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                height={Dimensions.get("window").height * 0.184}
+              >
+                <PaymentInfoBox />
+              </RBSheet>
+            </ScrollView>
+          </SafeAreaView>
         );
       default:
         return null;

@@ -1,6 +1,7 @@
 import React, {  useContext } from "react";
 import { VStack, Box,  Button, Text } from "native-base";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native";
 
 function Home() {
     const navigation = useNavigation();
@@ -16,7 +17,8 @@ function Home() {
     };
 
     return (
-        <VStack flex={1} space={4} alignItems="center">
+      <SafeAreaView style={{ flex: 1 }}>
+      <VStack flex={1} space={4} alignItems="center">
             <Box flex={0.6} w="full" bg="blue.500" mt="5%" roundedBottom="md" shadow={3}></Box>
             <VStack flex={0.2} w="full" space={1} alignItems="center">
                 <Text fontWeight="bold">Welcome to my App</Text>
@@ -35,6 +37,7 @@ function Home() {
                 </Box>
             </VStack>
         </VStack>
+      </SafeAreaView>
     );
 }
 

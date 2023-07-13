@@ -19,6 +19,8 @@ import { useNavigation } from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import DropDownPicker from 'react-native-dropdown-picker';
+
 
 const RegisterScreen = () => {
     const [firstName, setFirstName] = useState('');
@@ -262,15 +264,19 @@ const RegisterScreen = () => {
                                 <HStack space={2} width="100%">
                                     <View style={{flex: 0.4}}>
                                         <View style={{ borderWidth: 1, borderColor: '#d3d3d3', borderRadius: 4, overflow: 'hidden' }}>
-                                            <Picker
-                                              selectedValue={selectedValue}
-                                              style={{ height: 50, width: 150, backgroundColor: 'white' }}
-                                              onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                                            >
-                                                {countryData.map((item, index) => (
-                                                  <Picker.Item label={`${item.code} +${item.label}`} value={item.label} key={index} />
-                                                ))}
-                                            </Picker>
+                                            <DropDownPicker
+                                              items={countryData.map((item) => ({
+                                                  label: `${item.code} +${item.label}`, value: item.label
+                                              }))}
+                                              defaultValue={selectedValue}
+                                              containerStyle={{height: 40}}
+                                              style={{backgroundColor: 'white'}}
+                                              itemStyle={{
+                                                  justifyContent: 'flex-start'
+                                              }}
+                                              dropDownStyle={{backgroundColor: 'white'}}
+                                              onChangeItem={item => setSelectedValue(item.value)}
+                                            />
                                         </View>
                                     </View>
                                     <Input

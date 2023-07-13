@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
             height: -10
         }, // 用于 iOS
         position: 'absolute',
-        height: 65,
+        height: 95,
     },
     tabBarItemStyle: {
         marginTop: 8,

@@ -56,7 +56,19 @@ export const iosLocationPermission = (granted, denied, err) => {
 //     }
 //   });
 // };
+export const iosRequestPhotoLibraryPermission  =  (granted, denied, err) => {
+    request(PERMISSIONS.IOS.PHOTO_LIBRARY).then((result) => {
+        if (result === RESULTS.GRANTED) {
+            granted(result);
+        } else {
+            denied(result);
+        }
+    }).catch((error) => {
+        err(error);
+    });
 
+
+}
 export const iosPhotoLibraryPermission =  (granted, denied, err) => {
     check(PERMISSIONS.IOS.PHOTO_LIBRARY)
         .then((result) => {
@@ -65,8 +77,7 @@ export const iosPhotoLibraryPermission =  (granted, denied, err) => {
             } else {
                 denied(result);
             }
-        })
-        .catch((error) => {
+        }).catch((error) => {
             err(error);
         });
     /*

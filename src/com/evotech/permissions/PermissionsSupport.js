@@ -1,9 +1,12 @@
 import {Platform} from "react-native";
-import {iosLocationPermission, iosPhotoLibraryPermission} from "./ios/IOSPermissionsSupport";
+import {
+    iosLocationPermission,
+    iosPhotoLibraryPermission,
+    iosRequestPhotoLibraryPermission
+} from "./ios/IOSPermissionsSupport";
 import {
     androidCameraPermission,
     androidLocationPermission,
-    androidPhotoLibraryPermission,
 } from "./android/AndroidPermissionsSupport";
 
 export const checkPhotoLibraryPermission = (granted, denied, err) => {
@@ -15,6 +18,12 @@ export const checkPhotoLibraryPermission = (granted, denied, err) => {
     }
 }
 
+// 只有ios平台需要请求相册权限
+export const requestPhotoLibraryPermission = () =>{
+    if (Platform.OS === 'ios') {
+        iosRequestPhotoLibraryPermission()
+    }
+}
 
 export const locationPermission = (granted, denied, err) => {
     if (Platform.OS === 'ios') {

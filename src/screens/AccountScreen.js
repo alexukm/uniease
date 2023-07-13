@@ -47,7 +47,7 @@ const AccountScreen = () => {
     ];
 
     return (
-        <SafeAreaView style={styles.container}>
+        <>
             <ImageBackground source={require('../picture/acc_bg.png')} style={styles.background}>
                 <View style={styles.header}>
                     <Image
@@ -66,7 +66,7 @@ const AccountScreen = () => {
                     </TouchableOpacity>
                 ))}
             </View>
-        </SafeAreaView>
+        </>
     );
 };
 

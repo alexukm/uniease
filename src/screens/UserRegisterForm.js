@@ -20,9 +20,6 @@ import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 
-
-
-
 const RegisterScreen = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -267,7 +264,7 @@ const RegisterScreen = () => {
                                         <View style={{ borderWidth: 1, borderColor: '#d3d3d3', borderRadius: 4, overflow: 'hidden' }}>
                                             <Picker
                                               selectedValue={selectedValue}
-                                              style={{ height: 50, width: 150 }}
+                                              style={{ height: 50, width: 150, backgroundColor: 'white' }}
                                               onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                                             >
                                                 {countryData.map((item, index) => (

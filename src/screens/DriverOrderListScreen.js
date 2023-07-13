@@ -8,8 +8,8 @@ import {
     Image,
     TouchableWithoutFeedback,
     Linking,
-    Platform
-} from 'react-native';
+    Platform, SafeAreaView,
+} from "react-native";
 import {Box, HStack, VStack} from 'native-base';
 import {carpoolingOrdersQuery, driverAcceptOrder} from "../com/evotech/common/http/BizHttpUtil";
 import {useFocusEffect} from "@react-navigation/native";
@@ -203,6 +203,7 @@ const DriverOrderListScreen = () => {
     };
 
     return (
+      <SafeAreaView style={{flex: 1}}>
         <View style={styles.container}>
             <FlatList
                 data={rideOrders}
@@ -224,6 +225,7 @@ const DriverOrderListScreen = () => {
                 onEndReachedThreshold={0.5} // 在距离底部还有多少距离时触发加载更多的操作，这里设为 0.5，表示在距离底部还有屏幕的一半距离时就触发加载更多的操作
             />
         </View>
+      </SafeAreaView>
     );
 };
 

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
+import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
 import {Box, AspectRatio, Button, Center, Text} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
@@ -115,7 +115,7 @@ const UserHome = () => {
     );
 
     return (
-
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
             <View style={{
                 width: '100%',
@@ -173,6 +173,7 @@ const UserHome = () => {
                 </TouchableOpacity>
             </View>
         </View>
+      </SafeAreaView>
     );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet } from 'react-native';
 import RemixIcon from 'react-native-remix-icon';
 
@@ -15,9 +15,9 @@ import UserHome from "./UserHomeScreen";
 
 
 const Tab = createBottomTabNavigator();
-const HomeStack = createStackNavigator();
-const OrderStack = createStackNavigator();
-const SimpleOrderDetailStack = createStackNavigator();
+const HomeStack = createNativeStackNavigator();
+const OrderStack = createNativeStackNavigator();
+const SimpleOrderDetailStack = createNativeStackNavigator();
 
 const OrderStackScreen = () => (
     <OrderStack.Navigator screenOptions={{ headerShown: false }}>

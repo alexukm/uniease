@@ -1,6 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StyleSheet} from 'react-native';
 import RemixIcon from 'react-native-remix-icon';
 
@@ -12,10 +12,10 @@ import DriverAcceptDetailScreen from "./DriverAcceptDetailScreen";
 import ChatList from "./ChatList";
 import ChatRoom from "./ChatRoom";
 
-const DriverAcceptDetailNavigator = createStackNavigator();
+const DriverAcceptDetailNavigator = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const HomeStack = createStackNavigator();
-const MainStack = createStackNavigator();  // 新增
+const HomeStack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator();  // 新增
 
 const DriverBottomTabNavigator = () => {
     return (

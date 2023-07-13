@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NativeBaseProvider} from 'native-base';
 import {setUserToken} from "./src/com/evotech/common/appUser/UserConstant";
 import UserBottomTabNavigator from "./src/screens/UserBottomTabNavigator";
@@ -28,7 +28,7 @@ enableScreens();
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 
 const App = () => {

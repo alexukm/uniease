@@ -523,6 +523,11 @@ const RideOrderScreen = () => {
     };
 
     return (
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flex: 1 }}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled={true}
+      >
         <NativeBaseProvider>
             <View style={styles.container}>
                 <MapView
@@ -564,11 +569,6 @@ const RideOrderScreen = () => {
                 {/*)}*/}
 
                 {isBookingConfirmed ? (
-                  <KeyboardAwareScrollView
-                    contentContainerStyle={{ flex: 1 }}
-                    resetScrollToCoords={{ x: 0, y: 0 }}
-                    scrollEnabled={true}
-                  >
                     <Box
                         bg="white"
                         p={4}
@@ -624,7 +624,6 @@ const RideOrderScreen = () => {
                             )}
                         </VStack>
                     </Box>
-                  </KeyboardAwareScrollView>
                 ) : (
                     <Box
                         bg="white"
@@ -810,6 +809,7 @@ const RideOrderScreen = () => {
                 )}
             </View>
         </NativeBaseProvider>
+      </KeyboardAwareScrollView>
     );
 };
 

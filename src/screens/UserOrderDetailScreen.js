@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {NativeBaseProvider, Box, VStack, HStack, Button, Text, Avatar, Input} from 'native-base';
 import MapView, {Marker} from 'react-native-maps';
-import { View, Dimensions, ScrollView, TouchableOpacity, Platform, Linking } from "react-native";
+import { View, Dimensions, ScrollView, TouchableOpacity, Platform, Linking, SafeAreaView } from "react-native";
 import {StyleSheet} from 'react-native';
 import Geocoder from 'react-native-geocoding';
 import RemixIcon from 'react-native-remix-icon';
@@ -559,12 +559,14 @@ const UserOrderDetailScreen = ({route, navigation}) => {
     };
 
     return (
+      <SafeAreaView style={{flex: 1}}>
         <NativeBaseProvider>
             <View style={styles.container}>
                 {/*<BackButton/>*/}
                 {renderContentBasedOnStatus()}
             </View>
         </NativeBaseProvider>
+      </SafeAreaView>
     );
 };
 

@@ -9,8 +9,8 @@ import {
     Input,
     NativeBaseProvider,
     VStack,
-    Text,
-} from 'native-base';
+    Text, Modal, Radio,
+} from "native-base";
 import { MD5 } from 'crypto-js';
 import { smsSend, userRegistry } from "../com/evotech/common/http/BizHttpUtil";
 import {setUserToken, userType} from "../com/evotech/common/appUser/UserConstant";
@@ -20,12 +20,13 @@ import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 
+
 const RegisterScreen = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [selectedValue, setSelectedValue] = useState('60');
+    // const [selectedValue, setSelectedValue] = useState('60');
     const [verificationCode, setVerificationCode] = useState('');
     const [isTimerActive, setIsTimerActive] = useState(false);
     const [isResendOtpActive, setIsResendOtpActive] = useState(false);
@@ -36,6 +37,25 @@ const RegisterScreen = () => {
     const [isCodeInputVisible, setIsCodeInputVisible] = useState(false);
 
     const navigation = useNavigation();
+
+    const [selectedValue, setSelectedValue] = useState('my');
+    const [showModal, setShowModal] = useState(false);
+
+    const handleSelect = (value) => {
+        setSelectedValue(value);
+        setShowModal(false);
+    };
+
+    const buttonText = () => {
+        switch (selectedValue) {
+            case 'my':
+                return '+60';
+            case 'cn':
+                return '+86';
+            default:
+                return 'Select Country Code';
+        }
+    };
 
 
     const countryData = [
@@ -260,26 +280,39 @@ const RegisterScreen = () => {
                             <FormControl width="100%">
                                 <FormControl.Label>Phone Number</FormControl.Label>
                                 <HStack space={2} width="100%">
-                                    <View style={{flex: 0.4}}>
-                                        <View style={{ borderWidth: 1, borderColor: '#d3d3d3', borderRadius: 4, overflow: 'hidden' }}>
-                                            <Picker
-                                              selectedValue={selectedValue}
-                                              style={{ height: 50, width: 150 }}
-                                              onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-                                            >
-                                                {countryData.map((item, index) => (
-                                                  <Picker.Item label={`${item.code} +${item.label}`} value={item.label} key={index} />
-                                                ))}
-                                            </Picker>
-                                        </View>
-                                    </View>
+                                    <Button flex={3} onPress={() => setShowModal(true)}>
+                                        {buttonText()}
+                                    </Button>
+                                    <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
+                                        <Modal.Content maxWidth="350">
+                                            <Modal.CloseButton />
+                                            <Modal.Header>Select Country Code</Modal.Header>
+                                            <Modal.Body>
+                                                <Radio.Group defaultValue={selectedValue} name="countryCode" size="sm" onChange={handleSelect}>
+                                                    <VStack space={3}>
+                                                        <Radio alignItems="flex-start" _text={{ mt: "-1", ml: "2", fontSize: "sm" }} value="my">
+                                                            +60 Malaysia
+                                                        </Radio>
+                                                        <Radio alignItems="flex-start" _text={{ mt: "-1", ml: "2", fontSize: "sm" }} value="cn">
+                                                            +86 China
+                                                        </Radio>
+                                                    </VStack>
+                                                </Radio.Group>
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <Button flex="1" onPress={() => { setShowModal(false); }}>
+                                                    Continue
+                                                </Button>
+                                            </Modal.Footer>
+                                        </Modal.Content>
+                                    </Modal>
                                     <Input
-                                        placeholder={selectedValue === '60' ? 'Enter 9 or 10 digit number' : 'Enter 11 digit number'}
-                                        value={phoneNumber}
-                                        onChangeText={setPhoneNumber}
-                                        keyboardType="numeric"
-                                        flex={0.6}
-                                        size="lg"
+                                      placeholder={selectedValue === 'my' ? 'Enter 9 or 10 digit number' : 'Enter 11 digit number'}
+                                      value={phoneNumber}
+                                      onChangeText={setPhoneNumber}
+                                      keyboardType="numeric"
+                                      flex={7}
+                                      size="lg"
                                     />
                                 </HStack>
                             </FormControl>

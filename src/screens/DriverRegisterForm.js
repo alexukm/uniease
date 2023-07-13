@@ -17,7 +17,7 @@ import {getUserID, setUserToken, userType} from "../com/evotech/common/appUser/U
 import {useNavigation} from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
-// import RNPickerSelect from 'react-native-picker-select';
+import { Picker } from '@react-native-picker/picker';
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 
 
@@ -272,19 +272,23 @@ const RegisterScreen = () => {
                                 <FormControl.Label>Phone Number</FormControl.Label>
                                 <HStack space={2} width="100%">
                                     <View style={{flex: 0.4, borderWidth: 1, borderColor: '#d9d9d9', borderRadius: 4}}>
-                                  {/*      <RNPickerSelect
-                                          onValueChange={value => setSelectedValue(value)}
-                                          style={{inputAndroid: {height: 50, width: '100%'}}}
-                                          items={countryData.map(item => ({label: `${item.code} +${item.label}`, value: item.label, key: item.code}))}
-                                        />*/}
+                                        <Picker
+                                          selectedValue={selectedValue}
+                                          onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                                          style={{height: 50, width: '100%'}}
+                                        >
+                                            {countryData.map((item, index) => (
+                                              <Picker.Item key={index} label={`${item.code} +${item.label}`} value={item.label} />
+                                            ))}
+                                        </Picker>
                                     </View>
                                     <Input
-                                        placeholder={selectedValue === '60' ? 'Enter 9 digit number' : 'Enter 11 digit number'}
-                                        value={phoneNumber}
-                                        onChangeText={setPhoneNumber}
-                                        keyboardType="numeric"
-                                        flex={0.6}
-                                        size="lg"
+                                      placeholder={selectedValue === '60' ? 'Enter 9 digit number' : 'Enter 11 digit number'}
+                                      value={phoneNumber}
+                                      onChangeText={setPhoneNumber}
+                                      keyboardType="numeric"
+                                      flex={0.6}
+                                      size="lg"
                                     />
                                 </HStack>
                             </FormControl>

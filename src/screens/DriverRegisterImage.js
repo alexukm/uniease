@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView, Platform } from "react-native";
+import {SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
 import {Center, Box, VStack, Button, FormControl, NativeBaseProvider, Icon, Text} from 'native-base';
 import RemixIcon from 'react-native-remix-icon';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -9,8 +9,7 @@ import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
 import {useNavigation} from "@react-navigation/native";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import {checkPhotoLibraryPermission} from "../com/evotech/permissions/PermissionsSupport";
-import { PERMISSIONS, request, RESULTS } from 'react-native-permissions';
-
+import { openSettings } from "react-native-permissions";
 
 
 const ImageUploadPage = () => {
@@ -25,10 +24,10 @@ const ImageUploadPage = () => {
 
     useEffect(() => {
         if (
-            uploadedSelfie &&
-            uploadedCarInsurance &&
-            uploadedLicense &&
-            (documentType === 'ID' ? (uploadedIdCardFront && uploadedIdCardBack) : uploadedPassport)
+          uploadedSelfie &&
+          uploadedCarInsurance &&
+          uploadedLicense &&
+          (documentType === 'ID' ? (uploadedIdCardFront && uploadedIdCardBack) : uploadedPassport)
         ) {
             showDialog('SUCCESS', 'Success', 'All documents uploaded successfully! Please waiting fou us view, we will contact you within 2 working days. Thanks! ');
             navigation.replace("DriverLogin");
@@ -52,40 +51,41 @@ const ImageUploadPage = () => {
             },
         };
 
-        const permissionType = Platform.OS === 'ios' ?
-          PERMISSIONS.IOS.PHOTO_LIBRARY :
-          PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
 
-        request(permissionType).then(result => {
-            if (result === RESULTS.GRANTED) {
-                launchImageLibrary(options, async response => {
-                    if (response.didCancel) {
-                        showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
-                    } else if (response.error) {
-                        showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
-                    } else {
-                        const uri = response.assets[0].uri;
-                        const userInfo = await getUserInfoWithLocal()
-                        const params = {
-                            uploadType: uploadType,
-                            userPhone: userInfo.userPhone
-                        }
-                        try {
-                            driverUpload(uri, params)
-                              .then(data => {
-                                  showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
-                                  setUploadStatus(true);
-                              }).catch(err => {
-                                showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
-                            });
-                        } catch (error) {
-                            showDialog('DANGER', 'Upload Failed', 'Failed to upload file: ' + error.message);
-                        }
+        checkPhotoLibraryPermission(() => {
+            //允许访问
+            launchImageLibrary(options, async response => {
+                if (response.didCancel) {
+                    showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
+                } else if (response.error) {
+                    showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
+                } else {
+                    const uri = response.assets[0].uri;
+                    const userInfo = await getUserInfoWithLocal()
+                    const params = {
+                        uploadType: uploadType,
+                        userPhone: userInfo.userPhone
                     }
-                }).then();
-            } else {
-                showToast('DANGER', 'Permission Denied', 'We need permission to access your photo library to upload images');
-            }
+                    try {
+                        driverUpload(uri, params)
+                          .then(data => {
+                              showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
+                              setUploadStatus(true);
+                          }).catch(err => {
+                            showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
+                        });
+                    } catch (error) {
+                        showDialog('DANGER', 'Upload Failed', 'Failed to upload file: ' + error.message);
+                    }
+                }
+            }).then();
+        }, () => {
+            showToast('WARNING', 'Action denied', 'Please enable access to the file')
+            openSettings().catch(() => console.warn('cannot open settings'));
+        }, () => {
+            //TODO  异常情况
+            showToast('WARNING', 'Action denied', 'Please enable access to the file')
+            console.error(error);
         });
     }
 
@@ -95,155 +95,155 @@ const ImageUploadPage = () => {
     };
 
     return (
-        <NativeBaseProvider>
-            <SafeAreaView style={{flex: 1}}>
-                <ScrollView>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <Center flex={1}>
-                            <Box flex={1} p={4} width="100%">
-                                <VStack space={4} width="100%">
-                                    <Box bg='white' p={4} shadow={1} rounded="lg" marginTop={5}>
-                                        <Text bold>Mention</Text>
-                                        <Text pt={4}>
-                                            This interface only collects information for verification purposes and will
-                                            not disclose any personal details. Once all the document images have been
-                                            uploaded, you will be automatically redirected to the next page.
-                                        </Text>
-                                    </Box>
+      <NativeBaseProvider>
+          <SafeAreaView style={{flex: 1}}>
+              <ScrollView>
+                  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                      <Center flex={1}>
+                          <Box flex={1} p={4} width="100%">
+                              <VStack space={4} width="100%">
+                                  <Box bg='white' p={4} shadow={1} rounded="lg" marginTop={5}>
+                                      <Text bold>Mention</Text>
+                                      <Text pt={4}>
+                                          This interface only collects information for verification purposes and will
+                                          not disclose any personal details. Once all the document images have been
+                                          uploaded, you will be automatically redirected to the next page.
+                                      </Text>
+                                  </Box>
 
-                                    {[
-                                        {
-                                            label: "Selfie",
-                                            desc: "Please upload your selfie...",
-                                            handler: () => uploadImage(setUploadedSelfie, DriverImageType.Selfie),
-                                            uploadStatus: uploadedSelfie,
-                                        },
-                                        {
-                                            label: "Car Insurance",
-                                            desc: "Please upload your Car Insurance...",
-                                            handler: () => uploadImage(setUploadedCarInsurance, DriverImageType.Vehicle_Insurance),
-                                            uploadStatus: uploadedCarInsurance,
-                                        },
-                                        {
-                                            label: "License",
-                                            desc: "Please upload your License...",
-                                            handler: () => uploadImage(setUploadedLicense, DriverImageType.License),
-                                            uploadStatus: uploadedLicense,
-                                        },
-                                    ].map(form => (
-                                        <Box key={form.label} bg="white" p={4} shadow={1} rounded="lg" marginTop={5}
-                                             flexDirection="row" justifyContent="space-between">
-                                            <VStack alignItems="flex-start">
-                                                <Text bold>{form.label}</Text>
-                                                <Text>{form.desc}</Text>
-                                            </VStack>
-                                            <Button
-                                                p={0}
-                                                w={10}
-                                                h={10}
-                                                rounded="full"
-                                                bg={form.uploadStatus ? 'green.500' : 'blue.500'}
-                                                onPress={form.handler}
-                                            >
-                                                <Icon as={RemixIcon}
-                                                      name={form.uploadStatus ? 'check-line' : 'add-line'}
-                                                      color="white"/>
-                                            </Button>
-                                        </Box>
-                                    ))}
-
-                                    <FormControl width="100%">
-                                        <FormControl.Label>ID/PASSPORT</FormControl.Label>
-                                        <VStack space={2}>
-                                            <Button.Group variant="solid" isAttached space={2} borderColor="gray.200">
-                                                <Button
-                                                    onPress={() => handleTabChange('ID')}
-                                                    colorScheme={documentType === 'ID' ? 'blue' : 'gray'}
-                                                    flex={1}
-                                                >
-                                                    ID
-                                                </Button>
-                                                <Button
-                                                    onPress={() => handleTabChange('Passport')}
-                                                    colorScheme={documentType === 'Passport' ? 'blue' : 'gray'}
-                                                    flex={1}
-                                                >
-                                                    Passport
-                                                </Button>
-                                            </Button.Group>
+                                  {[
+                                      {
+                                          label: "Selfie",
+                                          desc: "Please upload your selfie...",
+                                          handler: () => uploadImage(setUploadedSelfie, DriverImageType.Selfie),
+                                          uploadStatus: uploadedSelfie,
+                                      },
+                                      {
+                                          label: "Car Insurance",
+                                          desc: "Please upload your Car Insurance...",
+                                          handler: () => uploadImage(setUploadedCarInsurance, DriverImageType.Vehicle_Insurance),
+                                          uploadStatus: uploadedCarInsurance,
+                                      },
+                                      {
+                                          label: "License",
+                                          desc: "Please upload your License...",
+                                          handler: () => uploadImage(setUploadedLicense, DriverImageType.License),
+                                          uploadStatus: uploadedLicense,
+                                      },
+                                  ].map(form => (
+                                    <Box key={form.label} bg="white" p={4} shadow={1} rounded="lg" marginTop={5}
+                                         flexDirection="row" justifyContent="space-between">
+                                        <VStack alignItems="flex-start">
+                                            <Text bold>{form.label}</Text>
+                                            <Text>{form.desc}</Text>
                                         </VStack>
-                                    </FormControl>
-                                    {documentType === 'ID' ?
-                                        [
-                                            {
-                                                label: "ID Card Front",
-                                                desc: "Please upload your ID Card Front...",
-                                                handler: () => uploadImage(setUploadedIdCardFront, DriverImageType.NRIC_FRONT),
-                                                uploadStatus: uploadedIdCardFront,
-                                            },
-                                            {
-                                                label: "ID Card Back",
-                                                desc: "Please upload your ID Card Back...",
-                                                handler: () => uploadImage(setUploadedIdCardBack, DriverImageType.NRIC_BACK),
-                                                uploadStatus: uploadedIdCardBack,
-                                            }
-                                        ].map(form => (
-                                            <Box key={form.label} bg="white" p={4} shadow={1} rounded="lg" marginTop={5}
-                                                 flexDirection="row" justifyContent="space-between">
-                                                <VStack alignItems="flex-start">
-                                                    <Text bold>{form.label}</Text>
-                                                    <Text>{form.desc}</Text>
-                                                </VStack>
-                                                <Button
-                                                    p={0}
-                                                    w={10}
-                                                    h={10}
-                                                    rounded="full"
-                                                    bg={form.uploadStatus ? 'green.500' : 'blue.500'}
-                                                    onPress={form.handler}
-                                                >
-                                                    <Icon as={RemixIcon}
-                                                          name={form.uploadStatus ? 'check-line' : 'add-line'}
-                                                          color="white"/>
-                                                </Button>
-                                            </Box>
-                                        )) :
-                                        [
-                                            {
-                                                label: "Passport",
-                                                desc: "Please upload your Passport...",
-                                                handler: () => uploadImage(setUploadedPassport, DriverImageType.Passport),
-                                                uploadStatus: uploadedPassport,
-                                            }
-                                        ].map(form => (
-                                            <Box key={form.label} bg="white" p={4} shadow={1} rounded="lg" marginTop={5}
-                                                 flexDirection="row" justifyContent="space-between">
-                                                <VStack alignItems="flex-start">
-                                                    <Text bold>{form.label}</Text>
-                                                    <Text>{form.desc}</Text>
-                                                </VStack>
-                                                <Button
-                                                    p={0}
-                                                    w={10}
-                                                    h={10}
-                                                    rounded="full"
-                                                    bg={form.uploadStatus ? 'green.500' : 'blue.500'}
-                                                    onPress={form.handler}
-                                                >
-                                                    <Icon as={RemixIcon}
-                                                          name={form.uploadStatus ? 'check-line' : 'add-line'}
-                                                          color="white"/>
-                                                </Button>
-                                            </Box>
-                                        ))
-                                    }
-                                </VStack>
-                            </Box>
-                        </Center>
-                    </TouchableWithoutFeedback>
-                </ScrollView>
-            </SafeAreaView>
-        </NativeBaseProvider>
+                                        <Button
+                                          p={0}
+                                          w={10}
+                                          h={10}
+                                          rounded="full"
+                                          bg={form.uploadStatus ? 'green.500' : 'blue.500'}
+                                          onPress={form.handler}
+                                        >
+                                            <Icon as={RemixIcon}
+                                                  name={form.uploadStatus ? 'check-line' : 'add-line'}
+                                                  color="white"/>
+                                        </Button>
+                                    </Box>
+                                  ))}
+
+                                  <FormControl width="100%">
+                                      <FormControl.Label>ID/PASSPORT</FormControl.Label>
+                                      <VStack space={2}>
+                                          <Button.Group variant="solid" isAttached space={2} borderColor="gray.200">
+                                              <Button
+                                                onPress={() => handleTabChange('ID')}
+                                                colorScheme={documentType === 'ID' ? 'blue' : 'gray'}
+                                                flex={1}
+                                              >
+                                                  ID
+                                              </Button>
+                                              <Button
+                                                onPress={() => handleTabChange('Passport')}
+                                                colorScheme={documentType === 'Passport' ? 'blue' : 'gray'}
+                                                flex={1}
+                                              >
+                                                  Passport
+                                              </Button>
+                                          </Button.Group>
+                                      </VStack>
+                                  </FormControl>
+                                  {documentType === 'ID' ?
+                                    [
+                                        {
+                                            label: "ID Card Front",
+                                            desc: "Please upload your ID Card Front...",
+                                            handler: () => uploadImage(setUploadedIdCardFront, DriverImageType.NRIC_FRONT),
+                                            uploadStatus: uploadedIdCardFront,
+                                        },
+                                        {
+                                            label: "ID Card Back",
+                                            desc: "Please upload your ID Card Back...",
+                                            handler: () => uploadImage(setUploadedIdCardBack, DriverImageType.NRIC_BACK),
+                                            uploadStatus: uploadedIdCardBack,
+                                        }
+                                    ].map(form => (
+                                      <Box key={form.label} bg="white" p={4} shadow={1} rounded="lg" marginTop={5}
+                                           flexDirection="row" justifyContent="space-between">
+                                          <VStack alignItems="flex-start">
+                                              <Text bold>{form.label}</Text>
+                                              <Text>{form.desc}</Text>
+                                          </VStack>
+                                          <Button
+                                            p={0}
+                                            w={10}
+                                            h={10}
+                                            rounded="full"
+                                            bg={form.uploadStatus ? 'green.500' : 'blue.500'}
+                                            onPress={form.handler}
+                                          >
+                                              <Icon as={RemixIcon}
+                                                    name={form.uploadStatus ? 'check-line' : 'add-line'}
+                                                    color="white"/>
+                                          </Button>
+                                      </Box>
+                                    )) :
+                                    [
+                                        {
+                                            label: "Passport",
+                                            desc: "Please upload your Passport...",
+                                            handler: () => uploadImage(setUploadedPassport, DriverImageType.Passport),
+                                            uploadStatus: uploadedPassport,
+                                        }
+                                    ].map(form => (
+                                      <Box key={form.label} bg="white" p={4} shadow={1} rounded="lg" marginTop={5}
+                                           flexDirection="row" justifyContent="space-between">
+                                          <VStack alignItems="flex-start">
+                                              <Text bold>{form.label}</Text>
+                                              <Text>{form.desc}</Text>
+                                          </VStack>
+                                          <Button
+                                            p={0}
+                                            w={10}
+                                            h={10}
+                                            rounded="full"
+                                            bg={form.uploadStatus ? 'green.500' : 'blue.500'}
+                                            onPress={form.handler}
+                                          >
+                                              <Icon as={RemixIcon}
+                                                    name={form.uploadStatus ? 'check-line' : 'add-line'}
+                                                    color="white"/>
+                                          </Button>
+                                      </Box>
+                                    ))
+                                  }
+                              </VStack>
+                          </Box>
+                      </Center>
+                  </TouchableWithoutFeedback>
+              </ScrollView>
+          </SafeAreaView>
+      </NativeBaseProvider>
     );
 };
 

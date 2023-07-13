@@ -19,9 +19,9 @@ export const checkPhotoLibraryPermission = (granted, denied, err) => {
 }
 
 // 只有ios平台需要请求相册权限
-export const requestPhotoLibraryPermission = () =>{
+export const requestPhotoLibraryPermission = (granted, denied, err) =>{
     if (Platform.OS === 'ios') {
-        iosRequestPhotoLibraryPermission()
+        iosRequestPhotoLibraryPermission(granted, denied, err)
     }
 }
 

@@ -6,10 +6,22 @@ import {
     View,
     Alert,
     ActivityIndicator,
-    TouchableOpacity,
+    TouchableOpacity, Platform,
 } from "react-native";
 import Geolocation from '@react-native-community/geolocation';
-import {Box, Button, HStack, Input, NativeBaseProvider, Text, VStack, Modal, Spinner, Heading} from 'native-base';
+import {
+    Box,
+    Button,
+    HStack,
+    Input,
+    NativeBaseProvider,
+    Text,
+    VStack,
+    Modal,
+    Spinner,
+    Heading,
+    KeyboardAvoidingView,
+} from "native-base";
 import RemixIcon from 'react-native-remix-icon';
 import DatePicker from 'react-native-date-picker';
 import Geocoder from 'react-native-geocoding';
@@ -29,6 +41,8 @@ import {userOrderWebsocket} from "../com/evotech/common/websocket/UserChatWebsoc
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import { Toast } from "react-native-alert-notification";
 import {locationPermission} from "../com/evotech/permissions/PermissionsSupport";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 
 // 初始化Geocoder库，这个库用于处理地址和地理坐标的相互转化
@@ -509,6 +523,11 @@ const RideOrderScreen = () => {
     };
 
     return (
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flex: 1 }}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled={true}
+      >
         <NativeBaseProvider>
             <View style={styles.container}>
                 <MapView
@@ -790,6 +809,7 @@ const RideOrderScreen = () => {
                 )}
             </View>
         </NativeBaseProvider>
+      </KeyboardAwareScrollView>
     );
 };
 

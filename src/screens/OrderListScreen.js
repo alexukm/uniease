@@ -1,5 +1,5 @@
 import React, {useState,useCallback} from 'react';
-import {StyleSheet, FlatList, TouchableOpacity, RefreshControl} from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, RefreshControl, SafeAreaView } from "react-native";
 import {Box, HStack, VStack, Text} from 'native-base';
 import RemixIcon from 'react-native-remix-icon';
 import { userOrderInfo, userOrderPage} from "../com/evotech/common/http/BizHttpUtil";
@@ -159,7 +159,7 @@ const OrderListScreen = ({navigation}) => {
 
 
     return (
-        <>
+      <SafeAreaView style={{ flex: 1 }}>
             <FlatList
                 contentContainerStyle={styles.container}
                 data={orders}
@@ -184,7 +184,7 @@ const OrderListScreen = ({navigation}) => {
                 ListFooterComponent={<Box height={20}/>}
                 keyExtractor={item => item.id}
             />
-        </>
+      </SafeAreaView>
     );
 };
 

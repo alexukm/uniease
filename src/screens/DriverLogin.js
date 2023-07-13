@@ -263,13 +263,22 @@ function DriverScreen() {
                 <Text mt="4" textAlign="center">
                     Don't have an account?{" "}
                     <Text
-                        onPress={() => navigation.navigate("DriverSignUp")}
-                        color="blue.500"
-                        _underline={{}}
+                      onPress={() => navigation.navigate("UserSignUp")}
+                      color="blue.500"
+                      _underline={{}}
                     >
-                        Sign Up here.
+                        Sign Up
+                    </Text>
+                    {" "} Switch to{" "}
+                    <Text
+                      onPress={() => navigation.navigate("UserLogin")}
+                      color="blue.500"
+                      _underline={{}}
+                    >
+                        User
                     </Text>
                 </Text>
+
             </VStack>
         </TouchableWithoutFeedback>
     );

@@ -261,13 +261,22 @@ function UserScreen() {
                 <Text mt="4" textAlign="center">
                     Don't have an account?{" "}
                     <Text
-                        onPress={() => navigation.navigate("UserSignUp")}
-                        color="blue.500"
-                        _underline={{}}
+                      onPress={() => navigation.navigate("UserSignUp")}
+                      color="blue.500"
+                      _underline={{}}
                     >
-                        Sign Up here.
+                        Sign Up
+                    </Text>
+                    {" "}. Switch to{" "}
+                    <Text
+                      onPress={() => navigation.navigate("DriverLogin")}
+                      color="blue.500"
+                      _underline={{}}
+                    >
+                        Driver
                     </Text>
                 </Text>
+
             </VStack>
         </TouchableWithoutFeedback>
     );

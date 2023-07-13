@@ -9,6 +9,7 @@ import {
     clientStatus,
     whenConnect
 } from "../com/evotech/common/websocket/SingletonWebSocketClient";
+import { SafeAreaView } from "react-native";
 
 export default function ChatRoom({route}) {
     const {receiverName, receiverUserCode, orderStatus} = route.params;
@@ -67,10 +68,12 @@ export default function ChatRoom({route}) {
     }
 
     return (
-        <GiftedChat
+      <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', paddingBottom: 30 }}>
+      <GiftedChat
             messages={messages[receiverUserCode] || []}
             onSend={newMessages => onSend(newMessages)}
             user={{_id: 1}}
         />
+      </SafeAreaView>
     );
 }

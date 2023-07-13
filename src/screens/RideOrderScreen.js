@@ -41,6 +41,8 @@ import {userOrderWebsocket} from "../com/evotech/common/websocket/UserChatWebsoc
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import { Toast } from "react-native-alert-notification";
 import {locationPermission} from "../com/evotech/permissions/PermissionsSupport";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 
 // 初始化Geocoder库，这个库用于处理地址和地理坐标的相互转化
@@ -562,9 +564,10 @@ const RideOrderScreen = () => {
                 {/*)}*/}
 
                 {isBookingConfirmed ? (
-                  <KeyboardAvoidingView
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    style={{ flex: 1 }}
+                  <KeyboardAwareScrollView
+                    contentContainerStyle={{ flex: 1 }}
+                    resetScrollToCoords={{ x: 0, y: 0 }}
+                    scrollEnabled={true}
                   >
                     <Box
                         bg="white"
@@ -621,7 +624,7 @@ const RideOrderScreen = () => {
                             )}
                         </VStack>
                     </Box>
-                  </KeyboardAvoidingView>
+                  </KeyboardAwareScrollView>
                 ) : (
                     <Box
                         bg="white"

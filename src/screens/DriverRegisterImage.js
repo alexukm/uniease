@@ -56,7 +56,7 @@ const ImageUploadPage = () => {
             },
         };
         //第一次 请求获取相册权限
-        requestPhotoLibraryPermission()
+        requestPhotoLibraryPermission(()=>{},()=>{},()=>{})
         checkPhotoLibraryPermission((status) => {
             //允许访问
             launchImageLibrary(options, async response => {

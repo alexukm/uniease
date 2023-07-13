@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
+import {SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView, Linking} from 'react-native';
 import {Center, Box, VStack, Button, FormControl, NativeBaseProvider, Icon, Text} from 'native-base';
 import RemixIcon from 'react-native-remix-icon';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -7,9 +7,14 @@ import {driverLogout, driverUpload} from "../com/evotech/common/http/BizHttpUtil
 import {DriverImageType, removeUserToken} from "../com/evotech/common/appUser/UserConstant";
 import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
 import {useNavigation} from "@react-navigation/native";
-import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
-import {checkPhotoLibraryPermission} from "../com/evotech/permissions/PermissionsSupport";
+import {showDialog, showToast, systemAlert} from "../com/evotech/common/alert/toastHelper";
+import {
+    checkPhotoLibraryPermission,
+    requestPhotoLibraryPermission
+} from "../com/evotech/permissions/PermissionsSupport";
 import { openSettings } from "react-native-permissions";
+
+import {isIOS} from "../com/evotech/common/system/OSUtils";
 
 
 const ImageUploadPage = () => {
@@ -50,8 +55,8 @@ const ImageUploadPage = () => {
                 path: 'images',
             },
         };
-
-
+        //第一次 请求获取相册权限
+        requestPhotoLibraryPermission()
         checkPhotoLibraryPermission(() => {
             //允许访问
             launchImageLibrary(options, async response => {
@@ -68,10 +73,10 @@ const ImageUploadPage = () => {
                     }
                     try {
                         driverUpload(uri, params)
-                          .then(data => {
-                              showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
-                              setUploadStatus(true);
-                          }).catch(err => {
+                            .then(data => {
+                                showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
+                                setUploadStatus(true);
+                            }).catch(err => {
                             showDialog('DANGER', 'Upload Exception', "Image upload exception: " + err.message);
                         });
                     } catch (error) {
@@ -79,13 +84,25 @@ const ImageUploadPage = () => {
                     }
                 }
             }).then();
+        },  () => {
+            systemAlert('Action denied','Please enable access to the file',()=>{},()=>{
+                if (isIOS()){
+                    Linking.openURL('app-settings:');
+                }else {
+                    openSettings().catch(() => console.warn('cannot open settings'));
+                }
+            })
+            //showDialog('WARNING', 'Action denied', 'Please enable access to the file')
         }, () => {
-            showToast('WARNING', 'Action denied', 'Please enable access to the file')
-            openSettings().catch(() => console.warn('cannot open settings'));
-        }, () => {
-            //TODO  异常情况
-            showToast('WARNING', 'Action denied', 'Please enable access to the file')
-            console.error(error);
+           /* showDialog('WARNING', 'Action denied', 'Please enable access to the file')
+            console.error(error);*/
+            systemAlert('Action denied','Please enable access to the file',()=>{},()=>{
+                if (isIOS()){
+                    Linking.openURL('app-settings:');
+                }else {
+                    openSettings().catch(() => console.warn('cannot open settings'));
+                }
+            })
         });
     }
 

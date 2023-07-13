@@ -38,7 +38,9 @@ const App = () => {
     const originalWarn = console.warn;
     console.warn = (message, ...optionalParams) => {
         if (message.indexOf('SSRProvider') === -1) {
-            originalWarn(message, ...optionalParams);
+            if (typeof originalWarn === 'function') {
+                originalWarn(message, ...optionalParams);
+            }
         }
     };
 

@@ -353,12 +353,22 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       driverQueryUserPhone(params).then((response) => {
         if (response.code === 200) {
           let phoneNumber = response.data;
-          if (Platform.OS !== "android") {
+          if (Platform.OS === "android") {
             phoneNumber = `prompt:${phoneNumber}`;
           } else {
-            phoneNumber = `tel:${phoneNumber}`;
+            phoneNumber = `tel://${phoneNumber}`;
           }
-          Linking.openURL(phoneNumber);
+          Linking.canOpenURL(phoneNumber).then((supported) => {
+            if (!supported) {
+              console.log('Can\'t handle url: ' + phoneNumber);
+            } else {
+               Linking.openURL(phoneNumber);
+            }
+          }).catch((err) => {
+            console.error('An error occurred', err);
+
+          });
+          //Linking.openURL(phoneNumber);
         } else {
           console.log("查询失败"+response.message);
           //TODO 查询失败
@@ -387,7 +397,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
               {(Status === OrderStateEnum.IN_TRANSIT) && (
                 <View>
                   <Text>Focus On Driving, Enjoy Your Journey.</Text>
-                  <TouchableOpacity onPress={() => Linking.openURL("tel:999")}
+                  <TouchableOpacity onPress={() => Linking.openURL('tel://1234567890')}
                                     style={{ alignSelf: "flex-start" }}>
                     <Text fontSize="sm" style={{ fontWeight: "bold" }}>Emergency Call</Text>
                   </TouchableOpacity>

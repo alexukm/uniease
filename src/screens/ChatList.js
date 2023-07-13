@@ -29,6 +29,7 @@ export default function ChatList({navigation}) {
         });
     };
     return (
+      <SafeAreaView style={{flex: 1}}>
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Chats</Text>
@@ -73,6 +74,7 @@ export default function ChatList({navigation}) {
                 )}
             />
         </View>
+      </SafeAreaView>
     );
 }
 

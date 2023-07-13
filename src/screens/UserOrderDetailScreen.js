@@ -500,6 +500,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
             // 已送达
             case OrderStateEnum.DELIVERED:
                 return (
+                  <SafeAreaView style={{flex: 1}}>
                     <ScrollView style={styles.fullScreen}>
                         <OrderInfoBox showStatus={true}/>
                         <DriverInfoBox status={Status}/>
@@ -520,11 +521,13 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                             <ReviewBox/>
                         </RBSheet>
                     </ScrollView>
+                  </SafeAreaView>
                 );
 
             //已取消
             case OrderStateEnum.CANCELLED:
                 return (
+                  <SafeAreaView style={{flex: 1}}>
                     <ScrollView style={styles.fullScreen}>
                         <OrderInfoBox showStatus={true}/>
                         {/*{existDriverInfo && <DriverInfoBox showBack={existDriverInfo}/>}*/}
@@ -537,6 +540,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                             <PaymentInfoBox/>
                         </RBSheet>
                     </ScrollView>
+                  </SafeAreaView>
                 );
             case OrderStateEnum.COMPLETED:
                 return (

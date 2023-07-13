@@ -57,7 +57,7 @@ const ImageUploadPage = () => {
         };
         //第一次 请求获取相册权限
         requestPhotoLibraryPermission()
-        checkPhotoLibraryPermission(() => {
+        checkPhotoLibraryPermission((status) => {
             //允许访问
             launchImageLibrary(options, async response => {
                 if (response.didCancel) {
@@ -92,10 +92,7 @@ const ImageUploadPage = () => {
                     openSettings().catch(() => console.warn('cannot open settings'));
                 }
             })
-            //showDialog('WARNING', 'Action denied', 'Please enable access to the file')
-        }, () => {
-           /* showDialog('WARNING', 'Action denied', 'Please enable access to the file')
-            console.error(error);*/
+        }, (err) => {
             systemAlert('Action denied','Please enable access to the file',()=>{},()=>{
                 if (isIOS()){
                     Linking.openURL('app-settings:');

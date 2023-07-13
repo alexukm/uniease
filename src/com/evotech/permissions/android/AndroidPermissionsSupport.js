@@ -39,3 +39,24 @@ export const androidPhotoLibraryPermission = (granted, denied, err) => {
         });
 };
 
+export const androidCameraPermission = async (granted, denied, err) => {
+  try {
+    const grantedPermission = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      {
+        title: "Camera Permission",
+        message: "This app needs access to your camera",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+    if (grantedPermission === PermissionsAndroid.RESULTS.GRANTED) {
+      granted(grantedPermission);
+    } else {
+      denied(grantedPermission);
+    }
+  } catch (error) {
+    err(error);
+  }
+};

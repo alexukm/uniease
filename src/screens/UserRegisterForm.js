@@ -8,7 +8,6 @@ import {
     HStack,
     Input,
     NativeBaseProvider,
-    Select,
     VStack,
     Text,
 } from 'native-base';
@@ -267,16 +266,12 @@ const RegisterScreen = () => {
                                     <View style={{flex: 0.4}}>
                                         <View style={{ borderWidth: 1, borderColor: '#d3d3d3', borderRadius: 4, overflow: 'hidden' }}>
                                             <Picker
-                                                selectedValue={selectedValue}
-                                                style={{ height: 50 }}
-                                                onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                                              selectedValue={selectedValue}
+                                              style={{ height: 50, width: 150 }}
+                                              onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                                             >
-                                                {countryData.map(item => (
-                                                    <Picker.Item
-                                                        key={item.code}
-                                                        label={`${item.code} +${item.label}`}
-                                                        value={item.label}
-                                                    />
+                                                {countryData.map((item, index) => (
+                                                  <Picker.Item label={`${item.code} +${item.label}`} value={item.label} key={index} />
                                                 ))}
                                             </Picker>
                                         </View>

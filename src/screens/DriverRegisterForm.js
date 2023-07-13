@@ -273,28 +273,22 @@ const RegisterScreen = () => {
                                 <HStack space={2} width="100%">
                                     <View style={{flex: 0.4, borderWidth: 1, borderColor: '#d9d9d9', borderRadius: 4}}>
                                         <Picker
-                                            selectedValue={selectedValue}
-                                            onValueChange={itemValue => {
-                                                setSelectedValue(itemValue);
-                                            }}
-                                            style={{ height: 50, width: '100%' }}
+                                          selectedValue={selectedValue}
+                                          onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                                          style={{height: 50, width: '100%'}}
                                         >
-                                            {countryData.map(item => (
-                                                <Picker.Item
-                                                    key={item.code}
-                                                    label={`${item.code} +${item.label}`}
-                                                    value={item.label}
-                                                />
+                                            {countryData.map((item, index) => (
+                                              <Picker.Item key={index} label={`${item.code} +${item.label}`} value={item.label} />
                                             ))}
                                         </Picker>
                                     </View>
                                     <Input
-                                        placeholder={selectedValue === '60' ? 'Enter 9 digit number' : 'Enter 11 digit number'}
-                                        value={phoneNumber}
-                                        onChangeText={setPhoneNumber}
-                                        keyboardType="numeric"
-                                        flex={0.6}
-                                        size="lg"
+                                      placeholder={selectedValue === '60' ? 'Enter 9 digit number' : 'Enter 11 digit number'}
+                                      value={phoneNumber}
+                                      onChangeText={setPhoneNumber}
+                                      keyboardType="numeric"
+                                      flex={0.6}
+                                      size="lg"
                                     />
                                 </HStack>
                             </FormControl>

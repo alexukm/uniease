@@ -61,7 +61,9 @@ const App = () => {
         };
         await accessToken(checkTokenParam)
             .then(data => {
-                setUserToken(data.data)
+                if (data.data){
+                    setUserToken(data.data)
+                }
                 skipOp(userInfo, data.code === 200);
             })
             .catch(err => {

@@ -9,7 +9,7 @@ import {
   Linking,
   TouchableWithoutFeedback,
   Platform,
-  Animated,
+
   Keyboard,
 } from "react-native";
 import { StyleSheet } from "react-native";
@@ -318,15 +318,15 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
 
     const actionSheet = useRef();
 
-    const [animatePress, setAnimatePress] = useState(new Animated.Value(1));
+  //  const [animatePress, setAnimatePress] = useState(new Animated.Value(1));
 
-    const animateIn = () => {
+ /*   const animateIn = () => {
       Animated.timing(animatePress, {
         toValue: 0.5,
         duration: 500,
         useNativeDriver: true, // Add This line
       }).start();
-    };
+    };*/
     const showActionSheet = () => {
       actionSheet.current.show();
     };

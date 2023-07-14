@@ -1,5 +1,15 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity, ImageBackground, Dimensions} from 'react-native';
+import {
+    SafeAreaView,
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    ImageBackground,
+    Dimensions,
+    Linking,
+} from "react-native";
 import RemixIcon from 'react-native-remix-icon';
 import {userLogoutIt} from "../com/evotech/common/http/BizHttpUtil";
 import {userLogOut} from "../com/evotech/common/appUser/UserConstant";
@@ -16,7 +26,9 @@ const AccountScreen = () => {
     const handleSharePress = () => {
         console.log('分享被点击了');
         // 处理分享点击事件
+        Linking.openURL('https://unieaseapp.com/unieaseapp/').then();
     };
+
 
     const handleCustomerServicePress = () => {
         console.log('人工客服被点击了');

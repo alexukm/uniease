@@ -21,6 +21,7 @@ import DriverAccount from "./src/screens/DriverAccountScreen";
 import {AlertNotificationRoot} from "react-native-alert-notification";
 import {enableScreens} from 'react-native-screens';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import TermsAndConditions from "./src/screens/TermsAndConditions";
 
 enableScreens();
 
@@ -107,6 +108,7 @@ const App = () => {
                         <Stack.Screen name="DriverSignUp" component={DriverSignUp}/>
                         <Stack.Screen name="DriverAccount" component={DriverAccount}/>
                         <Stack.Screen name="DriverRegisterImage" component={DriverRegisterImage}/>
+                        <Stack.Screen name="TermsAndConditions" component={TermsAndConditions}/>
                     </Stack.Navigator>}
                 </Provider>
             </NavigationContainer>

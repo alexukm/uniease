@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Image, TouchableOpacity, View } from "react-native";
+import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
 import { Box, AspectRatio, Button, Center, Text } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import Swiper from "react-native-swiper";
@@ -82,6 +82,7 @@ const DriverHomeScreen = () => {
 
 
   return (
+    <SafeAreaView style={{flex: 1}}>
     <View style={{ flex: 1, alignItems: "center", backgroundColor: "white" }}>
       <View style={{
         width: "100%",
@@ -119,8 +120,6 @@ const DriverHomeScreen = () => {
             <CardWithoutDescription
               imageUri={ImagesEnum.DriverRide} />
           </Box>
-          {/*<Button onPress={() => handlePress("DriverOrderListScreen")} style={{ backgroundColor: "#3498db" }}>Go*/}
-          {/*  to Ride</Button>*/}
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => showDialog("WARNING", "Action Waiting", "Other features will be available soon, please wait")}
@@ -132,6 +131,7 @@ const DriverHomeScreen = () => {
         </TouchableOpacity>
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 

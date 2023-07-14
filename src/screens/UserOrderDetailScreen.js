@@ -115,11 +115,9 @@ const UserOrderDetailScreen = ({route, navigation}) => {
         licensePlateText: {
             fontSize: 20, // 1.5 times the usual size, adjust as needed
             fontWeight: 'bold',
-            alignSelf: 'flex-start',
-            // right: -63, // consider removing this
+            alignSelf: 'flex-end',
         },
     });
-
 
     const styles1 = StyleSheet.create({
         buttonStyle: {
@@ -392,7 +390,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                       />
                       <Text>Driver: {orderDetailInfo.userName}</Text>
                   </VStack>
-                  <View style={{ alignItems: "flex-start" }}> // or "center"
+                  <View style={{ alignItems: "flex-end" }}>
                       <Text style={{ ...styles.licensePlateText, lineHeight: 30 }}>{orderDetailInfo.licensePlate}</Text>
                       <Text>{orderDetailInfo.carColor} - {orderDetailInfo.carBrand}</Text>
                   </View>

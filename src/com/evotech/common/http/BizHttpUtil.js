@@ -210,7 +210,7 @@ export function accessToken(params = {}) {
     return request.post(featureAndPath.ACCESS_TOKEN.path, SupportContextType.APPLICATION_JSON, {params: params})
 }
 
-export function driverUpload(file, params) {
+export function driverUpload(file, params,headers = {}) {
     // let formData = new FormData();
     const formData = new FormData();
     formData.append('file', {
@@ -221,7 +221,7 @@ export function driverUpload(file, params) {
     // const file1 = new File([file], "filename.jpeg");
     // formData.append('file', file1)
     const requestURL = featureAndPath.DRIVER_UPLOAD.path + `?uploadType=${params['uploadType']}&userPhone=${params['userPhone']}`;
-    return request.postFromData(requestURL, SupportContextType.MULTIPART_FROM, {formData: formData});
+    return request.postFromData(requestURL, SupportContextType.MULTIPART_FROM, {formData: formData,header: headers});
 }
 
 export function driverLogin(params = {}) {

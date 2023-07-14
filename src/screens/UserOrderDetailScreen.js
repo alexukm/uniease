@@ -116,7 +116,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
             fontSize: 20, // 1.5 times the usual size, adjust as needed
             fontWeight: 'bold',
             alignSelf: 'flex-start',
-            right: -93,
+            right: -43,
         },
     });
 
@@ -384,8 +384,8 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                   <View style={{ alignItems: "flex-end" }}>
                       {/*<Text style={{...styles.licensePlateText, lineHeight: 30}}>License Plate: {orderDetailInfo.licensePlate}</Text>*/}
                       {/*<Text>Car Model: {orderDetailInfo.carBrand}</Text>*/}
-                      <Text style={{ ...styles.licensePlateText, lineHeight: 30 }}>UKM 6869</Text>
-                      <Text>GRAY - PROTON SAGA (GRAY)</Text>
+                      <Text style={{ ...styles.licensePlateText, lineHeight: 30 }}>{orderDetailInfo.licensePlate}</Text>
+                      <Text>{orderDetailInfo.carColor} - {orderDetailInfo.carBrand}</Text>
                   </View>
               </HStack>
               {status !== OrderStateEnum.DELIVERED ? (
@@ -493,6 +493,14 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                                 <MapComponent/>
                                 <OrderInfoBox showStatus={false}/>
                                 {existDriverInfo && <DriverInfoBox/>}
+                                <RBSheet
+                                  ref={refRBSheetPayment}
+                                  closeOnDragDown={true}
+                                  closeOnPressMask={true}
+                                  height={Dimensions.get('window').height * 0.28} // 设置RBSheet占据50%的屏幕高度
+                                >
+                                    <PaymentInfoBox/>
+                                </RBSheet>
                             </ScrollView>
                         )}
                     </>

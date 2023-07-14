@@ -15,9 +15,11 @@ import {
 import { openSettings } from "react-native-permissions";
 
 import {isIOS} from "../com/evotech/common/system/OSUtils";
+import { defaultHeaders } from "../com/evotech/common/http/HttpUtil";
 
 
-const ImageUploadPage = () => {
+const ImageUploadPage = ({route}) => {
+    const { token } = route.params;
     const [uploadedSelfie, setUploadedSelfie] = useState(false);
     const [uploadedCarInsurance, setUploadedCarInsurance] = useState(false);
     const [uploadedLicense, setUploadedLicense] = useState(false);
@@ -26,6 +28,30 @@ const ImageUploadPage = () => {
     const [uploadedPassport, setUploadedPassport] = useState(false);
     const [documentType, setDocumentType] = useState('ID');
     const navigation = useNavigation();
+
+    const uploadTemplate = [
+        {
+            index: 0,
+            label: "Selfie",
+            desc: "Please upload your selfie...",
+            handler: () => uploadImage(setUploadedSelfie, DriverImageType.Selfie),
+            uploadStatus: uploadedSelfie,
+        },
+        {
+            index: 1,
+            label: "Car Insurance",
+            desc: "Please upload your Car Insurance...",
+            handler: () => uploadImage(setUploadedCarInsurance, DriverImageType.Vehicle_Insurance),
+            uploadStatus: uploadedCarInsurance,
+        },
+        {
+            index: 5,
+            label: "License",
+            desc: "Please upload your License...",
+            handler: () => uploadImage(setUploadedLicense, DriverImageType.License),
+            uploadStatus: uploadedLicense,
+        },
+    ];
 
     useEffect(() => {
         if (
@@ -71,8 +97,9 @@ const ImageUploadPage = () => {
                         uploadType: uploadType,
                         userPhone: userInfo.userPhone
                     }
+                    const header = defaultHeaders.getAuthentication(token)
                     try {
-                        driverUpload(uri, params)
+                        driverUpload(uri, params,header)
                             .then(data => {
                                 showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
                                 setUploadStatus(true);
@@ -125,26 +152,7 @@ const ImageUploadPage = () => {
                                       </Text>
                                   </Box>
 
-                                  {[
-                                      {
-                                          label: "Selfie",
-                                          desc: "Please upload your selfie...",
-                                          handler: () => uploadImage(setUploadedSelfie, DriverImageType.Selfie),
-                                          uploadStatus: uploadedSelfie,
-                                      },
-                                      {
-                                          label: "Car Insurance",
-                                          desc: "Please upload your Car Insurance...",
-                                          handler: () => uploadImage(setUploadedCarInsurance, DriverImageType.Vehicle_Insurance),
-                                          uploadStatus: uploadedCarInsurance,
-                                      },
-                                      {
-                                          label: "License",
-                                          desc: "Please upload your License...",
-                                          handler: () => uploadImage(setUploadedLicense, DriverImageType.License),
-                                          uploadStatus: uploadedLicense,
-                                      },
-                                  ].map(form => (
+                                  {uploadTemplate.map(form => (
                                     <Box key={form.label} bg="white" p={4} shadow={1} rounded="lg" marginTop={5}
                                          flexDirection="row" justifyContent="space-between">
                                         <VStack alignItems="flex-start">

@@ -190,9 +190,8 @@ const RegisterScreen = () => {
             .then(data => {
                 if (data.code === 200) {
                     console.log('注册成功', data);
-                    setUserToken(data.data);
                     showDialog('SUCCESS', 'Success', 'Registration successful! Please upload documents for us review');
-                    navigation.replace("DriverRegisterImage");
+                    navigation.replace("DriverRegisterImage",  {params: {token: data.data}});
                     setShowVerificationCode(false);
                     return data.data;
                 } else {

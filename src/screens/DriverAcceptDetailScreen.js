@@ -478,8 +478,8 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                   }}
                 />
                 <VStack>
-                  <Text fontWeight="bold">Ramalaan bin Abdur Rasheed</Text>
-                  <Text>I need a man driver</Text>
+                  <Text fontWeight="bold">{orderDetailInfo.userName}</Text>
+                  <Text>{orderDetailInfo.remark}</Text>
                 </VStack>
               </HStack>
               <HStack alignItems="center" space={4}>

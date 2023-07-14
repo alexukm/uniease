@@ -1,11 +1,12 @@
 import React , {Component} from 'react';
-import { View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Dimensions, TouchableOpacity, SafeAreaView } from "react-native";
 
 class TermsAndConditions extends Component{
 
 
   render(){
     return (
+      <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <Text style={styles.title}>Terms and conditions</Text>
         <ScrollView>
@@ -23,6 +24,7 @@ class TermsAndConditions extends Component{
           <Text style={styles.tcP}>The use of this website is subject to the following terms of use</Text>
         </ScrollView>
       </View>
+      </SafeAreaView>
     );
   }
 

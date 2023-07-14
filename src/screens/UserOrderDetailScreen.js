@@ -205,7 +205,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
         userQueryDriverPhone(params).then((response) => {
             if (response.code === 200) {
                 let phoneNumber = response.data;
-                phoneNumber = `tel:${phoneNumber}`;
+                phoneNumber = `tel://${phoneNumber}`;
                 if (Platform.OS === "android") {
                     Linking.openURL(phoneNumber);
                 } else {

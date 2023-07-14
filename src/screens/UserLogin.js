@@ -1,4 +1,4 @@
-import { Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Image, Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -17,7 +17,7 @@ import {
     Radio,
 } from "native-base";
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
-import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
+import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 
 const countryCodes = {
@@ -205,7 +205,10 @@ function UserScreen() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <VStack space="2.5" mt="4" px="8">
+            <VStack space="2.5" mt="4" px="8" style={{position: 'relative'}}>
+                <View style={{position: 'absolute', top: -180, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', height: '50%'}}>
+                    <Image source={{ uri: ImagesEnum.UserLogin }} style={{width: 100, height: 100}} />
+                </View>
                 <FormControl isRequired>
                     <FormControl.Label>Please enter your phone number</FormControl.Label>
                     <HStack space={2}>
@@ -219,7 +222,7 @@ function UserScreen() {
                             onChangeText={setValueAndCheckLength}
                             keyboardType="numeric"
                             size="lg"
-                            width="78%"
+                            width="84%"
                         />
                     </HStack>
                     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">

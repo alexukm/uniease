@@ -9,7 +9,7 @@ import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
 import { buildUserInfo, getUserInfo, getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 import { ALERT_TYPE } from "react-native-alert-notification";
-import { DriverLoginStatusEnum } from "../com/evotech/common/constant/BizEnums";
+import { DriverLoginStatusEnum, ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 
 
 const DriverHomeScreen = () => {
@@ -43,7 +43,7 @@ const DriverHomeScreen = () => {
     navigation.navigate(screen);
   };
 
-  const Card = ({ imageUri, title, description }) => (
+  const Card = ({ imageUri }) => (
     <Box
       bg="white"
       style={{
@@ -60,24 +60,6 @@ const DriverHomeScreen = () => {
       <AspectRatio w="100%" ratio={16 / 9}>
         <Image source={{ uri: imageUri }} style={{ flex: 1 }} />
       </AspectRatio>
-      <Center
-        bg="white"
-        position="absolute"
-        bottom="0"
-        left="20%"
-        right="20%"
-        _text={{ color: "black", fontWeight: "700", fontSize: "md" }}
-        px="3"
-        py="1.5"
-        style={{ justifyContent: "flex-end" }}
-      >
-        <Text>
-          {title}
-        </Text>
-        <Text fontWeight="500">
-          {description}
-        </Text>
-      </Center>
     </Box>
   );
 
@@ -109,25 +91,18 @@ const DriverHomeScreen = () => {
         flexDirection: "row",
         paddingLeft: 20,
       }}>
-        <Image source={{ uri: "https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg" }}
+        <Image source={{ uri: ImagesEnum.Logo }}
                style={{ width: 100, height: 100 }} />
       </View>
 
       <View style={{ height: "40%", width: "100%" }}>
         <Swiper showsButtons={false}>
           <Box>
-            <Card imageUri="https://images.pexels.com/photos/5507250/pexels-photo-5507250.jpeg"
-                  title="Advertisement 1" description="Advertisement 2 Description" />
+            <Card imageUri={ImagesEnum.UserShare} />
           </Box>
           <Box>
             <Card
-              imageUri="https://images.pexels.com/photos/16091030/pexels-photo-16091030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              title="Advertisement 2" description="Advertisement 2 Description" />
-          </Box>
-          <Box>
-            <Card
-              imageUri="https://images.pexels.com/photos/1205651/pexels-photo-1205651.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              title="Advertisement 3" description="Advertisement 3 Description" />
+              imageUri={ImagesEnum.UserUniversity} />
           </Box>
         </Swiper>
       </View>
@@ -142,20 +117,18 @@ const DriverHomeScreen = () => {
         <TouchableOpacity onPress={() => handlePress("DriverOrderListScreen")} style={{ width: "47%" }}>
           <Box>
             <CardWithoutDescription
-              imageUri="https://images.pexels.com/photos/4701604/pexels-photo-4701604.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+              imageUri={ImagesEnum.DriverRide} />
           </Box>
-          <Button onPress={() => handlePress("DriverOrderListScreen")} style={{ backgroundColor: "#3498db" }}>Go
-            to Ride</Button>
+          {/*<Button onPress={() => handlePress("DriverOrderListScreen")} style={{ backgroundColor: "#3498db" }}>Go*/}
+          {/*  to Ride</Button>*/}
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => showDialog("WARNING", "Action Waiting", "Other features will be available soon, please wait")}
           style={{ width: "47%" }}>
           <Box>
             <CardWithoutDescription
-              imageUri="https://images.pexels.com/photos/518244/pexels-photo-518244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+              imageUri={ImagesEnum.UserService} />
           </Box>
-          {/*<Button onPress={() => handlePress('ServiceScreen')} style={{backgroundColor: '#3498db'}}>Go to*/}
-          {/*    Service</Button>*/}
         </TouchableOpacity>
       </View>
     </View>

@@ -1,4 +1,4 @@
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, View, Image } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { driverInfoStatus, driverLogin, smsSend } from "../com/evotech/common/http/BizHttpUtil";
@@ -16,7 +16,12 @@ import {
   HStack, Radio,
 } from "native-base";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
-import { DriverInfoStatusEnum, DriverLoginStatusEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
+import {
+  DriverInfoStatusEnum,
+  DriverLoginStatusEnum,
+  ImagesEnum,
+  UserTypeEnum,
+} from "../com/evotech/common/constant/BizEnums";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { ALERT_TYPE } from "react-native-alert-notification";
 
@@ -221,7 +226,10 @@ function DriverScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <VStack space="2.5" mt="4" px="8">
+      <VStack space="2.5" mt="4" px="8" style={{position: 'relative'}}>
+        <View style={{position: 'absolute', top: -180, left: 0, right: 0, alignItems: 'center', justifyContent: 'center', height: '50%'}}>
+          <Image source={{ uri: ImagesEnum.DriverLogin }} style={{width: 100, height: 100}} />
+        </View>
         <FormControl isRequired>
           <FormControl.Label>Please enter your phone number</FormControl.Label>
           <HStack space={2}>
@@ -234,7 +242,7 @@ function DriverScreen() {
               onChangeText={(text) => setValue(text)}
               keyboardType="numeric"
               size="lg"
-              width="78%"
+              width="84%"
             />
           </HStack>
           <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">

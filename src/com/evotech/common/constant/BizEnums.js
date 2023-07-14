@@ -26,5 +26,9 @@ export const ImagesEnum = {
     UserRide: "https://unieaseapp.com/uniEaseImages/app/user_ride.png",
     UserService: "https://unieaseapp.com/uniEaseImages/app/user_service.png",
     UserShare: "https://unieaseapp.com/uniEaseImages/app/user_share.png",
-    UserUniversity: "https://unieaseapp.com/uniEaseImages/app/user_university.png"
+    UserUniversity: "https://unieaseapp.com/uniEaseImages/app/user_university.png",
+    DriverRide: "https://unieaseapp.com/uniEaseImages/app/driver_ride.png",
+    Logo: "https://unieaseapp.com/uniEaseImages/app/logo.png",
+    UserLogin: "https://unieaseapp.com/uniEaseImages/app/user_login.png",
+    DriverLogin: "https://unieaseapp.com/uniEaseImages/app/driver_login.png",
 }

@@ -97,10 +97,11 @@ const UserHome = () => {
     );
 
     return (
+      <SafeAreaView style={{flex: 1}}>
       <View style={{ flex: 1, alignItems: "center", backgroundColor: "white" }}>
           <View style={{
               width: "100%",
-              height: 120,
+              height: 90,
               justifyContent: "flex-start",
               alignItems: "center",
               flexDirection: "row",
@@ -145,6 +146,7 @@ const UserHome = () => {
               </TouchableOpacity>
           </View>
       </View>
+      </SafeAreaView>
     );
 };
 

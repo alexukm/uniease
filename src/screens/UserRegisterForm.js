@@ -195,7 +195,7 @@ const RegisterScreen = () => {
                     showToast('SUCCESS', 'Registration Success', 'Registration was successful');
                     console.log('注册成功', data);
                     setUserToken(data.data);
-                    buildUserInfo(data.data, userType.USER, userPhone).saveWithLocal();
+                    buildUserInfo(data.data, userType.USER, userPhone,null).saveWithLocal();
                     navigation.navigate("User");
                 } else {
                     showDialog('WARNING', 'Registration Failed', data.message);

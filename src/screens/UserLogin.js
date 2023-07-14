@@ -153,7 +153,7 @@ function UserScreen() {
             .then(data => {
                 if (data.code === 200) {
                     setUserToken(data.data)
-                    buildUserInfo(data.data, userType.USER, userPhone).saveWithLocal();
+                    buildUserInfo(data.data, userType.USER, userPhone,null).saveWithLocal();
                     navigation.navigate("User");
                     showToast('SUCCESS', 'Login Successful', 'You have successfully logged in!');
                 } else {

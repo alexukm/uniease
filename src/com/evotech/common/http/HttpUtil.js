@@ -63,13 +63,10 @@ export const SupportContextType = {
 
 async function headerMap({supportContextType = null, header = {}},) {
     const token = await getUserToken()
-    header = Object.assign(header,
-        defaultHeaders.getUserIdentifier(getUserID()));
-
+    header = Object.assign(header, defaultHeaders.getUserIdentifier(getUserID()));
     if (!header[defaultHeaders.TOKEN]) {
         header = Object.assign(header,defaultHeaders.getAuthentication(token));
     }
-
     if (supportContextType) {
         Object.assign(header, ContextType.getSupportHeader(supportContextType));
     }

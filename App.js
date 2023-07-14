@@ -23,6 +23,10 @@ import {enableScreens} from 'react-native-screens';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TermsAndConditions from "./src/screens/TermsAndConditions";
 
+import SplashScreen from 'react-native-splash-screen'
+import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnums";
+
+
 enableScreens();
 
 
@@ -45,6 +49,11 @@ const App = () => {
         }
     };
 
+    useEffect(() => {
+        SplashScreen.hide();
+        // AsyncStorage.clear()
+    }, []);
+
    // useEffect(() => {
    //      AsyncStorage.clear()
    //  }, []);
@@ -54,7 +63,8 @@ const App = () => {
             return skipLogin ? setInitialRoute("User") : setInitialRoute("UserLogin");
         }
         const driverSkip = (skipLogin) => {
-            return skipLogin ? setInitialRoute("Driver") : setInitialRoute("DriverLogin");
+            console.log(userInfo);
+            return skipLogin ? DriverLoginStatusEnum.NEED_SUPPLY === userInfo.loginStatus ? setInitialRoute("DriverSupplyInfo"): setInitialRoute("Driver") : setInitialRoute("DriverLogin");
         }
         return userInfo.isUser() ? userSkip(skipLogin) : driverSkip(skipLogin);
     }
@@ -71,8 +81,6 @@ const App = () => {
                 skipOp(userInfo, data.code === 200);
             })
             .catch(err => {
-                console.error("access Token failed:" + err.message)
-                console.error(err)
                 return setInitialRoute("Home");
             });
     }

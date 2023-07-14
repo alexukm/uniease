@@ -19,7 +19,7 @@ import { defaultHeaders } from "../com/evotech/common/http/HttpUtil";
 
 
 const ImageUploadPage = ({route}) => {
-    const { token } = route.params;
+    const { token,userPhone } = route.params;
     const [uploadedSelfie, setUploadedSelfie] = useState(false);
     const [uploadedCarInsurance, setUploadedCarInsurance] = useState(false);
     const [uploadedLicense, setUploadedLicense] = useState(false);
@@ -92,14 +92,13 @@ const ImageUploadPage = ({route}) => {
                     showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
                 } else {
                     const uri = response.assets[0].uri;
-                    const userInfo = await getUserInfoWithLocal()
                     const params = {
                         uploadType: uploadType,
-                        userPhone: userInfo.userPhone
+                        userPhone: userPhone
                     }
-                    const header = defaultHeaders.getAuthentication(token)
+                    const header = defaultHeaders.getAuthentication(token);
                     try {
-                        driverUpload(uri, params,header)
+                        driverUpload(uri, params, { headers: header })
                             .then(data => {
                                 showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
                                 setUploadStatus(true);

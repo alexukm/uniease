@@ -129,7 +129,7 @@ function DriverScreen() {
 
   const driverSupplyInfo = (data,userPhone) => {
     setUserToken(data.token);
-    buildUserInfo(data.token, userType.DRIVER, userPhone).saveWithLocal();
+    buildUserInfo(data.token, userType.DRIVER, userPhone,data.loginStatus).saveWithLocal();
     navigation.navigate("DriverSupplyInfo");
     showDialog(ALERT_TYPE.SUCCESS, "Action Required", "Please complete your driver information.");
   };
@@ -139,12 +139,12 @@ function DriverScreen() {
   };
   const driverActive = (data,userPhone) => {
     setUserToken(data.token);
-    buildUserInfo(data.token, userType.DRIVER, userPhone).saveWithLocal();
+    buildUserInfo(data.token, userType.DRIVER, userPhone,data.loginStatus).saveWithLocal();
     navigation.navigate("Driver");
   };
 
-  const driverNeedUploadInfo = (data) => {
-    navigation.replace("DriverRegisterImage",  {params: {token: data.token}});
+  const driverNeedUploadInfo = (data,userPhone) => {
+    navigation.replace("DriverRegisterImage",  {token: data.token,userPhone: userPhone});
   };
 
   const userLoginWithSmsCode = (userPhone, code) => {
@@ -158,8 +158,9 @@ function DriverScreen() {
       .then(data => {
         if (data.code === 200) {
           const loginResult = data.data;
+          console.log(JSON.stringify(loginResult));
           //审核通过
-          if (DriverLoginStatusEnum.ACTIVE === loginResult.loginStatus) {
+          if (DriverLoginStatusEnum.ACTIVE === loginResult.loginStatus ) {
             driverActive(loginResult, userPhone);
           }
           if (DriverLoginStatusEnum.NEED_SUPPLY === loginResult.loginStatus) {
@@ -169,7 +170,7 @@ function DriverScreen() {
             driverUnderReview();
           }
           if (DriverLoginStatusEnum.NEED_UPLOAD_IMAGES === loginResult.loginStatus) {
-            driverNeedUploadInfo(loginResult);
+            driverNeedUploadInfo(loginResult,userPhone);
           }
         } else {
           showDialog(ALERT_TYPE.WARNING, "Login Failed", "Login failed: " + data.message);

@@ -353,21 +353,21 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       driverQueryUserPhone(params).then((response) => {
         if (response.code === 200) {
           let phoneNumber = response.data;
+          phoneNumber = `tel://${phoneNumber}`;
           if (Platform.OS === "android") {
-            phoneNumber = `prompt:${phoneNumber}`;
+            Linking.openURL(phoneNumber);
           } else {
-            phoneNumber = `tel://${phoneNumber}`;
+            Linking.canOpenURL(phoneNumber).then((supported) => {
+              if (!supported) {
+                showToast('WARNING','ACTION DENIED', 'No permission to make a call')
+              } else {
+                Linking.openURL(phoneNumber);
+              }
+            }).catch((err) => {
+              console.error("An error occurred", err);
+            });
           }
-          Linking.canOpenURL(phoneNumber).then((supported) => {
-            if (!supported) {
-              console.log("Can't handle url: " + phoneNumber);
-            } else {
-              Linking.openURL(phoneNumber);
-            }
-          }).catch((err) => {
-            console.error("An error occurred", err);
 
-          });
           //Linking.openURL(phoneNumber);
         } else {
           console.log("查询失败" + response.message);

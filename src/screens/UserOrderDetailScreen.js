@@ -116,7 +116,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
             fontSize: 20, // 1.5 times the usual size, adjust as needed
             fontWeight: 'bold',
             alignSelf: 'flex-start',
-            right: -43,
+            right: -63,
         },
     });
 

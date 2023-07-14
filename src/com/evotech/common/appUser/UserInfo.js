@@ -1,23 +1,24 @@
 import {asyncDelKey, getValue, setKeyValue} from "./LocalStorageUtil";
 import {getUserID, userType} from "./UserConstant";
 import {accessToken} from "../http/BizHttpUtil";
+import * as logger from "react-native-gifted-chat/lib/logging";
 
 const userInfoKey = 'userInfo';
 
 export class UserInfo {
-    constructor(token, userType, userPhone, identifier) {
+    constructor(token, userType, userPhone, identifier,loginStatus) {
         this.token = token;
         this.userType = userType;
         this.userPhone = userPhone;
         this.identifier = identifier;
+        this.loginStatus = loginStatus;
     }
 
     saveWithLocal() {
         const userInfoJson = JSON.stringify(this);
         setKeyValue(userInfoKey, userInfoJson).then(() => {
-            console.log(this.userPhone + ": user info set successfully")
         }).catch(err => {
-            console.log(this.userPhone + ": user info set failed")
+           console.error(err)
         });
     }
 
@@ -34,19 +35,18 @@ export class UserInfo {
 export async function getUserInfoWithLocal() {
     const userInfoJson = await getUserInfo();
     const userInfo = JSON.parse(userInfoJson);
-    return userInfo ? new UserInfo(userInfo.token, userInfo.userType, userInfo.userPhone, userInfo.identifier) : userInfo;
+    return userInfo ? new UserInfo(userInfo.token, userInfo.userType, userInfo.userPhone, userInfo.identifier,userInfo.loginStatus) : userInfo;
 }
 
 export async function getUserInfo() {
     return await getValue(userInfoKey);
 }
-export function buildUserInfo(token, userType, userPhone) {
-    return new UserInfo(token, userType, userPhone, getUserID());
+export function buildUserInfo(token, userType, userPhone,loginStatus) {
+    return new UserInfo(token, userType, userPhone, getUserID(),loginStatus);
 }
 
 export async function userSkipLogin(setInitialRoute, tokenCheck) {
     const userInfo = await getUserInfoWithLocal()
-    console.log("userSkipLogin")
     if (!isAccessToken(userInfo)) {
         if (userInfo) {
             if (userInfo.userType === userType.USER) {

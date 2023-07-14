@@ -23,6 +23,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import {format} from "date-fns";
 import {useNavigation} from "@react-navigation/native";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import { DriverLoginStatusEnum } from "../com/evotech/common/constant/BizEnums";
 
 
 const DriverSupplyInfo = () => {
@@ -50,9 +51,7 @@ const DriverSupplyInfo = () => {
     const carTypes = Object.values(CarType);
     useEffect(() => {
         setTimeout(async () => {
-            console.log("init userinfo")
             setUserInfo(await getUserInfoWithLocal())
-            removeUserInfo();
         }, 0);
     }, []);
 
@@ -78,7 +77,7 @@ const DriverSupplyInfo = () => {
                     userPhone: userInfo.userPhone,
                 };
                 try {
-                    driverUpload(uri, params)
+                    driverUpload(uri, params,{})
                         .then(data => {
                             showToast('SUCCESS', 'Upload Status', "Image upload result: " + data.message);
                             setUploadedCarPath(true);
@@ -140,8 +139,8 @@ const DriverSupplyInfo = () => {
             driverSupplyInfo(uploadParams)
                 .then(data => {
                     if (data.code === 200) {
-                        console.log('Upload successful', data);
                         showToast('SUCCESS', 'Upload Successful', 'Upload successful');
+                        userInfo.loginStatus = DriverLoginStatusEnum.ACTIVE;
                         userInfo.saveWithLocal();
                         navigation.navigate("Driver");
                     } else {

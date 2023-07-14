@@ -38,7 +38,9 @@ const AccountScreen = () => {
     const handlePricingRulesPress = () => {
         console.log('计价规则被点击了');
         // 处理计价规则点击事件
+        navigation.navigate("TermsAndConditions");
     };
+
 
 
     const handleLogoutPress = async () => {

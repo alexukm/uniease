@@ -1,41 +1,72 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import {
+    SafeAreaView,
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    ImageBackground,
+    Dimensions,
+    Alert,
+    Linking,
+} from "react-native";
 import RemixIcon from 'react-native-remix-icon';
 import {driverLogout} from "../com/evotech/common/http/BizHttpUtil";
 import { userLogOut} from "../com/evotech/common/appUser/UserConstant";
 import {useNavigation} from "@react-navigation/native";
 
-// Define handlers
-const handleWalletPress = () => {
-    console.log('Wallet is clicked');
-    // Handle wallet click event
-};
-
-const handleSharePress = () => {
-    console.log('Share is clicked');
-    // Handle share click event
-};
-
-const handleCustomerServicePress = () => {
-    console.log('Customer service is clicked');
-    // Handle customer service click event
-};
-
-const handlePricingRulesPress = () => {
-    console.log('Pricing rules is clicked');
-    // Handle pricing rules click event
-};
 
 
 const DriverAccount = () => {
     const navigation = useNavigation();
 
-    const handleLogoutPress = async () => {
-        console.log('Logout is clicked');
-        // Handle logout click event
-       await driverLogout().then();
-        userLogOut();
-        navigation.replace("DriverLogin");
+    // Define handlers
+    const handleWalletPress = () => {
+        console.log('Wallet is clicked');
+        // Handle wallet click event
+    };
+
+    const handleSharePress = () => {
+        console.log('分享被点击了');
+        // 处理分享点击事件
+        Linking.openURL('https://unieaseapp.com/unieaseapp/').then();
+    };
+
+    const handleCustomerServicePress = () => {
+        console.log('Customer service is clicked');
+        // Handle customer service click event
+    };
+
+
+    const handlePricingRulesPress = () => {
+        console.log('计价规则被点击了');
+        // 处理计价规则点击事件
+        navigation.navigate("TermsAndConditions");
+    };
+
+    const handleLogoutPress = () => {
+        Alert.alert(
+          "Logout",
+          "Are you sure you want to logout?",
+          [
+              {
+                  text: "Cancel",
+                  style: "cancel"
+              },
+              {
+                  text: "OK",
+                  onPress: async () => {
+                      console.log('Logout is clicked');
+                      // Handle logout click event
+                      await driverLogout();
+                      userLogOut();
+                      navigation.replace("DriverLogin");
+                  }
+              }
+          ],
+          { cancelable: false }
+        );
     };
 
     const options = [
@@ -98,8 +129,6 @@ const styles = StyleSheet.create({
     optionsContainer: {
         flex: 2,
         backgroundColor: '#ffffff',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
         padding: 20,
     },
     option: {

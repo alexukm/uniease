@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
             height: -10
         }, // 用于 iOS
         position: 'absolute',
-        height: 95,
+        height: 65,
     },
     tabBarItemStyle: {
-        marginTop: 8,
+        marginTop: 5,
         marginBottom: 15,
     },
     tabBarLabelStyle: {

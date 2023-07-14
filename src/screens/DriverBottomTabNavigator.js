@@ -1,7 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StyleSheet} from 'react-native';
+import { Platform, StyleSheet } from "react-native";
 import RemixIcon from 'react-native-remix-icon';
 
 import DriverHomeScreen from './DriverHomeScreen';
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
             height: -10
         }, // 用于 iOS
         position: 'absolute',
-        height: 95,
+      height: Platform.OS === 'ios' ? 95 : 65, // 使用平台判断设置不同的值
     },
     tabBarItemStyle: {
         marginTop: 8,

@@ -9,11 +9,13 @@ import {
     ImageBackground,
     Dimensions,
     Linking,
+    Alert
 } from "react-native";
 import RemixIcon from 'react-native-remix-icon';
 import {userLogoutIt} from "../com/evotech/common/http/BizHttpUtil";
 import {userLogOut} from "../com/evotech/common/appUser/UserConstant";
 import {useNavigation} from "@react-navigation/native";
+import { showDialogLogout } from "../com/evotech/common/alert/toastHelper";
 
 
 const AccountScreen = () => {
@@ -43,13 +45,33 @@ const AccountScreen = () => {
 
 
 
-    const handleLogoutPress = async () => {
-        console.log('Logout is clicked');
-        // Handle logout click event
-        await userLogoutIt().then();
-        userLogOut();
-        navigation.replace("UserLogin");
+    const handleLogoutPress = () => {
+        Alert.alert(
+          // Title
+          "Logout",
+          // Message
+          "Are you sure you want to logout?",
+          [
+              {
+                  text: "Cancel",
+                  onPress: () => console.log("Logout Cancelled"),
+                  style: "cancel"
+              },
+              {
+                  text: "OK",
+                  onPress: async () => {
+                      console.log('Logout is clicked');
+                      // Handle logout click event
+                      await userLogoutIt().then();
+                      userLogOut();
+                      navigation.replace("UserLogin");
+                  }
+              }
+          ],
+          { cancelable: false }
+        );
     };
+
 
 
     const options = [

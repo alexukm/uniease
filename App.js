@@ -23,7 +23,6 @@ import {enableScreens} from 'react-native-screens';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TermsAndConditions from "./src/screens/TermsAndConditions";
 
-import SplashScreen from 'react-native-splash-screen'
 import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnums";
 
 
@@ -48,11 +47,6 @@ const App = () => {
             }
         }
     };
-
-    useEffect(() => {
-        SplashScreen.hide();
-        // AsyncStorage.clear()
-    }, []);
 
    // useEffect(() => {
    //      AsyncStorage.clear()

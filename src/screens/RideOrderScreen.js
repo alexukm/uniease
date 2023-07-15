@@ -667,10 +667,10 @@ const RideOrderScreen = () => {
                                     }}
                                 />
                             </HStack>
-                            {showDepartureSuggestions && departureSuggestions.slice(0, 5).map((suggestion) => (
+                            {showDepartureSuggestions && departureSuggestions.slice(0, 5).map((suggestion, index) => (
                                 <Text
-                                    key={suggestion.place_id}
-                                    onPress={async () => {
+                                  key={index}
+                                  onPress={async () => {
                                         setIsDepartureSelected(true);
                                         let addressParts = suggestion.description.split(','); // Split the address into parts
                                         let shortAddress = addressParts.slice(0, 2).join(','); // Join the first two parts
@@ -702,9 +702,9 @@ const RideOrderScreen = () => {
                                     }}
                                 />
                             </HStack>
-                            {showDestinationSuggestions && destinationSuggestions.slice(0, 5).map((suggestion) => (
+                            {showDestinationSuggestions && destinationSuggestions.slice(0, 5).map((suggestion, index) => (
                                 <Text
-                                    key={suggestion.place_id}
+                                    key={index}
                                     onPress={async () => {
                                         setIsDestinationSelected(true);
                                         let addressParts = suggestion.description.split(','); // Split the address into parts

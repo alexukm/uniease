@@ -149,7 +149,7 @@ function DriverScreen() {
   const driverActive = (data,userPhone) => {
     setUserToken(data.token);
     buildUserInfo(data.token, userType.DRIVER, userPhone,data.loginStatus).saveWithLocal();
-    navigation.navigate("Driver");
+    navigation.replace("Driver");
   };
 
   const driverNeedUploadInfo = (data,userPhone) => {

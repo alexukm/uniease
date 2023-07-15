@@ -164,7 +164,7 @@ function UserScreen() {
                 responseOperation(data.code,()=>{
                     setUserToken(data.data)
                     buildUserInfo(data.data, userType.USER, userPhone).saveWithLocal();
-                    navigation.navigate("User");
+                    navigation.replace("User");
                     showToast('SUCCESS', 'Login Successful', 'You have successfully logged in!');
                 },()=>{
                     showToast('WARNING', 'Login Failed', data.message);

@@ -63,7 +63,6 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
           userCancelSubscribe().then();
           navigation.goBack(); // After canceling the order, return to the previous screen.
         }, () => {
-          console.log(data.message);
           showDialog("WARNING", "Failed", "Cancel Order failed, Please try again later!");
         });
         /* if (data.code === 200) {

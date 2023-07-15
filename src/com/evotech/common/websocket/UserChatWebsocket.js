@@ -2,6 +2,7 @@ import {getSocketClient, whenConnect} from "./SingletonWebSocketClient";
 import {queryDriverOrderStatus, queryUserOrderStatus} from "../http/BizHttpUtil";
 import {UserChat} from "../redux/UserChat";
 import { responseOperation } from "../http/ResponseOperation";
+import { showDialog } from "../alert/toastHelper";
 
 
 export const userInitChatWebsocket = async (onConnect, needRetry) => {
@@ -23,12 +24,11 @@ export const userOrderWebsocket = async (subscribe) => {
     await whenConnect((client) => {
         client.subscribe('/user/topic/orderAccept', 'orderAccept', (body) => {
             // todo  调用系统通知
-            console.log("被接单 开启聊天订阅")
             if (subscribe) {
                 subscribe(body);
             }
             UserChat(false).then();
-            alert("Your order accepted")
+            showDialog('SUCCESS', 'Order Accept', 'Your order has been accepted')
         });
     })
 };

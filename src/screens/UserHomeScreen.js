@@ -21,7 +21,7 @@ const UserHome = () => {
     if (orderStatus.awaiting) {
       //订阅  订单接单通知
       setTimeout(async () => {
-        await userOrderWebsocket().then();
+        await userOrderWebsocket((body)=>{}).then();
       }, 0);
     }
     return orderStatus;

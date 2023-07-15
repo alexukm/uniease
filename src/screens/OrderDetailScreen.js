@@ -6,7 +6,6 @@ import RemixIcon from "react-native-remix-icon";
 import React from "react";
 
 const OrderDetailScreen = ({ route, navigation }) => {
-    console.log(route.params);
     const { departure, destination, date, passengerCount, pickupWaiting, coords, departureCoords, destinationCoords } = route.params;
     const dateObj = new Date(date); // 将字符串转换回 Date 对象
 

@@ -390,8 +390,7 @@ const RideOrderScreen = () => {
                     responseOperation(data.code, () => {
                             // 下单后开启订单通知
                             setIsSubmitting(false);
-                            userOrderWebsocket((body) => {
-                            }).then();
+                            userOrderWebsocket((body) => {}).then();
                             //replace防止刷单
                             navigation.replace('OrderDetailScreen', {
                                 departure,
@@ -411,12 +410,12 @@ const RideOrderScreen = () => {
                 }).catch((err) => {
                 console.log(err);
                 setIsSubmitting(false);
-                showDialog('DANGER', 'Submit Order failed', 'Submit failed' + err);
+                showDialog('DANGER', 'Submit Order failed', 'Submit failed');
             });
         } catch (e) {
             console.log("下单异常", e);
             setIsSubmitting(false);
-            showDialog('DANGER', 'Submit Order failed', 'Submit failed' + e);
+            showDialog('DANGER', 'Submit Order failed', 'Submit failed');
         }
     };
     // 处理下一步的逻辑，获取行程的距离和时间，如果已经确认预订，则跳转到订单详情页面

@@ -42,6 +42,7 @@ import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import { Toast } from "react-native-alert-notification";
 import {locationPermission} from "../com/evotech/permissions/PermissionsSupport";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 
 
@@ -386,33 +387,31 @@ const RideOrderScreen = () => {
 
             userSubmitOrder(orderSubmitParam)
                 .then(data => {
-                    if (data.code === 200) {
-                        // 下单后开启订单通知
-                        setIsSubmitting(false);
-                        userOrderWebsocket((body) => {
-                        }).then();
-                        //replace防止刷单
-                        navigation.replace('OrderDetailScreen', {
-                            departure,
-                            destination,
-                            date: date.toISOString(), // 将日期转换为字符串
-                            passengerCount,
-                            pickupWaiting,
-                            coords,
-                            departureCoords: departureCoords,
-                            destinationCoords: destinationCoords,
-                        });
-                        showToast('SUCCESS', 'Order Successfully', 'Place the order successfully and wait for the driver to pick up the order');
-                    } else {
+                    responseOperation(data.code, () => {
+                            // 下单后开启订单通知
+                            setIsSubmitting(false);
+                            userOrderWebsocket((body) => {
+                            }).then();
+                            //replace防止刷单
+                            navigation.replace('OrderDetailScreen', {
+                                departure,
+                                destination,
+                                date: date.toISOString(), // 将日期转换为字符串
+                                passengerCount,
+                                pickupWaiting,
+                                coords,
+                                departureCoords: departureCoords,
+                                destinationCoords: destinationCoords,
+                            });
+                            showToast('SUCCESS', 'Order Successfully', 'Place the order successfully and wait for the driver to pick up the order');
+                    }, () => {
                         setIsSubmitting(false);
                         showDialog('WARNING', 'Submit failed', 'Submit failed' + data.message);
-
-                    }
+                    })
                 }).catch((err) => {
                 console.log(err);
                 setIsSubmitting(false);
                 showDialog('DANGER', 'Submit Order failed', 'Submit failed' + err);
-
             });
         } catch (e) {
             console.log("下单异常", e);
@@ -432,7 +431,8 @@ const RideOrderScreen = () => {
         fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${encodeURIComponent(departure)}&destination=${encodeURIComponent(destination)}&key=AIzaSyCTgmg64j-V2pGH2w6IgdLIofaafqWRwzc`)
             .then(response => response.json())
             .then(data => {
-                if (data.routes.length) {
+                if (data.routes.length)
+                {
                     const legs = data.routes[0].legs[0];
                     const distance = legs.distance.text;
                     const duration = legs.duration.text;
@@ -444,12 +444,10 @@ const RideOrderScreen = () => {
 
                     orderPriceCheck(durationTime, distanceKm)
                         .then(data => {
-                            if (data.code === 200) {
+                            responseOperation(data.code,()=>{
                                 setOrderPrice(data.data);
-
                                 setEstimatedDistance(distance);
                                 setEstimatedDuration(duration);
-
                                 setEstimatedDistanceOrder(distanceDouble);
                                 setEstimatedDurationOrder(durationTime);
                                 const steps = legs.steps;
@@ -485,16 +483,16 @@ const RideOrderScreen = () => {
                                         setIsLoading(false);
                                     }
                                 }, 1000); // 这是延迟的时间，你可以根据你的应用调整
-                            } else {
+                            },()=>{
                                 console.log(data.message)
-                                showDialog('WARNING', 'Get price error', 'Get price error, please try again later!' + data.message);
+                                showDialog('WARNING', 'Get price error', data.message);
                                 // setIsBookingConfirmed(false);
                                 setIsLoading(false); // 立即停止加载动画
-                            }
+                            })
                         }).catch(err => {
-                        console.error(err);
                         setIsBookingConfirmed(false);
-                        showDialog('DANGER', 'Get price error', 'Get price error, please try again later!' + err);
+                        showDialog('DANGER', 'Get price error', 'Get price error, please try again later!');
+                        console.error(err);
                         setIsLoading(false); // 立即停止加载动画
                     })
 

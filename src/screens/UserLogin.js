@@ -19,6 +19,7 @@ import {
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 const countryCodes = {
     my: "60",
@@ -75,17 +76,23 @@ function UserScreen() {
         const phoneNumber = prefix ? prefix + value : value;
         smsSend(phoneNumber,UserTypeEnum.PASSER)
             .then(data => {
-                if (data.code === 200) {
+                responseOperation(data.code, () => {
+                    setIsTimerActive(true);
+                    showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
+                }, () => {
+                    showToast('WARNING', 'Warning', data.message);
+                });
+                /*if (data.code === 200) {
                     setIsTimerActive(true);
                     console.log(data.code)
                     showToast('SUCCESS', 'Success', 'The SMS has been sent successfully.');
                 } else {
-                    showDialog('WARNING', 'Warning', data.message);
-                }
+                    showToast('WARNING', 'Warning', data.message);
+                }*/
             })
             .catch(error => {
                 console.log(error);
-                showDialog('DANGER', 'Error', 'There was an error submitting your data. Please try again.');
+                showToast('DANGER', 'Error', 'There was an error submitting your data. Please try again.');
             });
     };
 
@@ -151,18 +158,26 @@ function UserScreen() {
         }
         userLogin(loginParams)
             .then(data => {
-                if (data.code === 200) {
+                responseOperation(data.code,()=>{
                     setUserToken(data.data)
-                    buildUserInfo(data.data, userType.USER, userPhone,null).saveWithLocal();
+                    buildUserInfo(data.data, userType.USER, userPhone).saveWithLocal();
+                    navigation.navigate("User");
+                    showToast('SUCCESS', 'Login Successful', 'You have successfully logged in!');
+                },()=>{
+                    showToast('WARNING', 'Login Failed', data.message);
+                })
+             /*   if (data.code === 200) {
+                    setUserToken(data.data)
+                    buildUserInfo(data.data, userType.USER, userPhone).saveWithLocal();
                     navigation.navigate("User");
                     showToast('SUCCESS', 'Login Successful', 'You have successfully logged in!');
                 } else {
-                    showDialog('WARNING', 'Login Failed', data.message);
-                }
+                    showToast('WARNING', 'Login Failed', data.message);
+                }*/
             })
             .catch(error => {
                 console.log(error);
-                showDialog('WARNING', 'Login Error', 'Error: ' + error.message);
+                showToast('WARNING', 'Login Error', 'Error: ' + error.message);
             });
     };
 
@@ -215,14 +230,13 @@ function UserScreen() {
                         <Button onPress={() => setShowModal(true)}>
                             {buttonText()}
                         </Button>
-
                         <Input
                             placeholder="Phone Number"
                             value={value}
                             onChangeText={setValueAndCheckLength}
                             keyboardType="numeric"
                             size="lg"
-                            width="84%"
+                            width="78%"
                         />
                     </HStack>
                     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">

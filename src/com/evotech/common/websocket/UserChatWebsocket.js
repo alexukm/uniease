@@ -1,6 +1,7 @@
 import {getSocketClient, whenConnect} from "./SingletonWebSocketClient";
 import {queryDriverOrderStatus, queryUserOrderStatus} from "../http/BizHttpUtil";
 import {UserChat} from "../redux/UserChat";
+import { responseOperation } from "../http/ResponseOperation";
 
 
 export const userInitChatWebsocket = async (onConnect, needRetry) => {
@@ -44,18 +45,18 @@ export const userOrderWebsocket = async (subscribe) => {
 
 export const userCancelSubscribe = async () => {
     queryUserOrderStatus().then((data) => {
-        if (data.code === 200) {
-            // 没有待出行和旅途中的订单  聊天订阅关闭
+        responseOperation(data.code,()=>{
             doUserCancelSubscribe(data.data).then();
-        }
+        },()=>{
+        })
     });
 }
 
 export const driverCancelSubscribe = async () => {
     queryDriverOrderStatus().then((data) => {
-        if (data.code === 200) {
+        responseOperation(data.code,()=>{
             doDriverCancelSubscribe(data.data).then();
-        }
+        },()=>{})
     })
 }
 const doUserCancelSubscribe = async (orderStatus) => {

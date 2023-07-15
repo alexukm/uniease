@@ -28,6 +28,7 @@ import ActionSheet from "@alessiocancian/react-native-actionsheet";
 import { closeWebsocket } from "../com/evotech/common/websocket/SingletonWebSocketClient";
 import { driverCancelSubscribe } from "../com/evotech/common/websocket/UserChatWebsocket";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 
 Geocoder.init("AIzaSyCTgmg64j-V2pGH2w6IgdLIofaafqWRwzc");
@@ -68,14 +69,14 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     };
     driverCancelOrder(cancelOrderParam)
       .then(data => {
-        if (data.code === 200) {
-          showToast("SUCCESS", "Success", "Order successfully cancelled");
-          driverCancelSubscribe().then();
-          navigation.goBack(); // After canceling the order, return to the previous screen.
-        } else {
-          console.log(data.message);
-          showDialog("WARNING", "Warning", "Order cancellation failed, Please try again later!");
-        }
+        responseOperation(data.code, () => {
+            showToast("SUCCESS", "Success", "Order successfully cancelled");
+            driverCancelSubscribe().then();
+            navigation.goBack(); // After canceling the order, return to the previous screen.
+        }, () => {
+            console.log(data.message);
+            showDialog("WARNING", "Warning", "Order cancellation failed, Please try again later!");
+        })
       }).catch(error => {
       console.log(error);
       showDialog("ERROR", "Error", "System error: " + error.message);
@@ -90,15 +91,15 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     };
     driverGetPasserCode(params)
       .then(data => {
-        if (data.code !== 200) {
+        responseOperation(data.code, () => {
+          navigation.navigate("ChatRoom", {
+            receiverName: data.data.userName,
+            receiverUserCode: data.data.userCode,
+            orderStatus: Status,
+          });
+        },()=>{
           showDialog("WARNING", "Warning", data.message);
-          return;
-        }
-        navigation.navigate("ChatRoom", {
-          receiverName: data.data.userName,
-          receiverUserCode: data.data.userCode,
-          orderStatus: Status,
-        });
+        })
       }).catch(err => {
       console.error(err.message);
       showDialog("ERROR", "Error", "Failed to get user info, please try again later!");
@@ -108,12 +109,12 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
   const driverOrderStatusCallBack = () => {
     setTimeout(() => {
       queryDriverOrderStatus().then(data => {
-        if (data.code === 200) {
-          const orderStatus = data.data;
-          if (!(orderStatus.pending || orderStatus.inTransit)) {
-            closeWebsocket();
-          }
-        }
+        responseOperation(data.code, () => {
+            const orderStatus = data.data;
+            if (!(orderStatus.pending || orderStatus.inTransit)) {
+              closeWebsocket();
+            }
+        })
       });
     }, 0);
   };
@@ -125,7 +126,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     };
     driverOrderInfo(queryParam)
       .then(data => {
-        if (data.code === 200) {
+        responseOperation(data.code, () => {
           navigation.setParams({
             Departure: Departure,
             Destination: Destination,
@@ -137,9 +138,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             DepartureCoords: DepartureCoords,
             DestinationCoords: DestinationCoords,
           });
-        } else {
-          showDialog("WARNING", "Warning", data.message);
-        }
+        }, () => {
+            showDialog("WARNING", "Warning", data.message);
+        })
       });
   };
 
@@ -151,14 +152,13 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         [timePropertyName]: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
       apiFunction(param).then(data => {
-        if (data.code === 200) {
-          fetchDataAndUpdateParams();
-
-          // 判断 是否需要关闭websocket
-          driverOrderStatusCallBack();
-        } else {
-          showDialog("WARNING", "Warning", data.message);
-        }
+        responseOperation(data.code, () => {
+            fetchDataAndUpdateParams();
+            // 判断 是否需要关闭websocket
+            driverOrderStatusCallBack();
+        }, () => {
+            showDialog("WARNING", "Warning", data.message);
+        })
       });
     } catch (error) {
       showDialog("ERROR", "Error", "Request failed, please try again later.");
@@ -243,11 +243,12 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     };
     driverReviewOrder(param).then(data => {
       console.log(data);
-      if (data.code !== 200) {
+      responseOperation(data.code, () =>{
         showDialog("WARNING", "Warning", "Failed to submit review, please try again later!");
-      } else {
+      }, () => {
         fetchDataAndUpdateParams();
-      }
+        }
+      )
     }).catch(err => {
       console.error(err.message);
       showDialog("ERROR", "Error", "Failed to submit review, please try again later!");
@@ -351,7 +352,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       };
       console.log("查询手机号");
       driverQueryUserPhone(params).then((response) => {
-        if (response.code === 200) {
+        responseOperation(response.code, () => {
           let phoneNumber = response.data;
           phoneNumber = `tel://${phoneNumber}`;
           if (Platform.OS === "android") {
@@ -359,7 +360,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
           } else {
             Linking.canOpenURL(phoneNumber).then((supported) => {
               if (!supported) {
-                showToast('WARNING','ACTION DENIED', 'No permission to make a call')
+                showToast("WARNING", "ACTION DENIED", "No permission to make a call");
               } else {
                 Linking.openURL(phoneNumber);
               }
@@ -368,11 +369,34 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             });
           }
 
-          //Linking.openURL(phoneNumber);
-        } else {
+        }, () => {
           console.log("查询失败" + response.message);
           //TODO 查询失败
-        }
+        });
+        /*  if (response.code === 200)
+          {
+            let phoneNumber = response.data;
+            phoneNumber = `tel://${phoneNumber}`;
+            if (Platform.OS === "android") {
+              Linking.openURL(phoneNumber);
+            } else {
+              Linking.canOpenURL(phoneNumber).then((supported) => {
+                if (!supported) {
+                  showToast('WARNING','ACTION DENIED', 'No permission to make a call')
+                } else {
+                  Linking.openURL(phoneNumber);
+                }
+              }).catch((err) => {
+                console.error("An error occurred", err);
+              });
+            }
+
+            //Linking.openURL(phoneNumber);
+          } else
+          {
+            console.log("查询失败" + response.message);
+            //TODO 查询失败
+          }*/
       }).catch((error) => {
         //todo 查询异常
         console.log("查询异常" + error.message);
@@ -397,7 +421,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
               {(Status === OrderStateEnum.IN_TRANSIT) && (
                 <View>
                   <Text>Focus On Driving, Enjoy Your Journey.</Text>
-                  <TouchableOpacity onPress={() => Linking.openURL("tel://1234567890")}
+                  <TouchableOpacity onPress={() => Linking.openURL("tel://999")}
                                     style={{ alignSelf: "flex-start" }}>
                     <Text fontSize="sm" style={{ fontWeight: "bold" }}>Emergency Call</Text>
                   </TouchableOpacity>
@@ -479,7 +503,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                 />
                 <VStack>
                   <Text fontWeight="bold">{orderDetailInfo.userName}</Text>
-                  <Text>{orderDetailInfo.remark}</Text>
+                  <View style={{maxWidth: 230}}>
+                    <Text>{orderDetailInfo.remark}</Text>
+                  </View>
                 </VStack>
               </HStack>
               <HStack alignItems="center" space={4}>

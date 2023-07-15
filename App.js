@@ -24,6 +24,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import TermsAndConditions from "./src/screens/TermsAndConditions";
 
 import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnums";
+import { skipLoginPage, skipOp } from "./src/com/evotech/common/navigate/UserNagivation";
+import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate";
 
 
 enableScreens();
@@ -90,7 +92,7 @@ const App = () => {
     return (
         <NativeBaseProvider>
             <AlertNotificationRoot>
-            <NavigationContainer>
+            <NavigationContainer ref={navigationRef}>
                 <Provider store={store}>
                     {initialRoute && <Stack.Navigator
                         initialRouteName={initialRoute}

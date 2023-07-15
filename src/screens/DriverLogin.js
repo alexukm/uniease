@@ -24,6 +24,7 @@ import {
 } from "../com/evotech/common/constant/BizEnums";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { ALERT_TYPE } from "react-native-alert-notification";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 const countryCodes = {
   my: "60",
@@ -76,14 +77,14 @@ function DriverScreen() {
     const phoneNumber = prefix ? prefix + value : value;
     smsSend(phoneNumber, UserTypeEnum.DRIVER)
       .then(data => {
-        if (data.code === 200) {
-          setIsTimerActive(true);
-          console.log(data.code);
-          showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
-        } else {
+        responseOperation(data.code, () => {
+            setIsTimerActive(true);
+            console.log(data.code);
+            showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
+        }, () => {
           showDialog(ALERT_TYPE.WARNING, "Warning", data.message);
           return false;
-        }
+        })
       })
       .catch(error => {
         console.log(error);
@@ -161,25 +162,25 @@ function DriverScreen() {
     };
     driverLogin(loginParams)
       .then(data => {
-        if (data.code === 200) {
-          const loginResult = data.data;
-          console.log(JSON.stringify(loginResult));
-          //审核通过
-          if (DriverLoginStatusEnum.ACTIVE === loginResult.loginStatus ) {
-            driverActive(loginResult, userPhone);
-          }
-          if (DriverLoginStatusEnum.NEED_SUPPLY === loginResult.loginStatus) {
-            driverSupplyInfo(loginResult, userPhone)
-          }
-          if (DriverLoginStatusEnum.UNDER_REVIEW === loginResult.loginStatus) {
-            driverUnderReview();
-          }
-          if (DriverLoginStatusEnum.NEED_UPLOAD_IMAGES === loginResult.loginStatus) {
-            driverNeedUploadInfo(loginResult,userPhone);
-          }
-        } else {
-          showDialog(ALERT_TYPE.WARNING, "Login Failed", "Login failed: " + data.message);
-        }
+        responseOperation(data.code, () => {
+            const loginResult = data.data;
+            console.log(JSON.stringify(loginResult));
+            //审核通过
+            if (DriverLoginStatusEnum.ACTIVE === loginResult.loginStatus ) {
+              driverActive(loginResult, userPhone);
+            }
+            if (DriverLoginStatusEnum.NEED_SUPPLY === loginResult.loginStatus) {
+              driverSupplyInfo(loginResult, userPhone)
+            }
+            if (DriverLoginStatusEnum.UNDER_REVIEW === loginResult.loginStatus) {
+              driverUnderReview();
+            }
+            if (DriverLoginStatusEnum.NEED_UPLOAD_IMAGES === loginResult.loginStatus) {
+              driverNeedUploadInfo(loginResult,userPhone);
+            }
+        }, () => {
+            showDialog(ALERT_TYPE.WARNING, "Login Failed", "Login failed: " + data.message);
+        })
       })
       .catch(error => {
         console.log(error);

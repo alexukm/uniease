@@ -10,18 +10,22 @@ import { setUserToken, userType } from "../com/evotech/common/appUser/UserConsta
 import { buildUserInfo, getUserInfo, getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 import { ALERT_TYPE } from "react-native-alert-notification";
 import { DriverLoginStatusEnum, ImagesEnum } from "../com/evotech/common/constant/BizEnums";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 
 const DriverHomeScreen = () => {
   const navigation = useNavigation();
   const initOrderStatusList = (initOrderStatusAfter) => {
     queryDriverOrderStatus().then((data) => {
-      if (data.code === 200) {
-        //订单状态集
+      return responseOperation(data.code, () => {
         return data.data;
-      }
+      }, () => {
+        return null;
+      });
     }).then((orderStatusList) => {
-      initOrderStatusAfter(orderStatusList);
+      if (orderStatusList) {
+        initOrderStatusAfter(orderStatusList);
+      }
     });
   };
 
@@ -82,55 +86,55 @@ const DriverHomeScreen = () => {
 
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-    <View style={{ flex: 1, alignItems: "center", backgroundColor: "white" }}>
-      <View style={{
-        width: "100%",
-        height: 90,
-        justifyContent: "flex-start",
-        alignItems: "center",
-        flexDirection: "row",
-        paddingLeft: 20,
-      }}>
-        <Image source={{ uri: ImagesEnum.Logo }}
-               style={{ width: 100, height: 100 }} />
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, alignItems: "center", backgroundColor: "white" }}>
+        <View style={{
+          width: "100%",
+          height: 90,
+          justifyContent: "flex-start",
+          alignItems: "center",
+          flexDirection: "row",
+          paddingLeft: 20,
+        }}>
+          <Image source={{ uri: ImagesEnum.Logo }}
+                 style={{ width: 100, height: 100 }} />
+        </View>
 
-      <View style={{ height: "40%", width: "100%" }}>
-        <Swiper showsButtons={false}>
-          <Box>
-            <Card imageUri={ImagesEnum.UserShare} />
-          </Box>
-          <Box>
-            <Card
-              imageUri={ImagesEnum.UserUniversity} />
-          </Box>
-        </Swiper>
-      </View>
+        <View style={{ height: "40%", width: "100%" }}>
+          <Swiper showsButtons={false}>
+            <Box>
+              <Card imageUri={ImagesEnum.UserShare} />
+            </Box>
+            <Box>
+              <Card
+                imageUri={ImagesEnum.UserUniversity} />
+            </Box>
+          </Swiper>
+        </View>
 
-      <View style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "100%",
-        marginTop: 5,
-        paddingHorizontal: 5,
-      }}>
-        <TouchableOpacity onPress={() => handlePress("DriverOrderListScreen")} style={{ width: "47%" }}>
-          <Box>
-            <CardWithoutDescription
-              imageUri={ImagesEnum.DriverRide} />
-          </Box>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => showDialog("WARNING", "Action Waiting", "Other features will be available soon, please wait")}
-          style={{ width: "47%" }}>
-          <Box>
-            <CardWithoutDescription
-              imageUri={ImagesEnum.UserService} />
-          </Box>
-        </TouchableOpacity>
+        <View style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: "100%",
+          marginTop: 5,
+          paddingHorizontal: 5,
+        }}>
+          <TouchableOpacity onPress={() => handlePress("DriverOrderListScreen")} style={{ width: "47%" }}>
+            <Box>
+              <CardWithoutDescription
+                imageUri={ImagesEnum.DriverRide} />
+            </Box>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => showDialog("WARNING", "Action Waiting", "Other features will be available soon, please wait")}
+            style={{ width: "47%" }}>
+            <Box>
+              <CardWithoutDescription
+                imageUri={ImagesEnum.UserService} />
+            </Box>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
     </SafeAreaView>
   );
 };

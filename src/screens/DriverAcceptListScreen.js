@@ -11,6 +11,7 @@ import {
 import {OrderStateEnum} from "../com/evotech/common/constant/BizEnums";
 
 import {showToast} from "../com/evotech/common/alert/toastHelper";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 
 const styles1 = StyleSheet.create({
@@ -54,6 +55,29 @@ const OrderBox = React.memo(({order, navigation, openSheet}) => {
         'InTransit': '#FF9900',
     };
 
+    const skipDriverAcceptDetails = (data) =>{
+        navigation.navigate('DriverAcceptDetails', {
+            screen: 'DriverAcceptDetailScreen',
+            params: {
+                userOrderId: userOrderId,
+                orderDetailInfo: data.data,
+                Departure: departureAddress,
+                Destination: destinationAddress,
+                DepartureCoords: {
+                    "lat": departureLatitude,
+                    "lng": departureLongitude
+                },
+                DestinationCoords: {
+                    "lat": destinationLatitude,
+                    "lng": destinationLongitude
+                },
+                Time: actualDepartureTime ? actualDepartureTime : plannedDepartureTime,
+                Price: showTotalEarnings ? totalEarnings : expectedEarnings,
+                Status: orderState,
+                // 需要添加其他参数，看OrderDetailScreen需要什么参数
+            },
+        });
+    }
     const handlePress = () => {
         const queryParam = {
             driverOrderId: driverOrderId,
@@ -61,31 +85,11 @@ const OrderBox = React.memo(({order, navigation, openSheet}) => {
         }
             driverOrderInfo(queryParam)
             .then(data => {
-                if (data.code === 200) {
-                    navigation.navigate('DriverAcceptDetails', {
-                        screen: 'DriverAcceptDetailScreen',
-                        params: {
-                            userOrderId: userOrderId,
-                            orderDetailInfo: data.data,
-                            Departure: departureAddress,
-                            Destination: destinationAddress,
-                            DepartureCoords: {
-                                "lat": departureLatitude,
-                                "lng": departureLongitude
-                            },
-                            DestinationCoords: {
-                                "lat": destinationLatitude,
-                                "lng": destinationLongitude
-                            },
-                            Time: actualDepartureTime ? actualDepartureTime : plannedDepartureTime,
-                            Price: showTotalEarnings ? totalEarnings : expectedEarnings,
-                            Status: orderState,
-                            // 需要添加其他参数，看OrderDetailScreen需要什么参数
-                        },
-                    });
-                } else {
+                responseOperation(data.code, () => {
+                    skipDriverAcceptDetails(data)
+                }, () => {
                     showToast('WARNING', 'Warning', data.message)
-                }
+                });
             }).catch(error => {
             console.error("order info query failed " , error);
             showToast('WARNING', 'Order info query failed', error)
@@ -161,12 +165,12 @@ const DriverAcceptListScreen = ({navigation}) => {
         };
         return driverOrderPage(queryOrderListParam)
             .then(data => {
-                if (data.code === 200) {
+              return responseOperation(data.code, () => {
                     return data.data;
-                } else {
+                }, () => {
                     console.log(data.message);
                     return [];
-                }
+                })
             }).catch(error => {
                 console.log(error);
                 return [];

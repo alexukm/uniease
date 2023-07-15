@@ -18,6 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 
 const RegisterScreen = () => {
@@ -69,6 +70,45 @@ const RegisterScreen = () => {
         listenVerificationCode()
     }, [verificationCode]);
 
+
+    const sendSmsSuccessAfterAgain=()=>{
+        setIsTimerActive(true);
+        setIsResendOtpActive(false);
+        let counter = 180;
+        setSecondsRemaining(counter);
+        const timer = setInterval(() => {
+            counter--;
+            setSecondsRemaining(counter);
+            if (counter === 0) {
+                clearInterval(timer);
+                setIsTimerActive(false);
+                setIsResendOtpActive(true);
+            }
+        }, 1000);
+        showToast('SUCCESS', 'Success', 'SMS sent successfully!');
+
+    }
+
+    const sendSmsSuccessAfter = () => {
+        setIsTimerActive(true);
+        setIsResendOtpActive(false);
+        //当验证码发送成功后，把 isCodeRequested 设为 true
+        setIsCodeRequested(true);
+        setIsCodeInputVisible(true);
+        let counter = 180;
+        setSecondsRemaining(counter);
+        const timer = setInterval(() => {
+            counter--;
+            setSecondsRemaining(counter);
+            if (counter === 0) {
+                clearInterval(timer);
+                setIsTimerActive(false);
+                setIsResendOtpActive(true);
+            }
+        }, 1000);
+        showToast('SUCCESS', 'Success', 'SMS sent successfully!');
+    }
+
     const submitData = () => {
         // 检查所有输入框都已填写
         if (!firstName || !lastName || !email || !phoneNumber) {
@@ -110,7 +150,13 @@ const RegisterScreen = () => {
         console.log(userPhone);
         smsSend(userPhone,UserTypeEnum.PASSER)
             .then(data => {
-                if (data.code === 200) {
+                responseOperation(data.code,()=>{
+                    sendSmsSuccessAfter()
+                },()=>{
+                    showDialog('WARNING', 'Error', data.message);
+                })
+
+              /*  if (data.code === 200) {
                     setIsTimerActive(true);
                     setIsResendOtpActive(false);
                     //当验证码发送成功后，把 isCodeRequested 设为 true
@@ -130,7 +176,7 @@ const RegisterScreen = () => {
                     showToast('SUCCESS', 'Success', 'SMS sent successfully!');
                 } else {
                     showDialog('WARNING', 'Error', data.message);
-                }
+                }*/
             })
             .catch(error => {
                 console.log(error);
@@ -143,7 +189,12 @@ const RegisterScreen = () => {
         const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
         smsSend(userPhone,UserTypeEnum.PASSER)
             .then(data => {
-                if (data.code === 200) {
+                responseOperation(data.code,()=>{
+                    sendSmsSuccessAfterAgain();
+                },()=>{
+                    showDialog('WARNING', 'Error', data.message);
+                })
+               /* if (data.code === 200) {
                     setIsTimerActive(true);
                     setIsResendOtpActive(false);
                     let counter = 30;
@@ -160,7 +211,7 @@ const RegisterScreen = () => {
                     showToast('SUCCESS', 'Success', 'SMS sent successfully!');
                 } else {
                     showDialog('WARNING', 'Error', data.message);
-                }
+                }*/
             })
             .catch(error => {
                 console.log(error);
@@ -191,16 +242,24 @@ const RegisterScreen = () => {
         };
         userRegistry(registryParams)
             .then(data => {
-                if (data.code === 200) {
+                responseOperation(data.code, () => {
+                    showToast('SUCCESS', 'Registration Success', 'Registration was successful');
+                    setUserToken(data.data);
+                    buildUserInfo(data.data, userType.USER, userPhone).saveWithLocal();
+                    navigation.navigate("User");
+                }, () => {
+                    showDialog('WARNING', 'Registration Failed', data.message);
+                });
+             /*   if (data.code === 200) {
                     showToast('SUCCESS', 'Registration Success', 'Registration was successful');
                     console.log('注册成功', data);
                     setUserToken(data.data);
-                    buildUserInfo(data.data, userType.USER, userPhone,null).saveWithLocal();
+                    buildUserInfo(data.data, userType.USER, userPhone).saveWithLocal();
                     navigation.navigate("User");
                 } else {
                     showDialog('WARNING', 'Registration Failed', data.message);
                     console.log('注册失败', data.message);
-                }
+                }*/
             })
             .catch(error => {
                 console.log(error);

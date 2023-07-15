@@ -17,6 +17,7 @@ import ActionSheet from "@alessiocancian/react-native-actionsheet";
 import RemixIcon from "react-native-remix-icon";
 import {UserChat} from "../com/evotech/common/redux/UserChat";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 
 const DriverOrderListScreen = () => {
@@ -27,7 +28,6 @@ const DriverOrderListScreen = () => {
 
     const [updateFlag, setUpdateFlag] = useState(false); // 添加这个状态
 
-    const clientRef = useRef(); // 添加一个 ref 用来存储 client
 
     const formatText = (text) => {
         const maxLength = 50; // 可以根据需要设置这个值
@@ -47,8 +47,8 @@ const DriverOrderListScreen = () => {
 
     const handleLoadMore = useCallback(async () => {
         const orderList = await queryOrders(pageSize, page + 1);
-        if (orderList.content.length > 0) {
-            setRideOrders(prevOrders => [...prevOrders, ...orderList.content]);
+        if (orderList.length > 0) {
+            setRideOrders(prevOrders => [...prevOrders, ...orderList]);
             setPage(prevPage => prevPage + 1);
         }
     }, [pageSize, page]);
@@ -79,12 +79,12 @@ const DriverOrderListScreen = () => {
             "page": page
         }
         return carpoolingOrdersQuery(param).then(data => {
-            if (data.code === 200) {
-                return data.data;
-            } else {
+            return responseOperation(data.code, () => {
+                return data.data.content;
+            }, () => {
                 showToast('WARNING', 'Warning', data.message);
                 return [];
-            }
+            })
         }).catch(err => {
             showToast('ERROR', 'Error', 'error', err.message);
             console.error(err.message);
@@ -96,7 +96,7 @@ const DriverOrderListScreen = () => {
     const handleRefresh = useCallback(async () => {
         setRefreshing(true);
         const orderList = await queryOrders(pageSize, 1);
-        setRideOrders(orderList.content);
+        setRideOrders(orderList);
         setPage(page + 1);
         setRefreshing(false);
     }, [pageSize, page]); // 更新依赖列表，包括pageSize和page。
@@ -128,13 +128,13 @@ const DriverOrderListScreen = () => {
         }
         console.log(orderId)
         driverAcceptOrder(params).then(data => {
-            if (data.code === 200) {
+            responseOperation(data.code, () => {
                 showDialog('SUCCESS', 'Success', 'Order successfully Accepted');
                 UserChat(false).then();
                 handleRefresh().then(); //在这里添加代码，接受订单后刷新页面。
-            } else {
+            }, () => {
                 showToast('WARNING', 'Warning', data.message);
-            }
+            })
         }).catch(err => {
             console.error(err.message);
             showToast('ERROR', 'Error', 'Accept Order Failed' + err.message);

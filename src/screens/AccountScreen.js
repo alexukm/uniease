@@ -33,7 +33,12 @@ const AccountScreen = () => {
 
 
     const handleCustomerServicePress = () => {
-        console.log('人工客服被点击了');
+        navigation.navigate('ChatRoom', {
+            receiverName: 'Customer Service',
+            receiverUserCode: 'user202307150002',
+            orderStatus: 'Pending',
+        });
+        // console.log('人工客服被点击了');
         // 处理人工客服点击事件
     };
 
@@ -42,8 +47,6 @@ const AccountScreen = () => {
         // 处理计价规则点击事件
         navigation.navigate("TermsAndConditions");
     };
-
-
 
     const handleLogoutPress = () => {
         Alert.alert(

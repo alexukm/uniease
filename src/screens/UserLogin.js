@@ -1,4 +1,4 @@
-import { Image, Keyboard, TouchableWithoutFeedback, View } from "react-native";
+import { Image, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -38,6 +38,9 @@ function UserScreen() {
     const [secondsRemaining, setSecondsRemaining] = useState(30);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const [isResendOtpActive, setIsResendOtpActive] = useState(false);
+
+    const inputWidth = Platform.OS === 'ios' ? '82%' : '84%';
+
 
     const handleSelect = (value) => {
         setSelectedValue(value);
@@ -236,7 +239,7 @@ function UserScreen() {
                             onChangeText={setValueAndCheckLength}
                             keyboardType="numeric"
                             size="lg"
-                            width="84%"
+                            width={inputWidth}
                         />
                     </HStack>
                     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">

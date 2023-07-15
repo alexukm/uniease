@@ -1,4 +1,4 @@
-import { Keyboard, TouchableWithoutFeedback, View, Image } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, View, Image, Platform } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { driverInfoStatus, driverLogin, smsSend } from "../com/evotech/common/http/BizHttpUtil";
@@ -36,6 +36,9 @@ function DriverScreen() {
   const navigation = useNavigation();
   const [selectedValue, setSelectedValue] = useState("my");
   const [showModal, setShowModal] = useState(false);
+
+  const inputWidth = Platform.OS === 'ios' ? '82%' : '84%';
+
 
   const handleSelect = (value) => {
     setSelectedValue(value);
@@ -243,7 +246,7 @@ function DriverScreen() {
               onChangeText={(text) => setValue(text)}
               keyboardType="numeric"
               size="lg"
-              width="84%"
+              width={inputWidth}
             />
           </HStack>
           <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">

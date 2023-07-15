@@ -359,65 +359,103 @@ const RideOrderScreen = () => {
     const submitOrder = () => {
         try {
             const orderSubmitParam = {
-                'distance': estimatedDistanceOrder, // 距离
-                'expectedTravelTime': estimatedDurationOrder, // 行程预计时间
-                'plannedDepartureTime': format(date, 'yyyy-MM-dd HH:mm:ss'), // 计划出发时间  dd-MM-yyyy
-                'travelMode': "Private", // 乘车模式 Private 独享
+                'distance': estimatedDistanceOrder,
+                'expectedTravelTime': estimatedDurationOrder,
+                'plannedDepartureTime': format(date, 'yyyy-MM-dd HH:mm:ss'),
+                'travelMode': "Private",
                 'passengersNumber': passengerCount,
                 'estimatedFare': orderPrice,
-                'remark': remarks, //用户备注
-                'paymentType': "Cash", // TODO 用户付款方式 "Cash", "现金" "E-wallet","电子钱包"
-                'departureCountry': "",//出发地国家
-                'departureState': "",// 出发地州属
-                'departureCity': "",//出发地城市
-                'departureAddress': "", //出发地详细地址
-                'destinationCountry': "", //目的地国家
-                'destinationState': "", // 目的地州属
-                'destinationCity': "", // 目的地城市
-                'destinationAddress': "", // 目的地详细地址
-                'departureLatitude': departureCoords.latitude, //出发地纬度
-                'departureLongitude': departureCoords.longitude, //出发地经度
-                'destinationLatitude': destinationCoords.latitude, //目的地纬度
-                'destinationLongitude': destinationCoords.longitude //目的地经度
+                'remark': remarks,
+                'paymentType': "Cash",
+                'departureCountry': "",
+                'departureState': "",
+                'departureCity': "",
+                'departureAddress': "",
+                'destinationCountry': "",
+                'destinationState': "",
+                'destinationCity': "",
+                'destinationAddress': "",
+                'departureLatitude': departureCoords.latitude,
+                'departureLongitude': departureCoords.longitude,
+                'destinationLatitude': destinationCoords.latitude,
+                'destinationLongitude': destinationCoords.longitude
             }
             fillDepAddress(orderSubmitParam);
             fillDescAddress(orderSubmitParam);
 
             setIsSubmitting(true);
 
-            userSubmitOrder(orderSubmitParam)
-                .then(data => {
-                    responseOperation(data.code, () => {
-                            // 下单后开启订单通知
-                            setIsSubmitting(false);
-                            userOrderWebsocket((body) => {}).then();
-                            //replace防止刷单
-                            navigation.replace('OrderDetailScreen', {
-                                departure,
-                                destination,
-                                date: date.toISOString(), // 将日期转换为字符串
-                                passengerCount,
-                                pickupWaiting,
-                                coords,
-                                departureCoords: departureCoords,
-                                destinationCoords: destinationCoords,
-                            });
-                            showToast('SUCCESS', 'Order Successfully', 'Place the order successfully and wait for the driver to pick up the order');
-                    }, () => {
-                        setIsSubmitting(false);
-                        showDialog('WARNING', 'Submit failed', 'Submit failed' + data.message);
-                    })
-                }).catch((err) => {
-                console.log(err);
-                setIsSubmitting(false);
-                showDialog('DANGER', 'Submit Order failed', 'Submit failed');
-            });
+            // Get the planned departure time and the current time
+            const plannedDepartureTime = new Date(format(date, 'yyyy-MM-dd HH:mm:ss'));
+            const currentTime = new Date();
+
+            // Calculate the difference in minutes
+            const diffInMinutes = Math.abs(plannedDepartureTime.getTime() - currentTime.getTime()) / 1000 / 60;
+
+            // If the difference is less than 10 minutes
+            if (diffInMinutes < 10) {
+                // Trigger the alert
+                Alert.alert(
+                  'Time Alert',
+                  'Your departure time is less than 10 minutes away. Please book in advance for better service.',
+                  [
+                      {
+                          text: 'Cancel Order',
+                          onPress: () => {
+                              console.log('Order cancelled');
+                              setIsSubmitting(false);
+                          },
+                          style: 'cancel'
+                      },
+                      {
+                          text: 'Continue Anyway',
+                          onPress: () => {
+                              proceedWithOrder(orderSubmitParam);
+                          }
+                      }
+                  ],
+                  { cancelable: false }
+                );
+            } else {
+                // If the difference is more than 10 minutes, just execute the order submission
+                proceedWithOrder(orderSubmitParam);
+            }
         } catch (e) {
             console.log("下单异常", e);
             setIsSubmitting(false);
             showDialog('DANGER', 'Submit Order failed', 'Submit failed');
         }
     };
+
+    const proceedWithOrder = (orderSubmitParam) => {
+        userSubmitOrder(orderSubmitParam)
+          .then(data => {
+              responseOperation(data.code, () => {
+                  setIsSubmitting(false);
+                  userOrderWebsocket((body) => {}).then();
+                  navigation.replace('OrderDetailScreen', {
+                      departure,
+                      destination,
+                      date: date.toISOString(),
+                      passengerCount,
+                      pickupWaiting,
+                      coords,
+                      departureCoords: departureCoords,
+                      destinationCoords: destinationCoords,
+                  });
+                  showToast('SUCCESS', 'Order Successfully', 'Place the order successfully and wait for the driver to pick up the order');
+              }, () => {
+                  setIsSubmitting(false);
+                  showDialog('WARNING', 'Submit failed', 'Submit failed' + data.message);
+              })
+          }).catch((err) => {
+            console.log(err);
+            setIsSubmitting(false);
+            showDialog('DANGER', 'Submit Order failed', 'Submit failed');
+        });
+    };
+
+
     // 处理下一步的逻辑，获取行程的距离和时间，如果已经确认预订，则跳转到订单详情页面
     const handleNextStep = () => {
         if (!departure || !destination || !date) {

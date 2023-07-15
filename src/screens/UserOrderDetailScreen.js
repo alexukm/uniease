@@ -123,8 +123,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
     licensePlateText: {
       fontSize: 20, // 1.5 times the usual size, adjust as needed
       fontWeight: "bold",
-      alignSelf: "flex-start",
-      right: -63,
+      alignSelf: "flex-end",
     },
   });
 

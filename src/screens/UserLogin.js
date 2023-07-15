@@ -236,7 +236,7 @@ function UserScreen() {
                             onChangeText={setValueAndCheckLength}
                             keyboardType="numeric"
                             size="lg"
-                            width="78%"
+                            width="84%"
                         />
                     </HStack>
                     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">

@@ -111,17 +111,22 @@ renderItem 函数也被封装在 useCallback 钩子中。
 
 //todo 37. ios获取图片/Android测试不可以直接点开就获取图片信息
 
-//todo 38. DriverSupplyInfoScreen 司机补充信息 参数 长度限制
+
 
 // todo 39. 不需要的日志删除
 
 //todo 40. 接口 响应判断 提取公共方法
 
-//TODO 41. RIDEORDER 时间接近需要提示
+
 
 //TODO 42. CHAtRoom 增加订单状态 只有在途中和待出行才能继续发送消息
 
 //TODO 43. 定时任务  清理超过3天的聊天记录
+//做完
+
+//todo 38. DriverSupplyInfoScreen 司机补充信息 参数 长度限制
+
+//TODO 41. RIDEORDER 时间接近需要提示
 
 // 后续内容------------------------------------
 // 司机接口

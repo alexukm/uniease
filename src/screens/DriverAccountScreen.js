@@ -34,7 +34,12 @@ const DriverAccount = () => {
     };
 
     const handleCustomerServicePress = () => {
-        console.log('Customer service is clicked');
+        navigation.navigate('ChatRoom', {
+            receiverName: 'Customer Service',
+            receiverUserCode: 'user202307150002',
+            orderStatus: 'Pending',
+        });
+        // console.log('Customer service is clicked');
         // Handle customer service click event
     };
 

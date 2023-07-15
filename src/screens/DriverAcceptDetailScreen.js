@@ -9,7 +9,6 @@ import {
   Linking,
   TouchableWithoutFeedback,
   Platform,
-
   Keyboard, SafeAreaView,
 } from "react-native";
 import { StyleSheet } from "react-native";
@@ -29,9 +28,11 @@ import { closeWebsocket } from "../com/evotech/common/websocket/SingletonWebSock
 import { driverCancelSubscribe } from "../com/evotech/common/websocket/UserChatWebsocket";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import { formatDate } from "../com/evotech/common/formatDate";
+import { googleMapsApiKey } from "../com/evotech/common/apiKey/mapsApiKey";
 
+Geocoder.init(googleMapsApiKey);
 
-Geocoder.init("AIzaSyCTgmg64j-V2pGH2w6IgdLIofaafqWRwzc");
 
 
 const DriverAcceptDetailScreen = ({ route, navigation }) => {
@@ -411,7 +412,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             <View style={{ position: "relative" }}>
               {(Status === OrderStateEnum.PENDING) && (
                 <View>
-                  <Text>Arrive Before <Text fontWeight="bold" color="#0000FF">{Time} </Text>For
+                  <Text>Arrive Before <Text fontWeight="bold" color="#0000FF">{formatDate(new Date(Time))} </Text>For
                     Pickup.</Text>
                   <TouchableOpacity onPress={handleCancel} style={{ alignSelf: "flex-start" }}>
                     <Text fontSize="sm" style={{ fontWeight: "bold" }}>CANCEL?</Text>
@@ -431,7 +432,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheet}
                 height={200}
                 closeOnDragDown={true}
-                closeOnPressMask={false}
+                closeOnPressMask={true}
                 customStyles={{
                   wrapper: {
                     backgroundColor: "transparent",
@@ -552,7 +553,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
           </HStack>
           <HStack space={2} alignItems="center">
             <RemixIcon name="time-fill" size={15} color="black" />
-            <Text>Time: {Time}</Text>
+            <Text>Time: {formatDate(new Date(Time))}</Text>
           </HStack>
           {Status === OrderStateEnum.DELIVERED ? (
             <Button
@@ -784,7 +785,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
               alignSelf: "center",
               marginTop: 20,
               marginBottom: 20,
-              backgroundColor: "#0000FF",
+              backgroundColor: "#002d66",
             }}
           >
             Arrived at the passenger starting point

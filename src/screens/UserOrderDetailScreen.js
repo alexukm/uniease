@@ -19,6 +19,7 @@ import { googleMapsApiKey } from "../com/evotech/common/apiKey/mapsApiKey";
 import { userCancelSubscribe } from "../com/evotech/common/websocket/UserChatWebsocket";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import { formatDate } from "../com/evotech/common/formatDate";
 
 
 Geocoder.init(googleMapsApiKey);
@@ -338,7 +339,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <View>
               <Text
-                fontSize="sm">{Time} · {orderDetailInfo.passengersNumber} {orderDetailInfo.passengersNumber > 1 ? "Passengers" : "Passenger"}</Text>
+                fontSize="sm">{formatDate(new Date(Time))}·  {orderDetailInfo.passengersNumber} {orderDetailInfo.passengersNumber > 1 ? "Passengers" : "Passenger"}</Text>
               {(Status === OrderStateEnum.AWAITING || Status === OrderStateEnum.PENDING) && (
                 <TouchableOpacity onPress={handleCancel}>
                   <Text fontSize="sm" style={{ color: "blue", fontWeight: "bold" }}>Cancel Order?</Text>

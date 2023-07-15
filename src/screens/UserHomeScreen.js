@@ -9,6 +9,7 @@ import { userOrderWebsocket } from "../com/evotech/common/websocket/UserChatWebs
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 
 
 const UserHome = () => {
@@ -56,6 +57,13 @@ const UserHome = () => {
   useEffect(() => {
     setTimeout(() => {
       subscriptionOrderAccept(initUserChat).then();
+    }, 0);
+
+    setTimeout(async () => {
+      const userInfo = await getUserInfoWithLocal();
+      if (userInfo.userPhone === "601117593959") {
+        await UserChat(true).then();
+      }
     }, 0);
   }, []);
 

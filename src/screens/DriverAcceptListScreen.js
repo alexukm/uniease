@@ -12,6 +12,7 @@ import {OrderStateEnum} from "../com/evotech/common/constant/BizEnums";
 
 import {showToast} from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import { formatDate } from "../com/evotech/common/formatDate";
 
 
 const styles1 = StyleSheet.create({
@@ -111,7 +112,10 @@ const OrderBox = React.memo(({order, navigation, openSheet}) => {
                     </HStack>
                     <HStack space={2} alignItems="center">
                         <RemixIcon name="time-fill" size={15} color="black"/>
-                        <Text>{actualDepartureTime ? actualDepartureTime : plannedDepartureTime} · {passengersNumber} {passengersNumber > 1 ? "Passengers" : "Passenger"}</Text>
+                        <Text>
+                            {formatDate(new Date(actualDepartureTime ? actualDepartureTime : plannedDepartureTime))} ·
+                            {passengersNumber} {passengersNumber > 1 ? "Passengers" : "Passenger"}
+                        </Text>
                     </HStack>
                 </VStack>
             </Box>

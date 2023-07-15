@@ -214,6 +214,20 @@ const RideOrderScreen = () => {
     //     });
     // };
 
+    const [isFirstTime, setIsFirstTime] = useState(true);
+
+    const fetchNearbyPlaces  = async (lat, lng) => {
+        // 创建请求 URL
+        const requestUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&key=AIzaSyCTgmg64j-V2pGH2w6IgdLIofaafqWRwzc`;
+
+        // 发送请求
+        const response = await fetch(requestUrl);
+        const data = await response.json();
+
+        // 更新地址建议
+        setDepartureSuggestions(data.results.map(place => place.vicinity));
+    };
+
     const getCurrentLocation = () => {
         Geolocation.getCurrentPosition(async info => {
             const {latitude, longitude} = info.coords;
@@ -231,9 +245,15 @@ const RideOrderScreen = () => {
                     const placeId = response.results[0].place_id; // 获取地点的ID
                     setDeparture(address);
                     await moveToLocation(placeId); // 使用地点ID移动到当前位置
-                    const predictions = await apiService.getAutocomplete(address);
-                    if (predictions.length > 0) {
-                        setDepartureAddress(predictions[predictions.length - 1].terms)
+                    if (isFirstTime) { // 如果是用户首次进入页面
+                        const nearbyPlaces = await fetchNearbyPlaces(latitude, longitude);
+                        setDepartureAddress(nearbyPlaces);
+                        setIsFirstTime(false); // 更新 isFirstTime 状态
+                    } else {
+                        const predictions = await apiService.getAutocomplete(address);
+                        if (predictions.length > 0) {
+                            setDepartureAddress(predictions[predictions.length - 1].terms)
+                        }
                     }
                 } catch (error) {
                     console.error(error);
@@ -241,6 +261,7 @@ const RideOrderScreen = () => {
             }
         });
     };
+
 
     // 这个函数请求地理位置权限
     const requestLocationPermission = async () => {

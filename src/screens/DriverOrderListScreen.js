@@ -18,6 +18,7 @@ import RemixIcon from "react-native-remix-icon";
 import {UserChat} from "../com/evotech/common/redux/UserChat";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import { formatDate } from "../com/evotech/common/formatDate";
 
 
 const DriverOrderListScreen = () => {
@@ -143,7 +144,7 @@ const DriverOrderListScreen = () => {
     };
     const renderItem = ({item}) => {
         let actionSheetRef; // 为每个订单项创建一个 ref
-
+        // console.log(item);
         return (
             <Box bg="white" shadow={2} rounded="lg" p={4} my={2}>
                 <View style={styles.floatingButtonContainer}>
@@ -157,7 +158,7 @@ const DriverOrderListScreen = () => {
                     </TouchableWithoutFeedback>
                 </View>
                 <VStack space={1}>
-                    <Text style={styles.timeText}>{item.plannedDepartureTime}</Text>
+                    <Text style={styles.timeText}> {formatDate(new Date(item.plannedDepartureTime))}</Text>
                     <HStack space={2} alignItems="flex-start">
                         <RemixIcon name="checkbox-blank-circle-fill" size={15} color="blue" style={{marginTop: 5}}/>
                         <Text>{formatText(item.departureAddress)}</Text>
@@ -169,7 +170,7 @@ const DriverOrderListScreen = () => {
                     <HStack space={2} alignItems="center">
                         <RemixIcon name="money-cny-circle-fill" size={15} color="green" style={{marginTop: 5}}/>
                         <Text>
-                            Expected Earnings: <Text style={{fontWeight: 'bold'}}>RM {item.expectedEarnings}.00</Text>
+                            Expected Earnings: <Text style={{fontWeight: 'bold'}}>RM {item.expectedEarnings}.00  - {item.paymentType}</Text>
                         </Text>
                     </HStack>
                     {item.remark && <Text>Comment: {item.remark}</Text>}

@@ -1,6 +1,6 @@
 import Geolocation from '@react-native-community/geolocation'
 import {check, PERMISSIONS, RESULTS, request} from 'react-native-permissions';
-
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 //获取定位权限
 export const iosLocationPermission = (granted, denied, err) => {
@@ -18,6 +18,11 @@ export const iosLocationPermission = (granted, denied, err) => {
         });
 };
 
+export const iosNotifyPermission = () =>{
+    PushNotificationIOS.requestPermissions()
+        .then(data => console.log(data))
+        .catch(error => console.log(error));
+}
 // export const iosLocationPermission = () => {
 //   check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
 //     .then((result) => {

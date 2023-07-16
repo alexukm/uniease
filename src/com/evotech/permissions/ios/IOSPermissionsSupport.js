@@ -7,20 +7,28 @@ export const iosLocationPermission = (granted, denied, err) => {
   Geolocation.requestAuthorization();
   check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
     .then((result) => {
-      if (result === RESULTS.GRANTED) {
-        granted(result);
-      } else {
-        check(PERMISSIONS.IOS.LOCATION_ALWAYS)
-          .then((result) => {
-            if (result === RESULTS.GRANTED) {
-              granted(result);
-            } else {
-              denied(result);
-            }
-          })
-          .catch((error) => {
-            err(error);
-          });
+      switch (result) {
+        case RESULTS.GRANTED:
+        case RESULTS.LIMITED:
+          granted(result);
+          break;
+        case RESULTS.DENIED:
+        case RESULTS.BLOCKED:
+        case RESULTS.UNAVAILABLE:
+          denied(result);
+          break;
+        default:
+          check(PERMISSIONS.IOS.LOCATION_ALWAYS)
+            .then((result) => {
+              if (result === RESULTS.GRANTED) {
+                granted(result);
+              } else {
+                denied(result);
+              }
+            })
+            .catch((error) => {
+              err(error);
+            });
       }
     })
     .catch((error) => {

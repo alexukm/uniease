@@ -1,11 +1,13 @@
 import { isAndroid, isIOS } from "../system/OSUtils";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
+import {iosNotifyPermission} from "../../permissions/ios/IOSPermissionsSupport";
 
 const orderNotifyChannelId = "Order-Notify-Channel";
 const orderNotifyChannelName = "Order-Channel";
 const orderNotifyChannelDesc = "Channel to order information";
 
-export const enableSystemNotify = (PushNotification) => {
+export const enableSystemNotify = () => {
   if (isAndroid()) {
     PushNotification.createChannel(
       {
@@ -21,18 +23,12 @@ export const enableSystemNotify = (PushNotification) => {
   }
 
   if (isIOS()) {
-    PushNotification.configure({
-      // (required) Called when a remote or local notification is opened or received
-      onNotification: function(notification) {
-        console.log("NOTIFICATION:", notification);
-      },
-      requestPermissions: true,
-    });
+    iosNotifyPermission();
   }
 };
 
 
-export const notifyOrderChannel = (PushNotification,body) => {
+export const notifyOrderChannel = (body) => {
   if (isAndroid()) {
     PushNotification.localNotification({
       channelId: orderChannelId(),
@@ -41,10 +37,11 @@ export const notifyOrderChannel = (PushNotification,body) => {
     });
   }
   if (isIOS()) {
-    PushNotification.localNotification({
-      title: body.noticeTitle, // 通知的标题
-      message: body.noticeContent, // 通知的消息文本
-    });
+      PushNotificationIOS.addNotificationRequest({
+          id: 'order notify',
+          title:  body.noticeTitle,
+          body:   body.noticeContent,
+      });
   }
 };
 

@@ -20,14 +20,10 @@ import {userSkipLogin} from "./src/com/evotech/common/appUser/UserInfo";
 import DriverAccount from "./src/screens/DriverAccountScreen";
 import {AlertNotificationRoot} from "react-native-alert-notification";
 import {enableScreens} from 'react-native-screens';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import TermsAndConditions from "./src/screens/TermsAndConditions";
 
 import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnums";
-import { skipLoginPage, skipOp } from "./src/com/evotech/common/navigate/UserNagivation";
 import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate";
-import PushNotification from "react-native-push-notification";
-import { PushNotificationIOS } from "react-native";
 import { enableSystemNotify } from "./src/com/evotech/common/notify/SystemNotify";
 
 
@@ -85,7 +81,7 @@ const App = () => {
     }
     useEffect(() => {
         // AsyncStorage.clear();
-        enableSystemNotify(PushNotification);
+        enableSystemNotify();
         const checkTokenAndUserType = async () => {
             await userSkipLogin(setInitialRoute, (userInfo) => tokenCheck(userInfo));
         };

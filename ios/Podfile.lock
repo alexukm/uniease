@@ -77,8 +77,6 @@ PODS:
   - OpenSSL-Universal (1.1.1100)
   - Permission-LocationAlways (3.8.4):
     - RNPermissions
-  - Permission-LocationWhenInUse (3.8.4):
-    - RNPermissions
   - Permission-PhotoLibrary (3.8.4):
     - RNPermissions
   - RCT-Folly (2021.07.22.00):
@@ -502,7 +500,7 @@ PODS:
     - React-perflogger (= 0.72.1)
   - RNCAsyncStorage (1.19.0):
     - React-Core
-  - RNCPicker (2.4.10):
+  - RNCPushNotificationIOS (1.11.0):
     - React-Core
   - RNFS (2.20.0):
     - React-Core
@@ -581,7 +579,6 @@ DEPENDENCIES:
   - libevent (~> 2.1.12)
   - OpenSSL-Universal (= 1.1.1100)
   - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways/Permission-LocationAlways.podspec`)
-  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse/Permission-LocationWhenInUse.podspec`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary/Permission-PhotoLibrary.podspec`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -623,7 +620,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
-  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -666,8 +663,6 @@ EXTERNAL SOURCES:
     :tag: hermes-2023-03-20-RNv0.72.0-49794cfc7c81fb8f69fd60c3bbf85a7480cc5a77
   Permission-LocationAlways:
     :path: "../node_modules/react-native-permissions/ios/LocationAlways/Permission-LocationAlways.podspec"
-  Permission-LocationWhenInUse:
-    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
   Permission-PhotoLibrary:
     :path: "../node_modules/react-native-permissions/ios/PhotoLibrary/Permission-PhotoLibrary.podspec"
   RCT-Folly:
@@ -746,8 +741,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
-  RNCPicker:
-    :path: "../node_modules/@react-native-picker/picker"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -785,7 +780,6 @@ SPEC CHECKSUMS:
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-LocationAlways: 8fd5518716c3045f9c4edf77b901126098d79b60
-  Permission-LocationWhenInUse: 24d97eeb25d8ff9f2232e070f792eeb1360ccaf0
   Permission-PhotoLibrary: 6db9318df71ad74e9774cecedde95285f5a32d6a
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: c52ee8fb2b35c1b54031dd8e92d88ad4dba8f2ce
@@ -825,7 +819,7 @@ SPEC CHECKSUMS:
   React-utils: 0a70ea97d4e2749f336b450c082905be1d389435
   ReactCommon: e593d19c9e271a6da4d0bd7f13b28cfeae5d164b
   RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
-  RNCPicker: 0bc2f0a29abcca7b7ed44a2d036aac9ab6d25700
+  RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
   RNPermissions: f1b49dd05fa9b83993cd05a9ee115247944d8f1a
@@ -837,6 +831,6 @@ SPEC CHECKSUMS:
   Yoga: 65286bb6a07edce5e4fe8c90774da977ae8fc009
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b34a6af915442475f09415ce231b5784d8e68045
+PODFILE CHECKSUM: dfac5debd8f24472bfd636bdf2d7bac499684786
 
 COCOAPODS: 1.12.1

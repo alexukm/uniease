@@ -12,8 +12,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		92698A385187DD303670368B /* libPods-uniease-unieaseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 899A22BDF49042DA484EA4D0 /* libPods-uniease-unieaseTests.a */; };
-		CE58301B05433A484B78CABE /* libPods-uniease.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0AC51A991B49157E5D0AB /* libPods-uniease.a */; };
+		A373CBC17E6B6B1E1D050806 /* libPods-uniease.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB243A572F2A013DB8AE2CF1 /* libPods-uniease.a */; };
+		A46FEEE9B92BF517D7E2F9CD /* libPods-uniease-unieaseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F46165DE59DC7EDAE60EF89 /* libPods-uniease-unieaseTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,20 +30,20 @@
 		00E356EE1AD99517003FC87E /* unieaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = unieaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* unieaseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = unieaseTests.m; sourceTree = "<group>"; };
-		0B13B3DE7A3BF0446AC1D9C1 /* Pods-uniease.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uniease.release.xcconfig"; path = "Target Support Files/Pods-uniease/Pods-uniease.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* uniease.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uniease.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = uniease/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = uniease/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = uniease/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = uniease/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = uniease/main.m; sourceTree = "<group>"; };
-		3F101B4D110AA135F40B19DC /* Pods-uniease-unieaseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uniease-unieaseTests.debug.xcconfig"; path = "Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests.debug.xcconfig"; sourceTree = "<group>"; };
-		7CDA87FCAD097D3EA3D2F14E /* Pods-uniease.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uniease.debug.xcconfig"; path = "Target Support Files/Pods-uniease/Pods-uniease.debug.xcconfig"; sourceTree = "<group>"; };
+		51DA583D55E1144F79A26B2E /* Pods-uniease-unieaseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uniease-unieaseTests.debug.xcconfig"; path = "Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5F46165DE59DC7EDAE60EF89 /* libPods-uniease-unieaseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uniease-unieaseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C4E29879F953E7FF1ED6F6E /* Pods-uniease.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uniease.release.xcconfig"; path = "Target Support Files/Pods-uniease/Pods-uniease.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = uniease/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		899A22BDF49042DA484EA4D0 /* libPods-uniease-unieaseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uniease-unieaseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9531956A652FB6CFAEE35FF9 /* Pods-uniease-unieaseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uniease-unieaseTests.release.xcconfig"; path = "Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests.release.xcconfig"; sourceTree = "<group>"; };
-		AAB0AC51A991B49157E5D0AB /* libPods-uniease.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uniease.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1E14B09C26129116ED63002 /* Pods-uniease.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uniease.debug.xcconfig"; path = "Target Support Files/Pods-uniease/Pods-uniease.debug.xcconfig"; sourceTree = "<group>"; };
+		BF5045032F8281C6722B9618 /* Pods-uniease-unieaseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uniease-unieaseTests.release.xcconfig"; path = "Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FB243A572F2A013DB8AE2CF1 /* libPods-uniease.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-uniease.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92698A385187DD303670368B /* libPods-uniease-unieaseTests.a in Frameworks */,
+				A46FEEE9B92BF517D7E2F9CD /* libPods-uniease-unieaseTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE58301B05433A484B78CABE /* libPods-uniease.a in Frameworks */,
+				A373CBC17E6B6B1E1D050806 /* libPods-uniease.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				AAB0AC51A991B49157E5D0AB /* libPods-uniease.a */,
-				899A22BDF49042DA484EA4D0 /* libPods-uniease-unieaseTests.a */,
+				FB243A572F2A013DB8AE2CF1 /* libPods-uniease.a */,
+				5F46165DE59DC7EDAE60EF89 /* libPods-uniease-unieaseTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -140,10 +140,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7CDA87FCAD097D3EA3D2F14E /* Pods-uniease.debug.xcconfig */,
-				0B13B3DE7A3BF0446AC1D9C1 /* Pods-uniease.release.xcconfig */,
-				3F101B4D110AA135F40B19DC /* Pods-uniease-unieaseTests.debug.xcconfig */,
-				9531956A652FB6CFAEE35FF9 /* Pods-uniease-unieaseTests.release.xcconfig */,
+				A1E14B09C26129116ED63002 /* Pods-uniease.debug.xcconfig */,
+				7C4E29879F953E7FF1ED6F6E /* Pods-uniease.release.xcconfig */,
+				51DA583D55E1144F79A26B2E /* Pods-uniease-unieaseTests.debug.xcconfig */,
+				BF5045032F8281C6722B9618 /* Pods-uniease-unieaseTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -155,12 +155,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "unieaseTests" */;
 			buildPhases = (
-				6E1931B8BBC8930856D89146 /* [CP] Check Pods Manifest.lock */,
+				508BBB5B77E67771C661B9C2 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				511363856D58F9446CA1BD64 /* [CP] Embed Pods Frameworks */,
-				C556DF7A1B7DDB7E9199C487 /* [CP] Copy Pods Resources */,
+				785216DDD23F44D053302B82 /* [CP] Embed Pods Frameworks */,
+				CDD43818F04F9423FF750299 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -176,14 +176,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "uniease" */;
 			buildPhases = (
-				3020E015F11748F2AD5A1D59 /* [CP] Check Pods Manifest.lock */,
+				947EED6FAD0D3344CFA131BD /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				5CB0021A709920D0AC351EAB /* [CP] Embed Pods Frameworks */,
-				372284F6E41DFFE5D1B2E786 /* [CP] Copy Pods Resources */,
+				90F9DABAB492FE92807593C6 /* [CP] Embed Pods Frameworks */,
+				F5063962CF3BB55618BC108E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -266,80 +266,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		3020E015F11748F2AD5A1D59 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-uniease-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		372284F6E41DFFE5D1B2E786 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		511363856D58F9446CA1BD64 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5CB0021A709920D0AC351EAB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6E1931B8BBC8930856D89146 /* [CP] Check Pods Manifest.lock */ = {
+		508BBB5B77E67771C661B9C2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -361,7 +288,63 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C556DF7A1B7DDB7E9199C487 /* [CP] Copy Pods Resources */ = {
+		785216DDD23F44D053302B82 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		90F9DABAB492FE92807593C6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		947EED6FAD0D3344CFA131BD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-uniease-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CDD43818F04F9423FF750299 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -376,6 +359,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uniease-unieaseTests/Pods-uniease-unieaseTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5063962CF3BB55618BC108E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uniease/Pods-uniease-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -430,7 +430,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F101B4D110AA135F40B19DC /* Pods-uniease-unieaseTests.debug.xcconfig */;
+			baseConfigurationReference = 51DA583D55E1144F79A26B2E /* Pods-uniease-unieaseTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -457,7 +457,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9531956A652FB6CFAEE35FF9 /* Pods-uniease-unieaseTests.release.xcconfig */;
+			baseConfigurationReference = BF5045032F8281C6722B9618 /* Pods-uniease-unieaseTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -481,7 +481,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7CDA87FCAD097D3EA3D2F14E /* Pods-uniease.debug.xcconfig */;
+			baseConfigurationReference = A1E14B09C26129116ED63002 /* Pods-uniease.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -490,6 +490,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = uniease/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = UniEase;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -511,7 +512,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B13B3DE7A3BF0446AC1D9C1 /* Pods-uniease.release.xcconfig */;
+			baseConfigurationReference = 7C4E29879F953E7FF1ED6F6E /* Pods-uniease.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -519,6 +520,7 @@
 				DEVELOPMENT_TEAM = SHJ9MDJS93;
 				INFOPLIST_FILE = uniease/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = UniEase;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -586,7 +588,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -652,7 +654,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

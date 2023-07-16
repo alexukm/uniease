@@ -3,8 +3,8 @@ import {queryDriverOrderStatus, queryUserOrderStatus} from "../http/BizHttpUtil"
 import {UserChat} from "../redux/UserChat";
 import { responseOperation } from "../http/ResponseOperation";
 import { showDialog } from "../alert/toastHelper";
-import PushNotification from 'react-native-push-notification';
-import { enableSystemNotify, notifyOrderChannel, orderChannelId } from "../notify/SystemNotify"; // 这是新导入的库
+
+import {  notifyOrderChannel } from "../notify/SystemNotify"; // 这是新导入的库
 
 
 
@@ -30,7 +30,7 @@ export const userOrderWebsocket = async (subscribe) => {
             body = JSON.parse(body)
 
             // 调用系统通知
-            notifyOrderChannel(PushNotification, body);
+            notifyOrderChannel( body);
             if (subscribe) {
                 subscribe(body);
             }

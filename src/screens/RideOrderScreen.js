@@ -218,31 +218,39 @@ const RideOrderScreen = () => {
     // };
 
     const getCurrentLocation = () => {
-        Geolocation.getCurrentPosition(async info => {
-            const {latitude, longitude} = info.coords;
-            setDepartureCoords({latitude: latitude, longitude: longitude});
-            mapRef.current.animateToRegion({
-                latitude,
-                longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            }, 1000); // 马上移动到当前位置
-            if (!isDepartureManual) { // 如果用户还没有手动输入出发地
-                try {
-                    const response = await Geocoder.from(latitude, longitude);
-                    const address = response.results[0].formatted_address;
-                    const placeId = response.results[0].place_id; // 获取地点的ID
-                    setDeparture(address);
-                    await moveToLocation(placeId); // 使用地点ID移动到当前位置
-                    const predictions = await apiService.getAutocomplete(address);
-                    if (predictions.length > 0) {
-                        setDepartureAddress(predictions[predictions.length - 1].terms)
-                    }
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-        });
+        Geolocation.getCurrentPosition(
+          async info => {
+              // 当成功获取位置时执行此代码块
+              const {latitude, longitude} = info.coords;
+              setDepartureCoords({latitude: latitude, longitude: longitude});
+              mapRef.current.animateToRegion({
+                  latitude,
+                  longitude,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+              }, 1000); // 马上移动到当前位置
+              if (!isDepartureManual) { // 如果用户还没有手动输入出发地
+                  try {
+                      const response = await Geocoder.from(latitude, longitude);
+                      const address = response.results[0].formatted_address;
+                      const placeId = response.results[0].place_id; // 获取地点的ID
+                      setDeparture(address);
+                      await moveToLocation(placeId); // 使用地点ID移动到当前位置
+                      const predictions = await apiService.getAutocomplete(address);
+                      if (predictions.length > 0) {
+                          setDepartureAddress(predictions[predictions.length - 1].terms)
+                      }
+                  } catch (error) {
+                      console.error(error);
+                  }
+              }
+          },
+          error => {
+              // 当获取位置失败时执行此代码块
+              console.error(error);
+              showDialog('ERROR', 'Location Error', 'Unable to retrieve current location.');
+          }
+        );
     };
 
     // 这个函数请求地理位置权限

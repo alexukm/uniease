@@ -6,7 +6,7 @@ import {
     View,
     Alert,
     ActivityIndicator,
-    TouchableOpacity, Platform,
+    TouchableOpacity, Platform, Linking,
 } from "react-native";
 import Geolocation from '@react-native-community/geolocation';
 import {
@@ -247,8 +247,20 @@ const RideOrderScreen = () => {
           },
           error => {
               // 当获取位置失败时执行此代码块
-              console.error(error);
-              showDialog('WARNING', 'Location Error', 'Location permission denied. For automatic location input, please enable location access.');
+              Alert.alert(
+                'Location Error',
+                'Unable to retrieve current location. Please enable location services in settings.',
+                [
+                    {
+                        text: 'Cancel',
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Go to Settings',
+                        onPress: () => Linking.openURL('app-settings:')
+                    }
+                ],
+              );
           }
         );
     };

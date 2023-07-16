@@ -253,6 +253,7 @@ const RideOrderScreen = () => {
             getCurrentLocation()
         }, (error) => {
             console.warn(error);
+            showDialog('WARNING', 'Action Required', 'Location permission denied. For automatic location input, please enable location access.');
         })
         /*   try {
                const granted = await PermissionsAndroid.request(

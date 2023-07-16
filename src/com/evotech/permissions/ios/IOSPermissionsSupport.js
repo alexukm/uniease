@@ -5,7 +5,7 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 //获取定位权限
 export const iosLocationPermission = (granted, denied, err) => {
     Geolocation.requestAuthorization();
-    check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+    check(PERMISSIONS.IOS.LOCATION_ALWAYS)
         .then((result) => {
             if (result === RESULTS.GRANTED) {
                 granted(result);

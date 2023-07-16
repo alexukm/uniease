@@ -248,7 +248,7 @@ const RideOrderScreen = () => {
           error => {
               // 当获取位置失败时执行此代码块
               console.error(error);
-              showDialog('ERROR', 'Location Error', 'Unable to retrieve current location.');
+              showDialog('WARNING', 'Location Error', 'Location permission denied. For automatic location input, please enable location access.');
           }
         );
     };

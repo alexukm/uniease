@@ -10,14 +10,23 @@ export const iosLocationPermission = (granted, denied, err) => {
       if (result === RESULTS.GRANTED) {
         granted(result);
       } else {
-        denied(result);
+        check(PERMISSIONS.IOS.LOCATION_ALWAYS)
+          .then((result) => {
+            if (result === RESULTS.GRANTED) {
+              granted(result);
+            } else {
+              denied(result);
+            }
+          })
+          .catch((error) => {
+            err(error);
+          });
       }
     })
     .catch((error) => {
       err(error);
     });
 };
-
 
 
 export const iosNotifyPermission = () =>{

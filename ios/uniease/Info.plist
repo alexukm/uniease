@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>NSUserNotificationAlertStyle</key>
-	<string>We will notify you when your order status changes.</string>
 	<key>CFBundleDisplayName</key>
 	<string>UniEase</string>
 	<key>CFBundleExecutable</key>
@@ -42,10 +40,12 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSLocationAlwaysUsageDescription </key>
 	<string>We need to access your location information to provide location-based services</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>You have disabled photo access permission. Uploading requires access to photos in your gallery</string>
+	<key>NSUserNotificationAlertStyle</key>
+    <string>We will notify you when your order status changes.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

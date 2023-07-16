@@ -29,6 +29,7 @@ export const iosLocationPermission = (granted, denied, err) => {
 };
 
 
+
 export const iosNotifyPermission = () =>{
     PushNotificationIOS.requestPermissions()
         .then(data => console.log(data))

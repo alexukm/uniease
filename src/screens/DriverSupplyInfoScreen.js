@@ -93,31 +93,53 @@ const DriverSupplyInfo = () => {
 
     const handleSubmit = async () => {
         const fields = [
-            // {name: 'userPhone', value: userPhone},
-            {name: 'chassisNumber', value: chassisNumber},
-            {name: 'carRegistryDate', value: carRegistryDate},
-            {name: 'carColor', value: carColor},
-            {name: 'carType', value: carTypeDesc},
-            {name: 'carBrand', value: carBrand},
-            {name: 'bankAccount', value: bankAccount},
-            {name: 'bankName', value: bankName},
-            {name: 'bankHolderName', value: bankHolderName},
-            {name: 'bankAddress', value: bankAddress},
-            {name: 'emergencyName', value: emergencyName},
-            {name: 'emergencyPhone', value: emergencyPhone},
-            {name: 'emergencyRs', value: emergencyRs},
-            {name: 'emergencyAddress', value: emergencyAddress},
+            {name: 'Chassis Number', value: chassisNumber, maxLength: 20, isNumber: true},
+            {name: 'Car Registry Date', value: carRegistryDate, maxLength: null, isNumber: false},
+            {name: 'Car Color', value: carColor, maxLength: 8, isNumber: false},
+            {name: 'Car Brand', value: carBrand, maxLength: 20, isNumber: false},
+            {name: 'Bank Account', value: bankAccount, maxLength: 18, isNumber: true},
+            {name: 'Bank Name', value: bankName, maxLength: 12, isNumber: false},
+            {name: 'Bank Holder Name', value: bankHolderName, maxLength: 12, isNumber: false},
+            {name: 'Bank Address', value: bankAddress, maxLength: 255, isNumber: false},
+            {name: 'Emergency Name', value: emergencyName, maxLength: 20, isNumber: false},
+            {name: 'Emergency Phone', value: emergencyPhone, maxLength: 20, isNumber: true},
+            {name: 'Emergency Relation', value: emergencyRs, maxLength: 12, isNumber: false},
+            {name: 'Emergency Address', value: emergencyAddress, maxLength: 255, isNumber: false},
         ];
 
-        const missingFields = fields.filter(({name, value}) => !value).map(({name}) => name);
-
-        if (missingFields.length > 0) {
-            showDialog('WARNING', 'Missing Information', 'Please fill in the following: ' + missingFields.join(', '));
-        } else {
-            //获取不到手机号
-            if (!userInfo) {
-
+        const invalidFields = fields.filter(({name, value, maxLength, isNumber}) => {
+            if (!value) {
+                return true;
             }
+            if (maxLength && value.length > maxLength) {
+                return true;
+            }
+            if (isNumber && isNaN(Number(value))) {
+                return true;
+            }
+            return false;
+        });
+
+        if (invalidFields.length > 0) {
+            let invalidMessages = invalidFields.map(({name, value, maxLength, isNumber}) => {
+                if (!value) {
+                    return `${name} is required.`;
+                }
+                if (maxLength && value.length > maxLength) {
+                    return `${name} is too long. Maximum length is ${maxLength}.`;
+                }
+                if (isNumber && isNaN(Number(value))) {
+                    return `${name} must be a number.`;
+                }
+            });
+
+            showDialog('WARNING', 'Invalid Input', invalidMessages.join('\n'));
+        } else {
+            if (!userInfo) {
+                showDialog('WARNING', 'Missing Information', 'User info is missing.');
+                return;
+            }
+
             const uploadParams = {
                 userPhone: userInfo.userPhone,
                 chassisNumber: chassisNumber,
@@ -133,27 +155,27 @@ const DriverSupplyInfo = () => {
                 emergencyPhone: emergencyPhone,
                 emergencyRs: emergencyRs,
                 emergencyAddress: emergencyAddress,
-                // uploadedCarPath: uploadedCarPath,  // Assuming you are also sending the uploaded car image path
             };
 
             driverSupplyInfo(uploadParams)
-                .then(data => {
-                    if (data.code === 200) {
-                        showToast('SUCCESS', 'Upload Successful', 'Upload successful');
-                        userInfo.loginStatus = DriverLoginStatusEnum.ACTIVE;
-                        userInfo.saveWithLocal();
-                        navigation.navigate("Driver");
-                    } else {
-                        console.log('Upload failed', data.message);
-                        showToast('WARNING', 'Upload Failed', 'Upload failed: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.log('Upload failed', error);
-                    showToast('DANGER', 'Upload Failed', 'Upload failed: ' + error.message);
-                });
+              .then(data => {
+                  if (data.code === 200) {
+                      showToast('SUCCESS', 'Upload Successful', 'Upload successful');
+                      userInfo.loginStatus = DriverLoginStatusEnum.ACTIVE;
+                      userInfo.saveWithLocal();
+                      navigation.navigate("Driver");
+                  } else {
+                      console.log('Upload failed', data.message);
+                      showToast('WARNING', 'Upload Failed', 'Upload failed: ' + data.message);
+                  }
+              })
+              .catch(error => {
+                  console.log('Upload failed', error);
+                  showToast('DANGER', 'Upload Failed', 'Upload failed: ' + error.message);
+              });
         }
     };
+
 
 
     return (

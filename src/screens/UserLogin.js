@@ -35,7 +35,7 @@ function UserScreen() {
     const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
 
     const [value, setValue] = useState("");
-    const [secondsRemaining, setSecondsRemaining] = useState(30);
+    const [secondsRemaining, setSecondsRemaining] = useState(180);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const [isResendOtpActive, setIsResendOtpActive] = useState(false);
 
@@ -135,7 +135,7 @@ function UserScreen() {
     }, [isTimerActive, secondsRemaining]);
 
     const handleResendOtp = () => {
-        setSecondsRemaining(30);
+        setSecondsRemaining(180);
         setIsResendOtpActive(false);
         submitData();
     };

@@ -155,28 +155,6 @@ const RegisterScreen = () => {
                 },()=>{
                     showDialog('WARNING', 'Error', data.message);
                 })
-
-              /*  if (data.code === 200) {
-                    setIsTimerActive(true);
-                    setIsResendOtpActive(false);
-                    //当验证码发送成功后，把 isCodeRequested 设为 true
-                    setIsCodeRequested(true);
-                    setIsCodeInputVisible(true);
-                    let counter = 30;
-                    setSecondsRemaining(counter);
-                    const timer = setInterval(() => {
-                        counter--;
-                        setSecondsRemaining(counter);
-                        if (counter === 0) {
-                            clearInterval(timer);
-                            setIsTimerActive(false);
-                            setIsResendOtpActive(true);
-                        }
-                    }, 1000);
-                    showToast('SUCCESS', 'Success', 'SMS sent successfully!');
-                } else {
-                    showDialog('WARNING', 'Error', data.message);
-                }*/
             })
             .catch(error => {
                 console.log(error);
@@ -194,24 +172,6 @@ const RegisterScreen = () => {
                 },()=>{
                     showDialog('WARNING', 'Error', data.message);
                 })
-               /* if (data.code === 200) {
-                    setIsTimerActive(true);
-                    setIsResendOtpActive(false);
-                    let counter = 30;
-                    setSecondsRemaining(counter);
-                    const timer = setInterval(() => {
-                        counter--;
-                        setSecondsRemaining(counter);
-                        if (counter === 0) {
-                            clearInterval(timer);
-                            setIsTimerActive(false);
-                            setIsResendOtpActive(true);
-                        }
-                    }, 1000);
-                    showToast('SUCCESS', 'Success', 'SMS sent successfully!');
-                } else {
-                    showDialog('WARNING', 'Error', data.message);
-                }*/
             })
             .catch(error => {
                 console.log(error);
@@ -250,16 +210,6 @@ const RegisterScreen = () => {
                 }, () => {
                     showDialog('WARNING', 'Registration Failed', data.message);
                 });
-             /*   if (data.code === 200) {
-                    showToast('SUCCESS', 'Registration Success', 'Registration was successful');
-                    console.log('注册成功', data);
-                    setUserToken(data.data);
-                    buildUserInfo(data.data, userType.USER, userPhone).saveWithLocal();
-                    navigation.navigate("User");
-                } else {
-                    showDialog('WARNING', 'Registration Failed', data.message);
-                    console.log('注册失败', data.message);
-                }*/
             })
             .catch(error => {
                 console.log(error);

@@ -18,6 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 
 const RegisterScreen = () => {
@@ -113,7 +114,7 @@ const RegisterScreen = () => {
                     //当验证码发送成功后，把 isCodeRequested 设为 true
                     setIsCodeRequested(true);
                     setShowVerificationCode(true);
-                    let counter = 30;
+                    let counter = 180;
                     setSecondsRemaining(counter);
                     const timer = setInterval(() => {
                         counter--;
@@ -140,24 +141,24 @@ const RegisterScreen = () => {
         const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
         smsSend(userPhone,UserTypeEnum.DRIVER)
             .then(data => {
-                if (data.code === 200) {
-                    setIsTimerActive(true);
-                    setIsResendOtpActive(false);
-                    let counter = 30;
-                    setSecondsRemaining(counter);
-                    const timer = setInterval(() => {
-                        counter--;
+                responseOperation(data.code, () => {
+                        setIsTimerActive(true);
+                        setIsResendOtpActive(false);
+                        let counter = 180;
                         setSecondsRemaining(counter);
-                        if (counter === 0) {
-                            clearInterval(timer);
-                            setIsTimerActive(false);
-                            setIsResendOtpActive(true);
-                        }
-                    }, 1000);
-                    showToast('SUCCESS', 'Success', 'SMS resent successfully!');
-                } else {
+                        const timer = setInterval(() => {
+                            counter--;
+                            setSecondsRemaining(counter);
+                            if (counter === 0) {
+                                clearInterval(timer);
+                                setIsTimerActive(false);
+                                setIsResendOtpActive(true);
+                            }
+                        }, 1000);
+                        showToast('SUCCESS', 'Success', 'SMS resent successfully!');
+                }, () => {
                     showDialog('WARNING', 'Warning', data.message);
-                }
+                })
             })
             .catch(error => {
                 console.log(error);

@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSUserNotificationAlertStyle</key>
+	<string>We will notify you when your order status changes.</string>
 	<key>CFBundleDisplayName</key>
 	<string>UniEase</string>
 	<key>CFBundleExecutable</key>

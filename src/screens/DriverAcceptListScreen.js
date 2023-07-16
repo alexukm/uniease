@@ -160,8 +160,6 @@ const DriverAcceptListScreen = ({navigation}) => {
         setRefreshing(false);
     }, []);
 
-
-
     const queryOrderList = async (pageSize, page) => {
         const queryOrderListParam = {
             pageSize: pageSize,

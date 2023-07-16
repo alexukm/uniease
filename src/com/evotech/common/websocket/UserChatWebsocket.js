@@ -3,6 +3,9 @@ import {queryDriverOrderStatus, queryUserOrderStatus} from "../http/BizHttpUtil"
 import {UserChat} from "../redux/UserChat";
 import { responseOperation } from "../http/ResponseOperation";
 import { showDialog } from "../alert/toastHelper";
+import PushNotification from 'react-native-push-notification';
+import { enableSystemNotify, notifyOrderChannel, orderChannelId } from "../notify/SystemNotify"; // 这是新导入的库
+
 
 
 export const userInitChatWebsocket = async (onConnect, needRetry) => {
@@ -22,15 +25,19 @@ export const userInitChatWebsocket = async (onConnect, needRetry) => {
 export const userOrderWebsocket = async (subscribe) => {
     await getSocketClient().then();
     await whenConnect((client) => {
-        client.subscribe('/user/topic/orderAccept', 'orderAccept', (body) => {
-            // todo  调用系统通知
+        console.log("subscribe orderNotify");
+        client.subscribe('/user/topic/orderNotify', 'orderNotify', (body) => {
+            body = JSON.parse(body)
+
+            // 调用系统通知
+            notifyOrderChannel(PushNotification, body);
             if (subscribe) {
                 subscribe(body);
             }
             UserChat(false).then();
-            showDialog('SUCCESS', 'Order Accept', 'Your order has been accepted')
+            showDialog('SUCCESS', 'Order Accept', 'Your order has been accepted');
         });
-    })
+    });
 };
 
 /*export const DriverRefreshOrder = async (onSubscribe) => {

@@ -98,7 +98,7 @@ function DriverScreen() {
 
   const [value, setValue] = useState("");
   // const [modalVisible, setModalVisible] = useState(false);
-  const [secondsRemaining, setSecondsRemaining] = useState(30);
+  const [secondsRemaining, setSecondsRemaining] = useState(180);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [isResendOtpActive, setIsResendOtpActive] = useState(false);
   const [otp, setOtp] = useState("");
@@ -117,7 +117,7 @@ function DriverScreen() {
   }, [isTimerActive, secondsRemaining]);
 
   const handleResendOtp = () => {
-    setSecondsRemaining(30);
+    setSecondsRemaining(180);
     setIsResendOtpActive(false);
     submitData();
   };

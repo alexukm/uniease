@@ -257,7 +257,13 @@ const RideOrderScreen = () => {
                     },
                     {
                         text: 'Go to Settings',
-                        onPress: () => Linking.openURL('app-settings:')
+                        onPress: () => {
+                            if (Platform.OS === 'ios') {
+                                Linking.openURL('app-settings:').then();
+                            } else {
+                                Linking.openSettings().then();
+                            }
+                        }
                     }
                 ],
               );

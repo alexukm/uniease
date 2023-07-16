@@ -250,8 +250,7 @@ const RideOrderScreen = () => {
         await locationPermission((result) => {
             getCurrentLocation()
         }, (result) => {
-            console.log("Location permission denied");
-            showDialog('WARNING', 'Action Required', 'Location permission denied. For automatic location input, please enable location access.');
+            getCurrentLocation()
         }, (error) => {
             console.warn(error);
         })

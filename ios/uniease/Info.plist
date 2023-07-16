@@ -40,8 +40,13 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationAlwaysUsageDescription </key>
-	<string>We need to access your location information to provide location-based services</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need to access your location information to provide location-based services</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We need to access your location information to provide location-based services</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>We need to access your location information to provide location-based services</string>
+
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>You have disabled photo access permission. Uploading requires access to photos in your gallery</string>
 	<key>NSUserNotificationAlertStyle</key>

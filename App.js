@@ -25,6 +25,7 @@ import TermsAndConditions from "./src/screens/TermsAndConditions";
 import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnums";
 import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate";
 import { enableSystemNotify } from "./src/com/evotech/common/notify/SystemNotify";
+import RNBootSplash from "react-native-bootsplash";
 
 
 enableScreens();
@@ -52,6 +53,9 @@ const App = () => {
    // useEffect(() => {
    //      AsyncStorage.clear()
    //  }, []);
+    useEffect(() => {
+        RNBootSplash.hide({fade: true}); // 隐藏启动屏
+    }, []);
 
     const skipOp = (userInfo, skipLogin) => {
         const userSkip = (skipLogin) => {

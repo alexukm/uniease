@@ -5,6 +5,9 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 
+import android.os.Bundle;
+import com.zoontek.rnbootsplash.RNBootSplash;
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -15,6 +18,12 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "uniease";
   }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      RNBootSplash.init(this); // ⬅️ initialize the splash screen
+      super.onCreate(savedInstanceState); // or super.onCreate(null) with react-native-screens
+    }
 
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link

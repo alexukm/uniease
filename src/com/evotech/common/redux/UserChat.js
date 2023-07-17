@@ -1,5 +1,5 @@
 
-import {addChatList, addMessage, initChatList, initMessage, selectChatList} from "./chatSlice";
+import { addChatList, addMessage, clearChat, initChatList, initMessage } from "./chatSlice";
 import uuid from "react-native-uuid";
 import {userInitChatWebsocket} from "../websocket/UserChatWebsocket";
 import store from "./store";
@@ -78,4 +78,9 @@ export async function saveLocalChat() {
         return;
     }
     setChatMessages(chatMessage).then();
+}
+
+export async function clearLocalChat() {
+    const dispatch = store.dispatch;
+    dispatch(clearChat(null));
 }

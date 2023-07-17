@@ -10,6 +10,10 @@ const chatSlice = createSlice({
     name: 'chat',
     initialState,
     reducers: {
+        clearChat(state, action){
+            state.chatMessage = {};
+            state.chatList = {};
+        },
         addMessage(state, action) {
             const message = action.payload;
             if (state.chatMessage[message.userCode]) {
@@ -40,7 +44,7 @@ const chatSlice = createSlice({
     },
 });
 
-export const {addMessage,deleteChat,initMessage, addChatList,initChatList} = chatSlice.actions;
+export const {clearChat,addMessage,deleteChat,initMessage, addChatList,initChatList} = chatSlice.actions;
 
 export const selectChatList = state => state.chat.chatList;
 export const selectChatMessage = state => state.chat.chatMessage;

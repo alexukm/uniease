@@ -2,6 +2,7 @@ import {asyncDelKey, getValue, setKeyValue} from "./LocalStorageUtil";
 import {defaultHeaders} from "../http/HttpUtil";
 import {getUserInfoWithLocal, removeUserInfo} from "./UserInfo";
 import {closeWebsocket} from "../websocket/SingletonWebSocketClient";
+import { clearLocalChat } from "../redux/UserChat";
 
 export const UserOrigin = {APP: 0}
 export const UserPlatform = {Android: 1, IOS: 2,}
@@ -55,6 +56,8 @@ export function userLogOut() {
     removeUserInfo();
     //close websocket
     closeWebsocket()
+    // clear chat room
+    clearLocalChat().then();
 }
 
 export async function getUserToken() {

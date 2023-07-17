@@ -19,7 +19,7 @@ import {
   driverGetPasserCode, driverOrderCompleted,
   driverOrderInfo, driverOrderStart, driverQueryUserPhone, driverReviewOrder, queryDriverOrderStatus,
 } from "../com/evotech/common/http/BizHttpUtil";
-import { OrderStateEnum } from "../com/evotech/common/constant/BizEnums";
+import {OrderStateDescEnum, OrderStateEnum} from "../com/evotech/common/constant/BizEnums";
 import { Rating } from "react-native-ratings";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { format } from "date-fns";
@@ -286,7 +286,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     <VStack>
       {status && (
         <Box bg={status.color} p={2} width="100%">
-          <Text>Status: {status.text}</Text>
+          <Text>{status.text}</Text>
         </Box>
       )}
       <Box bg="white" shadow={0} p={4}>
@@ -406,7 +406,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
 
 
     return (
-      <InfoBox status={{ color: statusColor, text: Status }}>
+      <InfoBox status={{ color: statusColor, text: OrderStateDescEnum[Status].DRIVER }}>
         <VStack space={3}>
           {Status !== OrderStateEnum.CANCELLED && Status !== OrderStateEnum.COMPLETED && Status !== OrderStateEnum.DELIVERED && (
             <View style={{ position: "relative" }}>

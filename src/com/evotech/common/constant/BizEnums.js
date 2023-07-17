@@ -44,26 +44,26 @@ export const ResponseCodeEnum = {
 };
 
 export const OrderStateDescEnum = {
-  AWAITING: {
+  "Awaiting" : {
     PASSER: "Looking for the UniEase vehicle"
   },
-  PENDING: {
+  "Pending": {
     DRIVER: "Order accepted, heading for passenger pickup",
     PASSER: "UniEase driver accepted your order"
   },
-  IN_TRANSIT: {
+  "InTransit": {
     DRIVER: "Passenger onboard, en route to destination",
     PASSER: "On the journey"
   },
-  DELIVERED: {
+  "Delivered": {
     DRIVER: "Passenger arrived, please rate your trip.",
     PASSER: "You've reached your destination",
   },
-  COMPLETED: {
+  "Completed": {
     DRIVER: "Order Completed",
     PASSER: "You've completed your journey"
   },
-  CANCELLED: {
+  "Cancelled": {
     DRIVER: "Order Completed",
     PASSER: "Order Cancelled"
   },

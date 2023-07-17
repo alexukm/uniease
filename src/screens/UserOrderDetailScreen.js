@@ -11,7 +11,7 @@ import {
   userCancelOrder,
   passerGetDriverCode, driverQueryUserPhone, userQueryDriverPhone,
 } from "../com/evotech/common/http/BizHttpUtil";
-import { OrderStateEnum } from "../com/evotech/common/constant/BizEnums";
+import {OrderStateDescEnum, OrderStateEnum} from "../com/evotech/common/constant/BizEnums";
 import { Rating } from "react-native-ratings";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { format } from "date-fns";
@@ -302,7 +302,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
     <VStack>
       {status && (
         <Box bg={status.color} p={2} width="100%">
-          <Text>Status: {status.text}</Text>
+          <Text>{status.text}</Text>
         </Box>
       )}
       <Box bg="white" shadow={2} p={4}>
@@ -334,7 +334,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
         statusColor = "#808080"; // default to gray
     }
     return (
-      <InfoBox status={{ color: statusColor, text: Status }}>
+      <InfoBox status={{ color: statusColor, text: OrderStateDescEnum[Status].PASSER }}>
         <VStack space={4}>
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <View>

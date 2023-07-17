@@ -5,7 +5,7 @@ import {
     Pressable,
     View,
     ActivityIndicator,
-    TouchableOpacity, Platform, Linking,
+    TouchableOpacity, Platform, Linking, Alert,
 } from "react-native";
 import Geolocation from '@react-native-community/geolocation';
 import {
@@ -19,7 +19,7 @@ import {
     Modal,
     Spinner,
     Heading,
-    KeyboardAvoidingView, Alert,
+    KeyboardAvoidingView,
 } from "native-base";
 import RemixIcon from 'react-native-remix-icon';
 import DatePicker from 'react-native-date-picker';

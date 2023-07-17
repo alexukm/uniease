@@ -38,7 +38,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
   const [existDriverInfo, setExistDriverInfo] = useState(false);
 
   const refRBSheet = useRef();  // 引用RBSheet
-
+  const [rating, setRating] = useState(5);
   const reviewRef = useRef("");
 
   const refRBSheetPayment = useRef();  // 引用RBSheet for PaymentInfoBox
@@ -284,14 +284,14 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
           imageSize={40}
           // fractions={1}
           startingValue={5}
-          onFinishRating={(rating) => console.log("Rating is " + rating)}
+          onFinishRating={(rating) => setRating(rating)}
         />
         <Input
           placeholder="Write your review here..."
           multiline
           onChangeText={value => reviewRef.current = value}
         />
-        <Button onPress={() => reviewOrder(5, "太棒了")}>
+        <Button onPress={() => reviewOrder(rating, reviewRef.current)}>
           Submit
         </Button>
       </VStack>

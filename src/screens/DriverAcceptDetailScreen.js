@@ -48,7 +48,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     DestinationCoords,
   } = route.params;
   const [existDriverInfo, setExistDriverInfo] = useState(false);
-  const [rating, setRating] = useState(2);
+  const [rating, setRating] = useState(5);
 
   const refRBSheet = useRef();  // 引用RBSheet
 
@@ -276,7 +276,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
           imageSize={40}
           // fractions={1}
           startingValue={5}
-          onFinishRating={(rating) => console.log("Rating is " + rating)}
+          onFinishRating={(rating) => setRating(rating)}
         />
         <Input
           placeholder="Write your review here..."

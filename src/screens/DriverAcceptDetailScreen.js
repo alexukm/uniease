@@ -57,6 +57,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
   const refRBSheetPayment = useRef();  // 引用RBSheet for PaymentInfoBox
   const refRBSheetReview = useRef();  // 引用RBSheet for ReviewBox
 
+  const [isLoading, setIsLoading] = useState(false);
+
+
   const handleCancel = () => {
     refRBSheet.current.open();
   };
@@ -146,6 +149,8 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
   };
 
   const updateTravelStatus = async (timePropertyName, apiFunction) => {
+    // 设置 isLoading 为 true，开始显示 spinner
+    setIsLoading(true);
     try {
       const param = {
         driverOrderId: orderDetailInfo.driverOrderId,
@@ -164,6 +169,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     } catch (error) {
       showDialog("ERROR", "Error", "Request failed, please try again later.");
       console.error(error);
+    } finally {
+      // 不论成功还是失败，都设置 isLoading 为 false，停止显示 spinner
+      setIsLoading(false);
     }
   };
 
@@ -776,6 +784,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         {
           Status === OrderStateEnum.PENDING &&
           <Button
+            disabled={isLoading} // 当 isLoading 为 true 时，禁用按钮
             onPress={() => updateTravelStatus("departureTime", driverOrderStart)}
             style={{
               width: "90%",
@@ -791,6 +800,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         {
           Status === OrderStateEnum.IN_TRANSIT &&
           <Button
+            disabled={isLoading} // 当 isLoading 为 true 时，禁用按钮
             onPress={() => updateTravelStatus("actualArrivalTime", driverOrderCompleted)}
             style={{
               width: "90%",

@@ -299,9 +299,6 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
   const OrderInfoBox = () => {
     let statusColor;
     switch (Status) {
-      case OrderStateEnum.AWAITING:
-        statusColor = "#0000FF"; // blue
-        break;
       case OrderStateEnum.PENDING:
         statusColor = "#FFFF00"; // yellow
         break;
@@ -309,7 +306,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         statusColor = "#008000"; // green
         break;
       case OrderStateEnum.DELIVERED:
-        statusColor = "#800080"; // purple
+        statusColor = "#808080"; // gray
         break;
       case OrderStateEnum.CANCELLED:
         statusColor = "#808080"; // gray

@@ -305,7 +305,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
           <Text>{status.text}</Text>
         </Box>
       )}
-      <Box bg="white" shadow={2} p={4}>
+      <Box bg="white" shadow={0} p={4}>
         <VStack space={4} mt={1.2}>
           {children}
         </VStack>
@@ -325,7 +325,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
         statusColor = "#008000"; // green
         break;
       case OrderStateEnum.DELIVERED:
-        statusColor = "#800080"; // purple
+        statusColor = "#808080"; // gray
         break;
       case OrderStateEnum.CANCELLED:
         statusColor = "#808080"; // gray
@@ -516,7 +516,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
               ref={refRBSheetPayment}
               closeOnDragDown={true}
               closeOnPressMask={true}
-              height={Dimensions.get("window").height * 0.28} // 设置RBSheet占据50%的屏幕高度
+              height={Dimensions.get("window").height * 0.31} // 设置RBSheet占据50%的屏幕高度
             >
               <PaymentInfoBox />
             </RBSheet>
@@ -533,7 +533,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
               ref={refRBSheetPayment}
               closeOnDragDown={true}
               closeOnPressMask={true}
-              height={Dimensions.get("window").height * 0.28} // 设置RBSheet占据50%的屏幕高度
+              height={Dimensions.get("window").height * 0.31} // 设置RBSheet占据50%的屏幕高度
             >
               <PaymentInfoBox />
             </RBSheet>
@@ -552,7 +552,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
                   ref={refRBSheetPayment}
                   closeOnDragDown={true}
                   closeOnPressMask={true}
-                  height={Dimensions.get("window").height * 0.28} // 设置RBSheet占据50%的屏幕高度
+                  height={Dimensions.get("window").height * 0.31} // 设置RBSheet占据50%的屏幕高度
                 >
                   <PaymentInfoBox />
                 </RBSheet>
@@ -571,7 +571,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
                 closeOnDragDown={true}
                 closeOnPressMask={true}
-                height={Dimensions.get("window").height * 0.28}
+                height={Dimensions.get("window").height * 0.31}
               >
                 <PaymentInfoBox />
               </RBSheet>
@@ -579,7 +579,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheetReview} // 添加了一个新的RBSheet
                 closeOnDragDown={true}
                 closeOnPressMask={true}
-                height={Dimensions.get("window").height * 0.3}
+                height={Dimensions.get("window").height * 0.33}
               >
                 <ReviewBox />
               </RBSheet>
@@ -598,7 +598,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheetPayment}
                 closeOnDragDown={true}
                 closeOnPressMask={true}
-                height={Dimensions.get("window").height * 0.28} // 设置RBSheet占据50%的屏幕高度
+                height={Dimensions.get("window").height * 0.31} // 设置RBSheet占据50%的屏幕高度
               >
                 <PaymentInfoBox />
               </RBSheet>
@@ -615,7 +615,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheetPayment}
                 closeOnDragDown={true}
                 closeOnPressMask={true}
-                height={Dimensions.get("window").height * 0.28} // 设置RBSheet占据50%的屏幕高度
+                height={Dimensions.get("window").height * 0.31} // 设置RBSheet占据50%的屏幕高度
               >
                 <PaymentInfoBox />
               </RBSheet>

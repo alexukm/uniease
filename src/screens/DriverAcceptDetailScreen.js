@@ -289,7 +289,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
           <Text>Status: {status.text}</Text>
         </Box>
       )}
-      <Box bg="white" shadow={2} p={4}>
+      <Box bg="white" shadow={0} p={4}>
         <VStack space={4} mt={1}>
           {children}
         </VStack>
@@ -680,7 +680,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
               ref={refRBSheetPayment}
               closeOnDragDown={true}
               closeOnPressMask={true}
-              height={Dimensions.get("window").height * 0.184} // 设置RBSheet占据50%的屏幕高度
+              height={Dimensions.get("window").height * 0.214} // 设置RBSheet占据50%的屏幕高度
             >
               <PaymentInfoBox />
             </RBSheet>
@@ -698,7 +698,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                   ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
                   closeOnDragDown={true}
                   closeOnPressMask={true}
-                  height={Dimensions.get("window").height * 0.184}
+                  height={Dimensions.get("window").height * 0.214}
                 >
                   <PaymentInfoBox />
                 </RBSheet>
@@ -716,7 +716,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
                 closeOnDragDown={true}
                 closeOnPressMask={true}
-                height={Dimensions.get("window").height * 0.184}
+                height={Dimensions.get("window").height * 0.214}
               >
                 <PaymentInfoBox />
               </RBSheet>
@@ -724,7 +724,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheetReview} // 添加了一个新的RBSheet
                 closeOnDragDown={true}
                 closeOnPressMask={true}
-                height={Dimensions.get("window").height * 0.28}
+                height={Dimensions.get("window").height * 0.31}
               >
                 <ReviewBox />
               </RBSheet>
@@ -742,7 +742,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
                 closeOnDragDown={true}
                 closeOnPressMask={true}
-                height={Dimensions.get("window").height * 0.184}
+                height={Dimensions.get("window").height * 0.214}
               >
                 <PaymentInfoBox />
               </RBSheet>
@@ -761,7 +761,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                 ref={refRBSheetPayment} // 修改这里使用了refRBSheetPayment
                 closeOnDragDown={true}
                 closeOnPressMask={true}
-                height={Dimensions.get("window").height * 0.184}
+                height={Dimensions.get("window").height * 0.214}
               >
                 <PaymentInfoBox />
               </RBSheet>

@@ -13,6 +13,7 @@ import {OrderStateEnum} from "../com/evotech/common/constant/BizEnums";
 import {showToast} from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { formatDate } from "../com/evotech/common/formatDate";
+import { useFocusEffect } from "@react-navigation/native";
 
 
 const styles1 = StyleSheet.create({
@@ -136,15 +137,15 @@ const DriverAcceptListScreen = ({navigation}) => {
 
     const [hasMore, setHasMore] = useState(true);
 
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         handleRefresh();
-    //     }, [])
-    // );
+    useFocusEffect(
+        React.useCallback(() => {
+            handleRefresh();
+        }, [])
+    );
 
-    useEffect(() => {
-        handleRefresh();  // 在这里运行 handleRefresh 以在组件初始化时获取数据
-    }, []);
+    // useEffect(() => {
+    //     handleRefresh();  // 在这里运行 handleRefresh 以在组件初始化时获取数据
+    // }, []);
 
     const openSheet = useCallback((orderId) => {
         setCancelOrderId(orderId);

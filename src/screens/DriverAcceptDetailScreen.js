@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NativeBaseProvider, Box, VStack, HStack, Button, Text, Avatar, Input, Image } from "native-base";
+import { NativeBaseProvider, Box, VStack, HStack, Button, Text, Avatar, Input, Image, Spinner } from "native-base";
 import MapView, { Marker } from "react-native-maps";
 import {
   View,
@@ -158,22 +158,27 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         [timePropertyName]: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
       apiFunction(param).then(data => {
-        responseOperation(data.code, () => {
+        // 添加一些延迟以便能看到 Spinner
+        setTimeout(() => {
+          responseOperation(data.code, () => {
             fetchDataAndUpdateParams();
             // 判断 是否需要关闭websocket
             driverOrderStatusCallBack();
-        }, () => {
+          }, () => {
             showDialog("WARNING", "Warning", data.message);
-        })
+          });
+          // 不论成功还是失败，都设置 isLoading 为 false，停止显示 spinner
+          setIsLoading(false);
+        }, 500);  // 这里的2000是延迟的毫秒数，你可以根据需要调整
       });
     } catch (error) {
       showDialog("ERROR", "Error", "Request failed, please try again later.");
       console.error(error);
-    } finally {
-      // 不论成功还是失败，都设置 isLoading 为 false，停止显示 spinner
+      // 出错时，也设置 isLoading 为 false，停止显示 spinner
       setIsLoading(false);
     }
   };
+
 
   const handleOpenMaps = async (address) => {
     const url = Platform.select({
@@ -253,7 +258,6 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     driverReviewOrder(param).then(data => {
       console.log(data);
       responseOperation(data.code, () =>{
-        showDialog("WARNING", "Warning", "Failed to submit review, please try again later!");
       }, () => {
         fetchDataAndUpdateParams();
         }
@@ -789,12 +793,13 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             style={{
               width: "90%",
               alignSelf: "center",
-              marginTop: 20,
-              marginBottom: 20,
+              marginTop: 10,
+              marginBottom: 30,
+              height: 50,
               backgroundColor: "#002d66",
             }}
           >
-            Arrived at the passenger starting point
+            {isLoading ? <Spinner color="white" /> : 'Arrived at the passenger starting point'}
           </Button>
         }
         {
@@ -805,12 +810,13 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             style={{
               width: "90%",
               alignSelf: "center",
-              marginTop: 20,
-              marginBottom: 20,
-              backgroundColor: "#0000FF",
+              marginTop: 10,
+              marginBottom: 30,
+              height: 50,
+              backgroundColor: "#002d66",
             }}
           >
-            Order completed
+            {isLoading ? <Spinner color="white" /> : 'Order completed'}
           </Button>
         }
       </View>

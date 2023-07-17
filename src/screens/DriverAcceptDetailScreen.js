@@ -438,7 +438,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
               )}
               <RBSheet
                 ref={refRBSheet}
-                height={Dimensions.get("window").height * 0.2}
+                height={Dimensions.get("window").height * 0.25}
                 closeOnDragDown={true}
                 closeOnPressMask={true}
                 customStyles={{

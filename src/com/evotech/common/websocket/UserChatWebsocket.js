@@ -28,14 +28,12 @@ export const userOrderWebsocket = async (subscribe) => {
         console.log("subscribe orderNotify");
         client.subscribe('/user/topic/orderNotify', 'orderNotify', (body) => {
             body = JSON.parse(body)
-
             // 调用系统通知
             notifyOrderChannel( body);
             if (subscribe) {
                 subscribe(body);
             }
             UserChat(false).then();
-            showDialog('SUCCESS', 'Order Accept', 'Your order has been accepted');
         });
     });
 };

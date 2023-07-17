@@ -200,8 +200,6 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       showToast("ERROR", "Error", "Unable to open navigation, an error occurred");
     }
   };
-
-
   useEffect(() => {
     setExistDriverInfo(orderDetailInfo.driverOrderId !== "");
   }, []);
@@ -258,8 +256,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     driverReviewOrder(param).then(data => {
       console.log(data);
       responseOperation(data.code, () =>{
+          fetchDataAndUpdateParams();
       }, () => {
-        fetchDataAndUpdateParams();
+        showDialog("ERROR", "Error", data.message);
         }
       )
     }).catch(err => {

@@ -109,7 +109,7 @@ const OrderBox = React.memo(({order, navigation, openSheet}) => {
                     </HStack>
                     <HStack space={2} alignItems="center">
                         <RemixIcon name="checkbox-blank-circle-fill" size={15} color="orange" style={{marginTop: 5}}/>
-                        <Text>{destinationAddress}</Text>
+                        <Text numberOfLines={2}>{destinationAddress}</Text>
                     </HStack>
                     <HStack space={2} alignItems="center">
                         <RemixIcon name="time-fill" size={15} color="black"/>

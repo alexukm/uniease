@@ -4,7 +4,6 @@ import {
     Image,
     Pressable,
     View,
-    Alert,
     ActivityIndicator,
     TouchableOpacity, Platform, Linking,
 } from "react-native";
@@ -45,7 +44,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
 import PushNotification from "react-native-push-notification";
-import alert from "native-base/src/components/composites/Alert/Alert";
 
 
 

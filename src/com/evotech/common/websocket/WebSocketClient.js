@@ -32,7 +32,6 @@ class WebSocketClient {
             });
 
             this.subscribe('/user/topic/ping', 'ping', (body) => {
-                console.log(JSON.stringify(body))
             })
 
             setInterval(() => {

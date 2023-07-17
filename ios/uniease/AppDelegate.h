@@ -1,6 +1,6 @@
 #import <RCTAppDelegate.h>
 #import <UIKit/UIKit.h>
-
-@interface AppDelegate : RCTAppDelegate
+#import <UserNotifications/UNUserNotificationCenter.h>
+@interface AppDelegate : RCTAppDelegate <UNUserNotificationCenterDelegate>
 
 @end

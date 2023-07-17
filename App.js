@@ -24,7 +24,7 @@ import TermsAndConditions from "./src/screens/TermsAndConditions";
 
 import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnums";
 import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate";
-import { enableSystemNotify } from "./src/com/evotech/common/notify/SystemNotify";
+import {enableSystemNotify, notifyOrderChannel} from "./src/com/evotech/common/notify/SystemNotify";
 import RNBootSplash from "react-native-bootsplash";
 
 

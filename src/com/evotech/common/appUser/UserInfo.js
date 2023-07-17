@@ -6,12 +6,13 @@ import * as logger from "react-native-gifted-chat/lib/logging";
 const userInfoKey = 'userInfo';
 
 export class UserInfo {
-    constructor(token, userType, userPhone, identifier,loginStatus) {
+    constructor(token, userType, userPhone, identifier,loginStatus,userName) {
         this.token = token;
         this.userType = userType;
         this.userPhone = userPhone;
         this.identifier = identifier;
         this.loginStatus = loginStatus;
+        this.userName = userName;
     }
 
     saveWithLocal() {
@@ -35,14 +36,14 @@ export class UserInfo {
 export async function getUserInfoWithLocal() {
     const userInfoJson = await getUserInfo();
     const userInfo = JSON.parse(userInfoJson);
-    return userInfo ? new UserInfo(userInfo.token, userInfo.userType, userInfo.userPhone, userInfo.identifier,userInfo.loginStatus) : userInfo;
+    return userInfo ? new UserInfo(userInfo.token, userInfo.userType, userInfo.userPhone, userInfo.identifier,userInfo.loginStatus,userInfo.userName) : userInfo;
 }
 
 export async function getUserInfo() {
     return await getValue(userInfoKey);
 }
-export function buildUserInfo(token, userType, userPhone,loginStatus) {
-    return new UserInfo(token, userType, userPhone, getUserID(),loginStatus);
+export function buildUserInfo(token, userType, userPhone,loginStatus,userName) {
+    return new UserInfo(token, userType, userPhone, getUserID(),loginStatus,userName);
 }
 
 export async function userSkipLogin(setInitialRoute, tokenCheck) {

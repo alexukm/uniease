@@ -3,6 +3,7 @@ import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, Alert, SafeA
 import { useSelector, useDispatch } from "react-redux";
 import {selectChatList} from "../com/evotech/common/redux/chatSlice";
 import { deleteChat } from '../com/evotech/common/redux/chatSlice';
+import { Box } from "native-base";
 
 
 export default function ChatList({navigation}) {
@@ -31,12 +32,17 @@ export default function ChatList({navigation}) {
     return (
       <SafeAreaView style={{flex: 1}}>
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Chats</Text>
-            </View>
             <FlatList
                 data={Object.values(chatList)}
                 keyExtractor={(item) => item.id}
+                ListHeaderComponent={
+                    <View style={styles.header}>
+                    <Box bg="white" shadow={2} rounded="lg" p={4} my={2} style={{marginTop: 0}}>
+                        <Text style={styles.headerText}>Chats</Text>
+                        <Text style={{textAlign: 'justify'}}>This page is for viewing message only and doesn't support sending messages. To send a message, please navigate back to the relevant Order page or visit the Customer Service Center.</Text>
+                    </Box>
+                    </View>
+                }
                 renderItem={({item}) => (
                     <TouchableOpacity
                         style={styles.chatItem}

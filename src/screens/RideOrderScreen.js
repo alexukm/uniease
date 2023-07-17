@@ -19,7 +19,7 @@ import {
     Modal,
     Spinner,
     Heading,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, Alert,
 } from "native-base";
 import RemixIcon from 'react-native-remix-icon';
 import DatePicker from 'react-native-date-picker';
@@ -343,7 +343,7 @@ const RideOrderScreen = () => {
                 }
             }).catch(err => {
             console.log("user order check fail" + err.message);
-            showDialog('DANGER', 'System error', 'System error,Please try again later!');
+            showDialog('DANGER', 'System error', err.message);
             setIsLoading(false);  // 处理失败，停止 spinner
         });
     };

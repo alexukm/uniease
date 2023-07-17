@@ -60,7 +60,7 @@ const DriverOrderListScreen = () => {
             handleRefresh().then( );
             const timer = setInterval(() => {
                 handleRefresh().then();
-            }, 5000); // 每60秒刷新一次
+            }, 60000); // 每60秒刷新一次
 
             // 在页面失焦时取消定时器
             return () => clearInterval(timer);

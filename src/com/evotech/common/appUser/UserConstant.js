@@ -1,6 +1,7 @@
 import {asyncDelKey, getValue, setKeyValue} from "./LocalStorageUtil";
 import {defaultHeaders} from "../http/HttpUtil";
 import {getUserInfoWithLocal, removeUserInfo} from "./UserInfo";
+import {closeWebsocket} from "../websocket/SingletonWebSocketClient";
 
 export const UserOrigin = {APP: 0}
 export const UserPlatform = {Android: 1, IOS: 2,}
@@ -52,6 +53,8 @@ export function userLogOut() {
     asyncDelKey(defaultHeaders.TOKEN).then();
     //删除用户信息
     removeUserInfo();
+    //close websocket
+    closeWebsocket()
 }
 
 export async function getUserToken() {

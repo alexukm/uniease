@@ -33,12 +33,11 @@ export const mergeSocketClient = (newClient) => {
     if (!socketClient) {
         return newClient;
     }
-    console.log("合并订阅")
 
     //重试订阅
     connect(newClient, (client) => {
         Object.keys(socketClient.subscriptions).forEach(subscription => {
-            Object.entries(socketClient.handlers[subscription]).forEach((k, v) => {
+            Object.entries(socketClient.handlers[subscription]).forEach(([k, v]) => {
                 newClient.subscribe(subscription, k, v);
             })
         });
@@ -102,6 +101,7 @@ export const clientStatus = () => {
 }
 
 export const closeWebsocket = () => {
+    clearInterval(intervalJob);
     if (socketClient) {
         socketClient.disconnect();
     }

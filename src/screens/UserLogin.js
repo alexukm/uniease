@@ -157,7 +157,7 @@ function UserScreen() {
         responseOperation(data.code, () => {
           const loginResult = data.data;
           setUserToken(loginResult.token);
-          buildUserInfo(loginResult.token, userType.USER, userPhone, loginResult.userName).saveWithLocal();
+          buildUserInfo(loginResult.token, userType.USER, userPhone,"", loginResult.userName).saveWithLocal();
           navigation.replace("User");
           showToast("SUCCESS", "Login Successful", "You have successfully logged in!");
         }, () => {

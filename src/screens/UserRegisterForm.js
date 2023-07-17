@@ -205,7 +205,7 @@ const RegisterScreen = () => {
         responseOperation(data.code, () => {
           showToast("SUCCESS", "Registration Success", "Registration was successful");
           setUserToken(data.data);
-          buildUserInfo(data.data, userType.USER, userPhone, registryParams.lastName + " " + registryParams.firstName).saveWithLocal();
+          buildUserInfo(data.data, userType.USER, userPhone, "",registryParams.lastName + " " + registryParams.firstName).saveWithLocal();
           navigation.navigate("User");
         }, () => {
           showDialog("WARNING", "Registration Failed", data.message);

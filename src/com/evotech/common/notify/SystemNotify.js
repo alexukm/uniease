@@ -38,9 +38,9 @@ export const notifyOrderChannel = (body) => {
   }
   if (isIOS()) {
       PushNotificationIOS.addNotificationRequest({
-          id: orderChannelId(),
-          title: "body.noticeTitle",
-          body:  "body.noticeContent",
+          id: 'order notify',
+          title:  body.noticeTitle,
+          body:   body.noticeContent,
       });
   }
 };

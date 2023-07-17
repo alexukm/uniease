@@ -41,5 +41,31 @@ export const ResponseCodeEnum = {
   TOKEN_ERROR: 201,
   UN_AUTHORIZE: 401,
 
-
 };
+
+export const OrderStateDescEnum = {
+  AWAITING: {
+    PASSER: "Looking for the UniEase vehicle"
+  },
+  PENDING: {
+    DRIVER: "Order accepted, heading for passenger pickup",
+    PASSER: "UniEase driver accepted your order"
+  },
+  IN_TRANSIT: {
+    DRIVER: "Passenger onboard, en route to destination",
+    PASSER: "On the journey"
+  },
+  DELIVERED: {
+    DRIVER: "Passenger arrived, please rate your trip.",
+    PASSER: "You've reached your destination",
+  },
+  COMPLETED: {
+    DRIVER: "Order Completed",
+    PASSER: "You've completed your journey"
+  },
+  CANCELLED: {
+    DRIVER: "Order Completed",
+    PASSER: "Order Cancelled"
+  },
+};
+

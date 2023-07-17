@@ -44,6 +44,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
 import PushNotification from "react-native-push-notification";
+import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 
 
 
@@ -650,9 +651,7 @@ const RideOrderScreen = () => {
                             </HStack>
                             <HStack justifyContent="space-between" alignItems="center">
                                 <Image
-                                    source={{
-                                        uri: 'https://cdn.pixabay.com/photo/2013/07/13/12/47/car-160343_1280.png',
-                                    }}
+                                    source={{uri: ImagesEnum.UserOrderCar}}
                                     style={{width: 100, height: 100}}
                                 />
                                 <Text>{estimatedDuration}</Text>

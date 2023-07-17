@@ -31,6 +31,7 @@ export const ImagesEnum = {
   Logo: "https://unieaseapp.com/uniEaseImages/app/logo.png",
   UserLogin: "https://unieaseapp.com/uniEaseImages/app/user_login.png",
   DriverLogin: "https://unieaseapp.com/uniEaseImages/app/driver_login.png",
+  UserOrderCar: "https://unieaseapp.com/uniEaseImages/app/user_order_car.png",
 };
 
 

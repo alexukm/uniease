@@ -39,7 +39,7 @@ export default function ChatList({navigation}) {
                     <View style={styles.header}>
                     <Box bg="white" shadow={2} rounded="lg" p={4} my={2} style={{marginTop: 0}}>
                         <Text style={styles.headerText}>Chats</Text>
-                        <Text style={{textAlign: 'justify'}}>This page is for viewing message only and doesn't support sending messages. To send a message, please navigate back to the relevant Order page or visit the Customer Service Center.</Text>
+                        <Text>This page is for viewing message only and doesn't support sending messages. To send a message, please navigate back to the relevant Order page or visit the Customer Service Center.</Text>
                     </Box>
                     </View>
                 }

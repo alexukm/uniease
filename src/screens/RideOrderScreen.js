@@ -424,7 +424,7 @@ const RideOrderScreen = () => {
                 // Trigger the alert
                 Alert.alert(
                   'Time Alert',
-                  'Your departure time is less than 10 minutes away. Please book in advance for better service.',
+                  'Departure in less than 10 minutes? Book ahead to avoid the risk of no drivers being available.',
                   [
                       {
                           text: 'Cancel Order',

@@ -311,9 +311,8 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
                       mb={4}  // Add margin to the bottom
                       placeholder="Reason for cancellation (OPTIONAL)"
                       onChangeText={text => cancelReasonRef.current = text}
-                      // value={cancelReason}
                     />
-                    <Button onPress={handleConfirmCancel}>
+                    <Button style={{ backgroundColor: '#2E86C1' }} onPress={handleConfirmCancel}>
                       <Text style={styles1.textStyle}>Confirm Cancel</Text>
                     </Button>
                   </View>

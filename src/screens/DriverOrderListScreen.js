@@ -184,7 +184,7 @@ const DriverOrderListScreen = () => {
                     </HStack>
                     <HStack space={2} alignItems="flex-start">
                         <RemixIcon name="checkbox-blank-circle-fill" size={15} color="orange" style={{marginTop: 5}}/>
-                        <Text style={{flexWrap: 'wrap'}}>
+                        <Text style={{flexWrap: 'wrap', flex: 1}}>
                             {item.destinationAddress}
                         </Text>
                     </HStack>

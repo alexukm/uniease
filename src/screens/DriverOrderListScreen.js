@@ -25,7 +25,7 @@ import { userOrderWebsocket } from "../com/evotech/common/websocket/UserChatWebs
 const DriverOrderListScreen = () => {
     const [rideOrders, setRideOrders] = React.useState([]);
     const [page, setPage] = React.useState(1);
-    const [pageSize, setPageSize] = React.useState(22);
+    const [pageSize, setPageSize] = React.useState(5);
     const [refreshing, setRefreshing] = useState(false);
 
     const [updateFlag, setUpdateFlag] = useState(false); // 添加这个状态
@@ -103,9 +103,10 @@ const DriverOrderListScreen = () => {
         setRefreshing(true);
         const orderList = await queryOrders(pageSize, 1);
         setRideOrders(orderList);
-        setPage(page + 1);
+        setPage(2); // 重置 page 为 2，因为你已经加载了第一页的数据
         setRefreshing(false);
-    }, [pageSize, page]); // 更新依赖列表，包括pageSize和page。
+    }, [pageSize]); // 更新依赖列表，只包括 pageSize
+
 
     useFocusEffect(
         React.useCallback(() => {

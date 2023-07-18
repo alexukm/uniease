@@ -567,7 +567,7 @@ const RideOrderScreen = () => {
                             </HStack>
                             <HStack justifyContent="space-between" alignItems="center">
                                 <Image
-                                    source={{uri: ImagesEnum.UserOrderCar}}
+                                    source={{uri: ImagesEnum.UserOrderCartoonCar}}
                                     style={{width: 100, height: 100}}
                                 />
                                 <Text>{estimatedDuration}</Text>

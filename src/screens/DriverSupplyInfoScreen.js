@@ -17,7 +17,7 @@ import RemixIcon from 'react-native-remix-icon';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {driverSupplyInfo, driverUpload} from "../com/evotech/common/http/BizHttpUtil";
 import {CarType, DriverImageType} from "../com/evotech/common/appUser/UserConstant";
-import {getUserInfoWithLocal, removeUserInfo} from "../com/evotech/common/appUser/UserInfo";
+import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
 import DatePicker from 'react-native-date-picker';
 import RBSheet from "react-native-raw-bottom-sheet";
 import {format} from "date-fns";
@@ -176,8 +176,6 @@ const DriverSupplyInfo = () => {
         }
     };
 
-
-
     return (
         <NativeBaseProvider>
             <SafeAreaView style={{flex: 1}}>
@@ -190,7 +188,7 @@ const DriverSupplyInfo = () => {
                                     <Text pt={4}>
                                         This interface only collects information for verification purposes and will
                                         not disclose any personal details. Once all the information have been
-                                        filled, you can submit for verification.
+                                        filled, you can join uniease driver.
                                     </Text>
                                 </Box>
 

@@ -50,7 +50,6 @@ const OrderBox = React.memo(({ order, navigation }) => {
         Time: departureTime,
         Price: price,
         Status: orderState,
-        // 需要添加其他参数，看OrderDetailScreen需要什么参数
       },
     });
   };
@@ -66,7 +65,6 @@ const OrderBox = React.memo(({ order, navigation }) => {
           showToast("WARNING", "Warning", data.message);
         });
       }).catch(error => {
-      console.log("order info query failed " + error.message);
       showToast("ERROR", "Error", "Order details query failed, please try again later!");
     });
   };
@@ -106,7 +104,7 @@ const OrderListScreen = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      handleRefresh();
+      handleRefresh().then();
     }, []),
   );
 
@@ -128,12 +126,10 @@ const OrderListScreen = ({ navigation }) => {
         return responseOperation(data.code, () => {
           return data.data;
         }, () => {
-          console.log(data.message);
           showToast("WARNING", "Warning", data.message);
           return [];
         });
       }).catch(error => {
-        console.log(error);
         showToast("ERROR", "Error", "Error", error);
         return [];
       });

@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
 import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
-import { Box, AspectRatio, Button, Center, Text } from "native-base";
+import { Box, AspectRatio } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import Swiper from "react-native-swiper";
 import { UserChat, initLocalChat } from "../com/evotech/common/redux/UserChat";
 import { queryDriverOrderStatus } from "../com/evotech/common/http/BizHttpUtil";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
-import { setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
-import { buildUserInfo, getUserInfo, getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
-import { ALERT_TYPE } from "react-native-alert-notification";
-import { DriverLoginStatusEnum, ImagesEnum } from "../com/evotech/common/constant/BizEnums";
+import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 

@@ -5,7 +5,6 @@ import RemixIcon from 'react-native-remix-icon';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {driverLogout, driverUpload} from "../com/evotech/common/http/BizHttpUtil";
 import {DriverImageType, removeUserToken} from "../com/evotech/common/appUser/UserConstant";
-import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
 import {useNavigation} from "@react-navigation/native";
 import {showDialog, showToast, systemAlert} from "../com/evotech/common/alert/toastHelper";
 import {

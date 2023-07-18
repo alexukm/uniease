@@ -33,8 +33,6 @@ import { googleMapsApiKey } from "../com/evotech/common/apiKey/mapsApiKey";
 
 Geocoder.init(googleMapsApiKey);
 
-
-
 const DriverAcceptDetailScreen = ({ route, navigation }) => {
   const {
     Departure,
@@ -78,18 +76,16 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             driverCancelSubscribe().then();
             navigation.goBack(); // After canceling the order, return to the previous screen.
         }, () => {
-            console.log(data.message);
             showDialog("WARNING", "Warning", "Order cancellation failed, Please try again later!");
         })
       }).catch(error => {
       console.log(error);
-      showDialog("ERROR", "Error", "System error: " + error.message);
+      showDialog("DANGER", "Error", "System error: " + error.message);
     });
     refRBSheet.current.close();
   };
 
   const startChat = (userOrderId) => {
-    console.log(userOrderId);
     const params = {
       orderId: userOrderId,
     };
@@ -106,7 +102,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         })
       }).catch(err => {
       console.error(err.message);
-      showDialog("ERROR", "Error", "Failed to get user info, please try again later!");
+      showDialog("DANGER", "Error", "Failed to get user info, please try again later!");
     });
   };
 
@@ -172,7 +168,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         }, 500);  // 这里的2000是延迟的毫秒数，你可以根据需要调整
       });
     } catch (error) {
-      showDialog("ERROR", "Error", "Request failed, please try again later.");
+      showDialog("DANGER", "Error", "Request failed, please try again later.");
       console.error(error);
       // 出错时，也设置 isLoading 为 false，停止显示 spinner
       setIsLoading(false);
@@ -192,12 +188,12 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         await Linking.openURL(url);
       } else {
         // 如果用户的设备上没有导航应用，则抛出错误
-        showDialog("ERROR", "Error", "Sorry, no navigation application found on your device");
+        showDialog("DANGER", "Error", "Sorry, no navigation application found on your device");
       }
     } catch (error) {
       // 如果其他错误发生，抛出错误
       console.error("An error occurred", error);
-      showToast("ERROR", "Error", "Unable to open navigation, an error occurred");
+      showToast("DANGER", "Error", "Unable to open navigation, an error occurred");
     }
   };
   useEffect(() => {
@@ -254,16 +250,15 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       reviewTime: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
     };
     driverReviewOrder(param).then(data => {
-      console.log(data);
       responseOperation(data.code, () =>{
           fetchDataAndUpdateParams();
       }, () => {
-        showDialog("ERROR", "Error", data.message);
+        showDialog("DANGER", "Error", data.message);
         }
       )
     }).catch(err => {
       console.error(err.message);
-      showDialog("ERROR", "Error", "Failed to submit review, please try again later!");
+      showDialog("DANGER", "Error", "Failed to submit review, please try again later!");
     });
   };
   const ReviewBox = () => (
@@ -314,7 +309,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         statusColor = "#FFFF00"; // yellow
         break;
       case OrderStateEnum.IN_TRANSIT:
-        statusColor = "#008000"; // green
+        statusColor = "#82E0AA"; // green
         break;
       case OrderStateEnum.DELIVERED:
         statusColor = "#808080"; // gray
@@ -355,11 +350,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     };
 
     const openSystemPhone = (orderId) => {
-      console.log("Phone icon was pressed!");
       const params = {
         orderId: orderId,
       };
-      console.log("查询手机号");
       driverQueryUserPhone(params).then((response) => {
         responseOperation(response.code, () => {
           let phoneNumber = response.data;
@@ -374,41 +367,15 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                 Linking.openURL(phoneNumber);
               }
             }).catch((err) => {
-              console.error("An error occurred", err);
+              showToast("WARNING", "An error occurred", err);
             });
           }
 
         }, () => {
-          console.log("查询失败" + response.message);
-          //TODO 查询失败
+          showToast("WARNING", "An error occurred", response.message);
         });
-        /*  if (response.code === 200)
-          {
-            let phoneNumber = response.data;
-            phoneNumber = `tel://${phoneNumber}`;
-            if (Platform.OS === "android") {
-              Linking.openURL(phoneNumber);
-            } else {
-              Linking.canOpenURL(phoneNumber).then((supported) => {
-                if (!supported) {
-                  showToast('WARNING','ACTION DENIED', 'No permission to make a call')
-                } else {
-                  Linking.openURL(phoneNumber);
-                }
-              }).catch((err) => {
-                console.error("An error occurred", err);
-              });
-            }
-
-            //Linking.openURL(phoneNumber);
-          } else
-          {
-            console.log("查询失败" + response.message);
-            //TODO 查询失败
-          }*/
       }).catch((error) => {
-        //todo 查询异常
-        console.log("查询异常" + error.message);
+        showToast("WARNING", "An error occurred", error.message);
       });
     };
 
@@ -599,67 +566,6 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       </VStack>
     </InfoBox>
   );
-
-  // const DriverInfoBox = ({showBack, status}) => (
-  //     <InfoBox title="Driver Information" showBack={showBack}>
-  //         <VStack space={4} alignItems="stretch">
-  //             <HStack justifyContent='space-between' alignItems='center'>
-  //                 <VStack>
-  //                     <Avatar
-  //                         size="lg"
-  //                         source={{
-  //                             uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  //                         }}
-  //                     />
-  //                     <Text>Ramalaan bin Abdur Rasheed</Text>
-  //                 </VStack>
-  //                 <View style={{alignItems: 'flex-end'}}>
-  //                     <Text style={{...styles.licensePlateText, lineHeight: 30}}>UKM 6869</Text>
-  //                     <Text>GRAY - PROTON SAGA (GRAY)</Text>
-  //                 </View>
-  //             </HStack>
-  //             {status !== OrderStateEnum.DELIVERED ? (
-  //                 <HStack space={2}>
-  //                     <Button
-  //                         bg="#f0f0f0"
-  //                         onPress={() => console.log('Chat with Driver')}
-  //                         variant="ghost"
-  //                         style={{height: 40, justifyContent: 'center', flex: 8}} // 添加自定义样式
-  //                     >
-  //                         <HStack space={2}>
-  //                             <RemixIcon name="message-3-line" size={24} color="black"/>
-  //                             <Text>Chat</Text>
-  //                         </HStack>
-  //                     </Button>
-  //                     <Button
-  //                         bg="#e0e0e0"
-  //                         onPress={() => console.log('Call Driver')}
-  //                         variant="ghost"
-  //                         style={{height: 40, justifyContent: 'center', flex: 2}} // 添加自定义样式
-  //                     >
-  //                         <HStack space={2}>
-  //                             <RemixIcon name="phone-line" size={24} color="black"/>
-  //                         </HStack>
-  //                     </Button>
-  //                 </HStack>
-  //             ) : (
-  //                 <Button
-  //                     bg="#f0f0f0"
-  //                     onPress={() => refRBSheetReview.current.open()}
-  //                     variant="ghost"
-  //                     style={{height: 40, justifyContent: 'center', flex: 1}}
-  //                 >
-  //                     <HStack space={2}>
-  //                         <RemixIcon name="star-line" size={24} color="black"/>
-  //                         <Text>Rate</Text>
-  //                     </HStack>
-  //                 </Button>
-  //             )}
-  //         </VStack>
-  //     </InfoBox>
-  // );
-
-
   const MapComponent = () => (
     <>
       <MapView

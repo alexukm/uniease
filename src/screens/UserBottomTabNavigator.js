@@ -60,7 +60,6 @@ const UserBottomTabNavigator = () => (
     >
         <Tab.Screen name="Home" component={UserHome} />
         <Tab.Screen name="Activity" component={OrderListScreen} />
-        {/*<Tab.Screen name="Messages" component={MessagesScreen} />*/}
         <Tab.Screen name="Messages" component={ChatList}/>
         <Tab.Screen name="Account" component={AccountScreen} />
     </Tab.Navigator>

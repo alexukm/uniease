@@ -9,7 +9,7 @@ import {
   userOrderInfo,
   userReviewOrder,
   userCancelOrder,
-  passerGetDriverCode, driverQueryUserPhone, userQueryDriverPhone,
+  passerGetDriverCode, userQueryDriverPhone,
 } from "../com/evotech/common/http/BizHttpUtil";
 import {OrderStateDescEnum, OrderStateEnum} from "../com/evotech/common/constant/BizEnums";
 import { Rating } from "react-native-ratings";
@@ -66,36 +66,12 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
         }, () => {
           showDialog("WARNING", "Failed", "Cancel Order failed, Please try again later!");
         });
-        /* if (data.code === 200) {
-             showToast('SUCCESS', 'Success', 'Cancelled Order Successfully');
-             userCancelSubscribe().then()
-             navigation.goBack(); // After canceling the order, return to the previous screen.
-         } else {
-             console.log(data.message);
-             showDialog('WARNING', 'Failed', 'Cancel Order failed, Please try again later!');
-         }*/
       }).catch(error => {
       console.log(error);
       showDialog("DANGER", "Error", "System error: " + error.message);
     });
     refRBSheet.current.close();
   };
-
-// 这是返回按钮的组件
-//     const BackButton = () => (
-//         <TouchableOpacity
-//             onPress={() => navigation.goBack()}
-//             style={{
-//                 position: 'absolute', // 使用绝对定位
-//                 top: 20, // 顶部距离
-//                 left: 20, // 左边距离
-//                 zIndex: 1, // z-index 属性设定了元素的堆叠顺序
-//             }}
-//         >
-//             <RemixIcon name="arrow-left-circle-line" size={35} color="black"/>
-//         </TouchableOpacity>
-//     );
-
 
   useEffect(() => {
     setExistDriverInfo(orderDetailInfo.driverOrderId !== "");
@@ -161,15 +137,6 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
         }, () => {
           showDialog("WARNING", "Warning", data.message);
         });
-      /*  if (data.code !== 200) {
-          showDialog("WARNING", "Warning", data.message);
-          return;
-        }
-        navigation.navigate("ChatRoom", {
-          receiverName: data.data.userName,
-          receiverUserCode: data.data.userCode,
-          orderStatus: Status,
-        });*/
       }).catch(err => {
       console.error(err.message);
       showDialog("DANGER", "Error", "Get user info failed, please try again later!");
@@ -196,21 +163,6 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
         }, () => {
           showDialog("DANGER", "Error", "Error", data.message);
         });
-       /* if (data.code === 200) {
-          navigation.setParams({
-            Departure: Departure,
-            Destination: Destination,
-            Time: data.data.actualDepartureTime,
-            Price: Price,
-            Status: data.data.orderState,
-            orderDetailInfo: data.data,
-            userOrderId: orderDetailInfo.orderId,
-            DepartureCoords: DepartureCoords,
-            DestinationCoords: DestinationCoords,
-          });
-        } else {
-          showDialog("DANGER", "Error", "Error", data.message);
-        }*/
       });
   };
 
@@ -228,12 +180,6 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
       }, () => {
         showDialog("WARNING", "Error", "Submit review failed,please try again later!");
       });
-     /* if (data.code !== 200) {
-
-        showDialog("WARNING", "Error", "Submit review failed,please try again later!");
-      } else {
-        fetchDataAndUpdateParams();
-      }*/
     }).catch(err => {
       console.error(err.message);
       showDialog("DANGER", "Error", "Submit review failed,please try again later!");
@@ -267,12 +213,10 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
       responseOperation(response.code, () => {
         openSystemPhone(response);
       }, () => {
-        console.log("查询失败" + response.message);
-        //TODO 查询失败
+        showDialog('DANGER','ERROR', response.message)
       });
     }).catch((error) => {
-      //todo 查询异常
-      console.log("查询异常" + error.message);
+      showDialog('DANGER','ERROR', error.message)
     });
   };
   const ReviewBox = () => (
@@ -282,7 +226,6 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
           type="star"
           ratingCount={5}
           imageSize={40}
-          // fractions={1}
           startingValue={5}
           onFinishRating={(rating) => setRating(rating)}
         />
@@ -322,7 +265,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
         statusColor = "#FFFF00"; // yellow
         break;
       case OrderStateEnum.IN_TRANSIT:
-        statusColor = "#008000"; // green
+        statusColor = "#82E0AA"; // green
         break;
       case OrderStateEnum.DELIVERED:
         statusColor = "#808080"; // gray
@@ -630,7 +573,6 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
   return (
     <NativeBaseProvider>
       <View style={styles.container}>
-        {/*<BackButton/>*/}
         {renderContentBasedOnStatus()}
       </View>
     </NativeBaseProvider>

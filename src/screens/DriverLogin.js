@@ -1,7 +1,7 @@
 import { Keyboard, TouchableWithoutFeedback, View, Image, Platform } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
-import { driverInfoStatus, driverLogin, smsSend } from "../com/evotech/common/http/BizHttpUtil";
+import { driverLogin, smsSend } from "../com/evotech/common/http/BizHttpUtil";
 import { useNavigation } from "@react-navigation/native";
 import { setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
 import {
@@ -17,7 +17,6 @@ import {
 } from "native-base";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import {
-  DriverInfoStatusEnum,
   DriverLoginStatusEnum,
   ImagesEnum,
   UserTypeEnum,
@@ -82,7 +81,6 @@ function DriverScreen() {
       .then(data => {
         responseOperation(data.code, () => {
             setIsTimerActive(true);
-            console.log(data.code);
             showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
         }, () => {
           showDialog(ALERT_TYPE.WARNING, "Warning", data.message);
@@ -90,14 +88,12 @@ function DriverScreen() {
         })
       })
       .catch(error => {
-        console.log(error);
         showDialog(ALERT_TYPE.DANGER, "Error", "Error: " + error.message);
         return false;
       });
   };
 
   const [value, setValue] = useState("");
-  // const [modalVisible, setModalVisible] = useState(false);
   const [secondsRemaining, setSecondsRemaining] = useState(180);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [isResendOtpActive, setIsResendOtpActive] = useState(false);
@@ -167,7 +163,6 @@ function DriverScreen() {
       .then(data => {
         responseOperation(data.code, () => {
             const loginResult = data.data;
-            console.log(JSON.stringify(loginResult));
             //审核通过
             if (DriverLoginStatusEnum.ACTIVE === loginResult.loginStatus ) {
               driverActive(loginResult, userPhone);
@@ -186,7 +181,6 @@ function DriverScreen() {
         })
       })
       .catch(error => {
-        console.log(error);
         showDialog(ALERT_TYPE.DANGER, "Login Error", "Login failed.");
       });
   };

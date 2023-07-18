@@ -16,24 +16,10 @@ import { formatDate } from "../com/evotech/common/formatDate";
 import { useFocusEffect } from "@react-navigation/native";
 
 
-const styles1 = StyleSheet.create({
-    buttonStyle: {
-        backgroundColor: 'white',
-        borderRadius: 0,
-        padding: 10,
-    },
-    textStyle: {
-        color: 'black',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-});
-
 const OrderBox = React.memo(({order, navigation, openSheet}) => {
     const {
         userOrderId,
         driverOrderId,
-        distance,
         orderState,
         passengersNumber,
         plannedDepartureTime,
@@ -76,7 +62,6 @@ const OrderBox = React.memo(({order, navigation, openSheet}) => {
                 Time: actualDepartureTime ? actualDepartureTime : plannedDepartureTime,
                 Price: showTotalEarnings ? totalEarnings : expectedEarnings,
                 Status: orderState,
-                // 需要添加其他参数，看OrderDetailScreen需要什么参数
             },
         });
     }
@@ -133,6 +118,7 @@ const DriverAcceptListScreen = ({navigation}) => {
     const [cancelReason, setCancelReason] = useState("");
     const [cancelOrderId, setCancelOrderId] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
+    const [firstLoad, setFirstLoad] = useState(true);
     const refRBSheet = useRef();
 
     const [hasMore, setHasMore] = useState(true);
@@ -143,16 +129,13 @@ const DriverAcceptListScreen = ({navigation}) => {
         }, [])
     );
 
-    // useEffect(() => {
-    //     handleRefresh();  // 在这里运行 handleRefresh 以在组件初始化时获取数据
-    // }, []);
-
     const openSheet = useCallback((orderId) => {
         setCancelOrderId(orderId);
         refRBSheet.current.open();
     }, []);
 
     const handleRefresh = useCallback(async () => {
+        console.log("handleRefresh");
         setRefreshing(true);
         const orderList = await queryOrderList(5, 0);  // 5表示首次加载的项数
         setOrders(orderList.content);
@@ -181,7 +164,8 @@ const DriverAcceptListScreen = ({navigation}) => {
     };
 
     const fetchMoreOrders = useCallback(async () => {
-        if (loading || !hasMore) {
+        if (firstLoad || loading || !hasMore) {
+            setFirstLoad(false);
             return;
         }
         setLoading(true);
@@ -198,12 +182,10 @@ const DriverAcceptListScreen = ({navigation}) => {
             });
             setOrders((oldData) => [...oldData, ...newOrders]);
             if(orderList.content.length < pageSize){
-                console.log('No more data');
                 showToast('SUCCESS', 'Order list is completely', 'There are no more data')
                 setHasMore(false); // 设置hasMore为false
             }
         } else {
-            console.log('No more data');
             showToast('SUCCESS', 'Order list is completely', 'There are no more data')
             setHasMore(false); // 设置hasMore为false
         }

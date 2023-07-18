@@ -10,12 +10,9 @@ import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
-import {enableSystemNotify, notifyOrderChannel} from "../com/evotech/common/notify/SystemNotify";
-import PushNotification from "react-native-push-notification";
 
 const UserHome = () => {
   const navigation = useNavigation();
-  //TODO 处理查询失败的情况
 
   const initChatSocket = (data) => {
     const orderStatus = data.data;

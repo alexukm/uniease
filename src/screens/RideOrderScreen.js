@@ -19,7 +19,6 @@ import {
     Modal,
     Spinner,
     Heading,
-    KeyboardAvoidingView,
 } from "native-base";
 import RemixIcon from 'react-native-remix-icon';
 import DatePicker from 'react-native-date-picker';
@@ -38,12 +37,9 @@ import apiService from "../com/evotech/common/apiKey/apiService";
 import {formatDate} from "../com/evotech/common/formatDate";
 import {userOrderWebsocket} from "../com/evotech/common/websocket/UserChatWebsocket";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
-import { Toast } from "react-native-alert-notification";
 import {locationPermission} from "../com/evotech/permissions/PermissionsSupport";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
-import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
-import PushNotification from "react-native-push-notification";
 import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 
 
@@ -170,52 +166,6 @@ const RideOrderScreen = () => {
         }
     }, [destination]);
 
-
-    // const getCurrentLocation = () => {
-    //     Geolocation.getCurrentPosition(async info => {
-    //         const {latitude, longitude} = info.coords;
-    //         // setDeparture(`lat: ${latitude}, lng: ${longitude}`);
-    //         setDepartureCoords({latitude: latitude, longitude: longitude});
-    //         try {
-    //             const response = await Geocoder.from(latitude, longitude);
-    //             const address = response.results[0].formatted_address;
-    //             setDeparture(address);
-    //             const predictions = await apiService.getAutocomplete(address);
-    //             if (predictions.length > 0) {
-    //                 setDepartureAddress(predictions[predictions.length-1].terms)
-    //             }
-    //             mapRef.current.animateToRegion({
-    //                 latitude,
-    //                 longitude,
-    //                 latitudeDelta: 0.0922,
-    //                 longitudeDelta: 0.0421,
-    //             },1000);
-    //             // 定位到地图上的经纬度位置
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     });
-    // };
-
-    // 这个函数获取当前地理位置，并将地图中心移动到这个位置
-    // const getCurrentLocation = () => {
-    //     Geolocation.getCurrentPosition(async info => {
-    //         const {latitude, longitude} = info.coords;
-    //         setDepartureCoords({latitude: latitude, longitude: longitude});
-    //         if (!isDepartureManual) { // 如果用户还没有手动输入出发地
-    //             try {
-    //                 const response = await Geocoder.from(latitude, longitude);
-    //                 const address = response.results[0].formatted_address;
-    //                 const placeId = response.results[0].place_id; // 获取地点的ID
-    //                 setDeparture(address);
-    //                 await moveToLocation(placeId); // 使用地点ID移动到当前位置
-    //             } catch (error) {
-    //                 console.error(error);
-    //             }
-    //         }
-    //     });
-    // };
-
     const getCurrentLocation = () => {
         Geolocation.getCurrentPosition(
           async info => {
@@ -280,26 +230,6 @@ const RideOrderScreen = () => {
             console.warn(error);
             showDialog('WARNING', 'Action Required', 'Location permission denied. For automatic location input, please enable location access.');
         })
-        /*   try {
-               const granted = await PermissionsAndroid.request(
-                   PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                   {
-                       title: "Location Permission",
-                       message: "This app needs access to your location",
-                       buttonNeutral: "Ask Me Later",
-                       buttonNegative: "Cancel",
-                       buttonPositive: "OK"
-                   }
-               );
-               if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                   getCurrentLocation();
-               } else {
-                   console.log("Location permission denied");
-                   showDialog('WARNING', 'Action Required', 'Location permission denied. For automatic location input, please enable location access.');
-               }
-           } catch (err) {
-               console.warn(err);
-           }*/
     };
 
     // 在组件渲染后请求地理位置权限
@@ -314,9 +244,6 @@ const RideOrderScreen = () => {
         setOpen(true);
     };
 
-    // const navigateHome = () => {
-    //     navigation.navigate('Tabs', {screen: 'Home'});
-    // };
     const allowOrder = () => {
         userOrderCheck()
             .then(data => {
@@ -383,7 +310,6 @@ const RideOrderScreen = () => {
         fillAddress(destinationAddress, 'destination', orderSubmitParam);
     };
 
-
     const submitOrder = () => {
         try {
             const orderSubmitParam = {
@@ -449,7 +375,6 @@ const RideOrderScreen = () => {
                 proceedWithOrder(orderSubmitParam);
             }
         } catch (e) {
-            console.log("下单异常", e);
             setIsSubmitting(false);
             showDialog('DANGER', 'Submit Order failed', 'Submit failed');
         }
@@ -477,7 +402,6 @@ const RideOrderScreen = () => {
                   showDialog('WARNING', 'Submit failed', 'Submit failed' + data.message);
               })
           }).catch((err) => {
-            console.log(err);
             setIsSubmitting(false);
             showDialog('DANGER', 'Submit Order failed', 'Submit failed');
         });
@@ -595,7 +519,6 @@ const RideOrderScreen = () => {
             <View style={styles.container}>
                 <MapView
                     ref={mapRef} //用于保存对地图的引用
-                    // onLayout={getCurrentLocation}
                     style={{...styles.map, marginBottom: Dimensions.get('window').height / 2}}
                     initialRegion={{
                         latitude: 2.9435,
@@ -623,13 +546,6 @@ const RideOrderScreen = () => {
                         />
                     )}
                 </MapView>
-
-
-                {/*{!isSuccessScreen && !isBookingConfirmed && (*/}
-                {/*    <Button variant="link" onPress={navigateHome} position="absolute" left={5} top={5}>*/}
-                {/*        <RemixIcon name="arrow-left-circle-line" size={30} color="black"/>*/}
-                {/*    </Button>*/}
-                {/*)}*/}
 
                 {isBookingConfirmed ? (
                     <Box

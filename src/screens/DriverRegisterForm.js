@@ -26,7 +26,6 @@ const RegisterScreen = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    // const [selectedValue, setSelectedValue] = useState('60');
     const [verificationCode, setVerificationCode] = useState('');
     const [isTimerActive, setIsTimerActive] = useState(false);
     const [isResendOtpActive, setIsResendOtpActive] = useState(false);
@@ -161,7 +160,6 @@ const RegisterScreen = () => {
                 })
             })
             .catch(error => {
-                console.log(error);
                 showDialog('DANGER', 'Error', 'Error', error.message);
             });
     };
@@ -183,7 +181,6 @@ const RegisterScreen = () => {
             userPhone: userPhone,
             deviceId: getUserID(),
             platform: 0,
-            // code: verificationCode,
             code: md5VerificationCode, // 使用加密后的验证码
 
         };

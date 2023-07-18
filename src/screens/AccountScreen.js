@@ -68,7 +68,6 @@ const AccountScreen = () => {
         {
           text: "OK",
           onPress: async () => {
-            console.log("Logout is clicked");
             // Handle logout click event
             await userLogoutIt().then();
             userLogOut();

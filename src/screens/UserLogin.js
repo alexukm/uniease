@@ -18,7 +18,7 @@ import {
 } from "native-base";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
-import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
+import { showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 
 const countryCodes = {

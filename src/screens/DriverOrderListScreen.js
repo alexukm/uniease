@@ -48,12 +48,9 @@ const DriverOrderListScreen = () => {
     };
 
     const handleLoadMore = useCallback(async () => {
-        const orderList = await queryOrders(pageSize, page + 1);
+        const orderList = await queryOrders(pageSize, page);
         if (orderList.length > 0) {
-            setRideOrders(prevOrders => {
-                const newOrders = orderList.filter(order => !prevOrders.some(prevOrder => prevOrder.id === order.id));
-                return [...prevOrders, ...newOrders];
-            });
+            setRideOrders(prevOrders => [...prevOrders, ...orderList]);
             setPage(prevPage => prevPage + 1);
         }
     }, [pageSize, page]);
@@ -101,21 +98,11 @@ const DriverOrderListScreen = () => {
 
     const handleRefresh = useCallback(async () => {
         setRefreshing(true);
-        let orderList = [];
-        let page = 1;
-        while (true) {
-            const newOrders = await queryOrders(pageSize, page);
-            orderList = [...orderList, ...newOrders];
-            if (newOrders.length < pageSize) {
-                break;
-            }
-            page++;
-        }
+        const orderList = await queryOrders(pageSize, 1);
         setRideOrders(orderList);
-        setPage(page + 1);
+        setPage(2);
         setRefreshing(false);
     }, [pageSize]);
-
 
 
     useFocusEffect(

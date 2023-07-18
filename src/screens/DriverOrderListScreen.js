@@ -176,20 +176,20 @@ const DriverOrderListScreen = () => {
                 </View>
                 <VStack space={1}>
                     <Text style={styles.timeText}> {formatDate(new Date(item.plannedDepartureTime))}</Text>
-                    <HStack space={2} alignItems="center">
-                        <RemixIcon name="checkbox-blank-circle-fill" size={15} color="blue" style={{marginTop: 5}}/>
+                    <HStack space={2} alignItems="flex-start">
+                        <RemixIcon name="checkbox-blank-circle-fill" size={15} color="blue"/>
                         <Text style={{flexWrap: 'wrap', flex: 1}}>
                             {item.departureAddress}
                         </Text>
                     </HStack>
                     <HStack space={2} alignItems="flex-start">
-                        <RemixIcon name="checkbox-blank-circle-fill" size={15} color="orange" style={{marginTop: 5}}/>
+                        <RemixIcon name="checkbox-blank-circle-fill" size={15} color="orange"/>
                         <Text style={{flexWrap: 'wrap', flex: 1}}>
                             {item.destinationAddress}
                         </Text>
                     </HStack>
                     <HStack space={2} alignItems="center">
-                        <RemixIcon name="money-cny-circle-fill" size={15} color="green" style={{marginTop: 5}}/>
+                        <RemixIcon name="money-cny-circle-fill" size={15} color="green"/>
                         <Text>
                             Expected Earnings: <Text style={{fontWeight: 'bold'}}>RM {item.expectedEarnings}.00  - {item.paymentType}</Text>
                         </Text>

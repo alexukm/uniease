@@ -20,10 +20,10 @@ function Home() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
       <VStack flex={1} space={4} alignItems="center">
-        <Box flex={0.6} w="full" mt="5%" roundedBottom="md" shadow={3}>
+        <Box alignItems={"center"} flex={0.6} w="full" mt="5%" roundedBottom="md" shadow={3}>
           <Image
             source={{ uri: ImagesEnum.UserOrderCar }}
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '90%', height: '90%' }}
             resizeMode="cover"
           />
         </Box>

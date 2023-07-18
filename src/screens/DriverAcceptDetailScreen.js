@@ -428,7 +428,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
                       onChangeText={text => cancelReasonRef.current = text}// onEndEditing={text => setCancelReason(text)}
                     />
 
-                    <Button onPress={handleConfirmCancel}>
+                    <Button style={{ backgroundColor: '#2E86C1' }} onPress={handleConfirmCancel}>
                       <Text style={styles1.textStyle}>Confirm Cancel</Text>
                     </Button>
                   </View>

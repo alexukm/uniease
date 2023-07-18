@@ -20,7 +20,6 @@ import {userSkipLogin} from "./src/com/evotech/common/appUser/UserInfo";
 import DriverAccount from "./src/screens/DriverAccountScreen";
 import {AlertNotificationRoot} from "react-native-alert-notification";
 import {enableScreens} from 'react-native-screens';
-import TermsAndConditions from "./src/screens/TermsAndConditions";
 
 import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnums";
 import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate";
@@ -116,7 +115,6 @@ const App = () => {
                         <Stack.Screen name="DriverSignUp" component={DriverSignUp}/>
                         <Stack.Screen name="DriverAccount" component={DriverAccount}/>
                         <Stack.Screen name="DriverRegisterImage" component={DriverRegisterImage}/>
-                        <Stack.Screen name="TermsAndConditions" component={TermsAndConditions}/>
                     </Stack.Navigator>}
                 </Provider>
             </NavigationContainer>

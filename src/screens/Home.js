@@ -1,7 +1,8 @@
 import React, {  useContext } from "react";
 import { VStack, Box,  Button, Text } from "native-base";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Image } from "react-native";
+import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 
 function Home() {
     const navigation = useNavigation();
@@ -19,11 +20,17 @@ function Home() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
       <VStack flex={1} space={4} alignItems="center">
-            <Box flex={0.6} w="full" bg="blue.500" mt="5%" roundedBottom="md" shadow={3}></Box>
+        <Box flex={0.6} w="full" mt="5%" roundedBottom="md" shadow={3}>
+          <Image
+            source={{ uri: ImagesEnum.UserOrderCar }}
+            style={{ width: '100%', height: '100%' }}
+            resizeMode="cover"
+          />
+        </Box>
             <VStack flex={0.2} w="full" space={1} alignItems="center">
-                <Text fontWeight="bold">Welcome to my App</Text>
+                <Text fontWeight="bold">UniEase. Limitless Ease</Text>
                 <Text textAlign="center">
-                    This is a very good app that you can share your ride with other person, and for drivers, they can earn a lot of money.
+                  Embrace the simplicity, convenience, and versatility of this all-in-one solution. UniEase: Simplify, Unify, and Ease your digital life.
                 </Text>
             </VStack>
             <VStack flex={0.2} w="full" justifyContent="flex-end" pb="15%" alignItems="center">

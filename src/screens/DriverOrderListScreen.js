@@ -176,9 +176,9 @@ const DriverOrderListScreen = () => {
                 </View>
                 <VStack space={1}>
                     <Text style={styles.timeText}> {formatDate(new Date(item.plannedDepartureTime))}</Text>
-                    <HStack space={2} alignItems="flex-start">
+                    <HStack space={2} alignItems="center">
                         <RemixIcon name="checkbox-blank-circle-fill" size={15} color="blue" style={{marginTop: 5}}/>
-                        <Text style={{flexWrap: 'wrap'}}>
+                        <Text style={{flexWrap: 'wrap', flex: 1}}>
                             {item.departureAddress}
                         </Text>
                     </HStack>

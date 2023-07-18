@@ -101,11 +101,21 @@ const DriverOrderListScreen = () => {
 
     const handleRefresh = useCallback(async () => {
         setRefreshing(true);
-        const orderList = await queryOrders(pageSize, 1);
+        let orderList = [];
+        let page = 1;
+        while (true) {
+            const newOrders = await queryOrders(pageSize, page);
+            orderList = [...orderList, ...newOrders];
+            if (newOrders.length < pageSize) {
+                break;
+            }
+            page++;
+        }
         setRideOrders(orderList);
-        setPage(2); // 重置 page 为 2，因为你已经加载了第一页的数据
+        setPage(page + 1);
         setRefreshing(false);
-    }, [pageSize]); // 更新依赖列表，只包括 pageSize
+    }, [pageSize]);
+
 
 
     useFocusEffect(

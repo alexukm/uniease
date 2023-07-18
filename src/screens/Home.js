@@ -27,22 +27,22 @@ function Home() {
             resizeMode="cover"
           />
         </Box>
-            <VStack flex={0.2} w="full" space={1} alignItems="center">
-                <Text fontWeight="bold">UniEase. Limitless Ease</Text>
-                <Text textAlign="center">
-                  Embrace the simplicity, convenience, and versatility of this all-in-one solution. UniEase: Simplify, Unify, and Ease your digital life.
-                </Text>
-            </VStack>
-            <VStack flex={0.2} w="full" justifyContent="flex-end" pb="15%" alignItems="center">
-                <Box flexDirection="row" justifyContent="space-between" width="100%">
-                    <Button size="lg" colorScheme="primary" flexGrow={1} marginRight={2} onPress={handleUserButtonPress}>
-                        User
-                    </Button>
-                    <Button size="lg" colorScheme="secondary" flexGrow={1} marginLeft={2} onPress={handleDriverButtonPress}>
-                        Driver
-                    </Button>
-                </Box>
-            </VStack>
+        <VStack flex={0.2} w="full" space={1} alignItems="center" px="5%">
+          <Text fontWeight="bold">UniEase. Limitless Ease</Text>
+          <Text textAlign="center">
+            Embrace the simplicity, convenience, and versatility of this all-in-one solution. UniEase: Simplify, Unify, and Ease your digital life.
+          </Text>
+        </VStack>
+        <VStack flex={0.2} w="full" justifyContent="flex-end" pb="15%" alignItems="center" px="5%">
+          <Box flexDirection="row" justifyContent="space-between" width="100%">
+            <Button size="lg" colorScheme="primary" flexGrow={1} marginRight={2} onPress={handleUserButtonPress}>
+              User
+            </Button>
+            <Button size="lg" colorScheme="secondary" flexGrow={1} marginLeft={2} onPress={handleDriverButtonPress}>
+              Driver
+            </Button>
+          </Box>
+        </VStack>
         </VStack>
       </SafeAreaView>
     );

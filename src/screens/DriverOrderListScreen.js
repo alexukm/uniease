@@ -48,9 +48,12 @@ const DriverOrderListScreen = () => {
     };
 
     const handleLoadMore = useCallback(async () => {
-        const orderList = await queryOrders(pageSize, page);
+        const orderList = await queryOrders(pageSize, page + 1);
         if (orderList.length > 0) {
-            setRideOrders(prevOrders => [...prevOrders, ...orderList]);
+            setRideOrders(prevOrders => {
+                const newOrders = orderList.filter(order => !prevOrders.some(prevOrder => prevOrder.id === order.id));
+                return [...prevOrders, ...newOrders];
+            });
             setPage(prevPage => prevPage + 1);
         }
     }, [pageSize, page]);
@@ -103,6 +106,7 @@ const DriverOrderListScreen = () => {
         setPage(2);
         setRefreshing(false);
     }, [pageSize]);
+
 
 
     useFocusEffect(

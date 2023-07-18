@@ -4,19 +4,18 @@ import { useSelector, useDispatch } from "react-redux";
 import {selectChatList} from "../com/evotech/common/redux/chatSlice";
 import { deleteChat } from '../com/evotech/common/redux/chatSlice';
 import { Box } from "native-base";
+import {delChatByUserCode} from "../com/evotech/common/redux/UserChat";
 
 
 export default function ChatList({navigation}) {
     const chatList = useSelector(selectChatList);
-
-    const dispatch = useDispatch();
 
 
     useEffect(() => {
         // 检查每个聊天，如果它的创建时间距离现在超过三天，那么就删除它
         for (const chatKey in chatList) {
             if (new Date().getTime() - chatList[chatKey].createdAt > 3 * 24 * 60 * 60 * 1000) {
-                dispatch(deleteChat(chatKey));
+                delChatByUserCode(chatKey.userCode).then();
             }
         }
     }, []);
@@ -59,7 +58,7 @@ export default function ChatList({navigation}) {
                                     {
                                         text: 'OK',
                                         onPress: () => {
-                                            dispatch(deleteChat(item.userCode));
+                                            delChatByUserCode(item.userCode).then()
                                         }
                                     }
                                 ],

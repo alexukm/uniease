@@ -39,7 +39,7 @@ const chatSlice = createSlice({
             const userCode = action.payload;
             delete state.chatList[userCode];
             delete state.chatMessage[userCode];
-            saveLocalChat().then()
+        //    saveLocalChat().then()
         },
     },
 });

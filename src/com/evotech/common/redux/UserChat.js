@@ -1,9 +1,10 @@
 
-import { addChatList, addMessage, clearChat, initChatList, initMessage } from "./chatSlice";
+import {addChatList, addMessage, clearChat, deleteChat, initChatList, initMessage} from "./chatSlice";
 import uuid from "react-native-uuid";
 import {userInitChatWebsocket} from "../websocket/UserChatWebsocket";
 import store from "./store";
 import {getChatList, getChatMessages, setChatList, setChatMessages} from "../appUser/UserConstant";
+import {de} from "date-fns/locale";
 
 export const UserChat = async (needRetry) => {
     const dispatch = store.dispatch;
@@ -83,4 +84,10 @@ export async function saveLocalChat() {
 export async function clearLocalChat() {
     const dispatch = store.dispatch;
     dispatch(clearChat(null));
+}
+
+export async function delChatByUserCode(userCode){
+    const dispatch = store.dispatch;
+    dispatch(deleteChat(userCode));
+    saveLocalChat().then()
 }

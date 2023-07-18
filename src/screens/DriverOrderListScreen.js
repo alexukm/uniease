@@ -25,7 +25,7 @@ import { userOrderWebsocket } from "../com/evotech/common/websocket/UserChatWebs
 const DriverOrderListScreen = () => {
     const [rideOrders, setRideOrders] = React.useState([]);
     const [page, setPage] = React.useState(1);
-    const [pageSize, setPageSize] = React.useState(10);
+    const [pageSize, setPageSize] = React.useState(22);
     const [refreshing, setRefreshing] = useState(false);
 
     const [updateFlag, setUpdateFlag] = useState(false); // 添加这个状态

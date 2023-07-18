@@ -259,7 +259,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
     let statusColor;
     switch (Status) {
       case OrderStateEnum.AWAITING:
-        statusColor = "#0000FF"; // blue
+        statusColor = "#2E86C1"; // blue
         break;
       case OrderStateEnum.PENDING:
         statusColor = "#FFFF00"; // yellow

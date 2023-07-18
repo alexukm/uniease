@@ -139,7 +139,7 @@ const RideOrderScreen = () => {
                 longitude: location.lng,
                 latitudeDelta: 0.005,  // smaller value for a more zoomed in view
                 longitudeDelta: 0.005,  // smaller value for a more zoomed in view
-            }, 1000);
+            }, 500);
         } catch (error) {
             console.error(error);
         }
@@ -177,7 +177,7 @@ const RideOrderScreen = () => {
                   longitude,
                   latitudeDelta: 0.0922,
                   longitudeDelta: 0.0421,
-              }, 1000); // 马上移动到当前位置
+              }, 500); // 马上移动到当前位置
               if (!isDepartureManual) { // 如果用户还没有手动输入出发地
                   try {
                       const response = await Geocoder.from(latitude, longitude);

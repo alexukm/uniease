@@ -98,6 +98,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             orderStatus: Status,
           });
         },()=>{
+          console.log(data.message);
           showDialog("WARNING", "Warning", data.message);
         })
       }).catch(err => {

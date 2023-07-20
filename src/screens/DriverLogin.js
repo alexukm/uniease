@@ -117,6 +117,7 @@ function DriverScreen() {
   const handleResendOtp = () => {
     setSecondsRemaining(180);
     setIsResendOtpActive(false);
+    setOtp("");
     submitData();
   };
 
@@ -279,6 +280,7 @@ function DriverScreen() {
             size="lg"
             placeholder="Enter OTP"
             mt="4"
+            value={otp}
             onChangeText={handleOtpInputChange}
           />
         )}

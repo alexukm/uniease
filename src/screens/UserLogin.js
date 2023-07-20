@@ -133,6 +133,7 @@ function UserScreen() {
   const handleResendOtp = () => {
     setSecondsRemaining(180);
     setIsResendOtpActive(false);
+    setOtp("");
     submitData();
   };
 
@@ -275,6 +276,7 @@ function UserScreen() {
             size="lg"
             placeholder="Enter OTP"
             mt="4"
+            value={otp}
             onChangeText={handleOtpInputChange}
           />
         )}

@@ -93,7 +93,7 @@ const DriverAccount = () => {
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
           <Image
-            source={require("../picture/logo_blue.png")}
+            source={require('../picture/person.jpg')}
             style={styles.avatar}
           />
           <Text style={styles.name}>{userName}</Text>

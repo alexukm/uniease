@@ -22,7 +22,7 @@ function Home() {
       <VStack flex={1} space={4} alignItems="center">
         <Box alignItems={"center"} flex={0.6} w="full" mt="5%">
           <Image
-            source={{ uri: ImagesEnum.UserOrderCar }}
+            source={require('../picture/home_bcg.png')}
             style={{ width: '90%', height: '90%' }}
             resizeMode="cover"
           />

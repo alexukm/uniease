@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
-    SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView,  Modal, View, TouchableHighlight
-} from 'react-native';
+    SafeAreaView, TouchableWithoutFeedback, Keyboard, ScrollView, Modal, View, TouchableHighlight, Platform,
+} from "react-native";
 import {
     Box,
     VStack,
@@ -11,8 +11,8 @@ import {
     NativeBaseProvider,
     Icon,
     Text,
-    Flex
-} from 'native-base';
+    Flex, KeyboardAvoidingView,
+} from "native-base";
 import RemixIcon from 'react-native-remix-icon';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {driverSupplyInfo, driverUpload} from "../com/evotech/common/http/BizHttpUtil";
@@ -179,6 +179,10 @@ const DriverSupplyInfo = () => {
     return (
         <NativeBaseProvider>
             <SafeAreaView style={{flex: 1}}>
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === "ios" ? "padding" : "height"}
+                  style={{ flex: 1 }}
+                >
                 <ScrollView contentContainerStyle={{paddingBottom: 80}}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <VStack space={4} alignItems="center" safeArea flex={1} p={4} width="100%">
@@ -517,6 +521,7 @@ const DriverSupplyInfo = () => {
                         </VStack>
                     </TouchableWithoutFeedback>
                 </ScrollView>
+                </KeyboardAvoidingView>
             </SafeAreaView>
         </NativeBaseProvider>
     )

@@ -38,6 +38,8 @@ function UserScreen() {
   const [secondsRemaining, setSecondsRemaining] = useState(180);
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [isResendOtpActive, setIsResendOtpActive] = useState(false);
+  const [isOtpVisible, setIsOtpVisible] = useState(false);
+
 
   const inputWidth = Platform.OS === "ios" ? "82%" : "84%";
 
@@ -81,6 +83,7 @@ function UserScreen() {
       .then(data => {
         responseOperation(data.code, () => {
           setIsTimerActive(true);
+          setIsOtpVisible(true);
           showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
         }, () => {
           showToast("WARNING", "Warning", data.message);
@@ -267,12 +270,14 @@ function UserScreen() {
             {selectedValue === "cn" ? "Enter 11-digit phone number for China" : "Enter phone number. Not allowed 60 or 0 in the beginning."}
           </Text>
         )}
-        <Input
-          size="lg"
-          placeholder="Enter OTP"
-          mt="4"
-          onChangeText={handleOtpInputChange}
-        />
+        {isOtpVisible && (
+          <Input
+            size="lg"
+            placeholder="Enter OTP"
+            mt="4"
+            onChangeText={handleOtpInputChange}
+          />
+        )}
         {renderButton()}
         <Text mt="4" textAlign="center">
           Don't have an account?{" "}

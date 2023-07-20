@@ -81,6 +81,7 @@ function DriverScreen() {
       .then(data => {
         responseOperation(data.code, () => {
             setIsTimerActive(true);
+            setIsOtpVisible(true);
             showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
         }, () => {
           showDialog(ALERT_TYPE.WARNING, "Warning", data.message);
@@ -98,6 +99,7 @@ function DriverScreen() {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [isResendOtpActive, setIsResendOtpActive] = useState(false);
   const [otp, setOtp] = useState("");
+  const [isOtpVisible, setIsOtpVisible] = useState(false);
 
   useEffect(() => {
     let intervalId;
@@ -272,12 +274,14 @@ function DriverScreen() {
             </Modal.Content>
           </Modal>
         </FormControl>
-        <Input
-          size="lg"
-          placeholder="Enter OTP"
-          mt="4"
-          onChangeText={handleOtpInputChange}
-        />
+        {isOtpVisible && (
+          <Input
+            size="lg"
+            placeholder="Enter OTP"
+            mt="4"
+            onChangeText={handleOtpInputChange}
+          />
+        )}
         {renderButton()}
         <Text mt="4" textAlign="center">
           Don't have an account?{" "}

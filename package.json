@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "iosReset": "cd ios && pod deintegrate && pod install"
+    "iosReset": "cd ios && pod deintegrate && pod install",
+    "iosInstall": "rm -rf node_modules && rm -f package-lock.json && npm install && cd ios && pod deintegrate && pod install"
   },
   "dependencies": {
     "@alessiocancian/react-native-actionsheet": "^3.2.0",

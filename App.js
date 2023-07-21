@@ -25,6 +25,7 @@ import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnum
 import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate";
 import {enableSystemNotify, notifyOrderChannel} from "./src/com/evotech/common/notify/SystemNotify";
 import RNBootSplash from "react-native-bootsplash";
+import DeleteAccount from "./src/screens/./DeleteAccount";
 
 
 enableScreens();
@@ -115,6 +116,8 @@ const App = () => {
                         <Stack.Screen name="DriverSignUp" component={DriverSignUp}/>
                         <Stack.Screen name="DriverAccount" component={DriverAccount}/>
                         <Stack.Screen name="DriverRegisterImage" component={DriverRegisterImage}/>
+                        <Stack.Screen name="DeleteAccount" component={DeleteAccount}/>
+
                     </Stack.Navigator>}
                 </Provider>
             </NavigationContainer>

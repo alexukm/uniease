@@ -18,6 +18,8 @@ const featureAndPath = {
 
     //用户登出
     USER_LOGOUT: {method: supportRequestMethod.POST, path: '/v1/ums/api/user/logOut'},
+    //用户注销账号
+    USER_DELETE_ACCOUNT: {method: supportRequestMethod.POST, path: '/v1/ums/api/user/deleteAccount'},
 
     //司机证件上传
     DRIVER_UPLOAD: {method: supportRequestMethod.POST, path: '/v1/ums/api/driver/upload'},
@@ -33,6 +35,8 @@ const featureAndPath = {
 
     //司机注销
     DRIVER_LOGOUT: {method: supportRequestMethod.POST, path: '/v1/ums/api/driver/logOut'},
+    //司机注销账号
+    DRIVER_DELETE_ACCOUNT: {method: supportRequestMethod.POST, path: '/v1/ums/api/driver/deleteAccount'},
 
     //发送短信验证码
     SMS_SEND: {method: supportRequestMethod.POST, path: '/v1/sys/api/sms/send'},
@@ -202,8 +206,14 @@ export function smsSend(userPhone, userType) {
 export function driverLogout() {
     return request.post(featureAndPath.DRIVER_LOGOUT.path, SupportContextType.APPLICATION_JSON, {})
 }
+export function driverDeleteAccount() {
+    return request.post(featureAndPath.DRIVER_DELETE_ACCOUNT.path, SupportContextType.APPLICATION_JSON, {})
+}
 export function userLogoutIt() {
     return request.post(featureAndPath.USER_LOGOUT.path, SupportContextType.APPLICATION_JSON, {})
+}
+export function userDeleteEAccount() {
+    return request.post(featureAndPath.USER_DELETE_ACCOUNT.path, SupportContextType.APPLICATION_JSON, {})
 }
 
 export function accessToken(params = {}) {

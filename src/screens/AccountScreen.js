@@ -53,6 +53,10 @@ const AccountScreen = () => {
     Linking.openURL("https://unieaseapp.com/unieaseConditions/").then();
   };
 
+  const deleteAccountPress = () => {
+    navigation.navigate("DeleteAccount")
+  };
+
   const handleLogoutPress = () => {
     Alert.alert(
       // Title
@@ -85,6 +89,7 @@ const AccountScreen = () => {
     { name: "Share", onPress: handleSharePress },
     { name: "Customer Service", onPress: handleCustomerServicePress },
     { name: "Pricing Rules", onPress: handlePricingRulesPress },
+    { name: "Delete Account", onPress: deleteAccountPress },
     { name: "Logout", onPress: handleLogoutPress },
   ];
 

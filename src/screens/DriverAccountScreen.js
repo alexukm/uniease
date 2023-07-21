@@ -22,15 +22,21 @@ import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 const DriverAccount = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState("");
+
   useEffect(() => {
     const fillUserInfo = async () => {
       const userInfo = await getUserInfoWithLocal();
       if (userInfo) {
-        setUserName(userInfo.userName);
+        let formattedUserName = userInfo.userName.toUpperCase();
+        if (formattedUserName.length > 18) {
+          formattedUserName = formattedUserName.slice(0, 18) + '...';
+        }
+        setUserName(formattedUserName);
       }
     };
     fillUserInfo().then()
   }, []);
+
 
 
   // Define handlers

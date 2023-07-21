@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, Alert, SafeAreaView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import {selectChatList} from "../com/evotech/common/redux/chatSlice";
-import { deleteChat } from '../com/evotech/common/redux/chatSlice';
 import { Box } from "native-base";
 import {delChatByUserCode} from "../com/evotech/common/redux/UserChat";
 

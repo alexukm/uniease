@@ -27,13 +27,18 @@ const AccountScreen = () => {
 
   useEffect(() => {
     const fillUserInfo = async () => {
-      const userInfo =await  getUserInfoWithLocal();
+      const userInfo = await  getUserInfoWithLocal();
       if (userInfo) {
-        setUserName(userInfo.userName);
+        let formattedUserName = userInfo.userName.toUpperCase();
+        if (formattedUserName.length > 18) {
+          formattedUserName = formattedUserName.slice(0, 18) + '...';
+        }
+        setUserName(formattedUserName);
       }
     };
     fillUserInfo().then()
   }, []);
+
 
   const handleSharePress = () => {
     Linking.openURL("https://unieaseapp.com/unieaseapp/").then();

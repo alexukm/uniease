@@ -1,11 +1,14 @@
-import React, { Component } from "react";
-import { View, Text, ScrollView, Dimensions, TouchableOpacity, SafeAreaView } from "react-native";
-import { Modal, Button, Input, FormControl, NativeBaseProvider } from "native-base";
-import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
-import { driverDeleteAccount, userDeleteAccount } from "../com/evotech/common/http/BizHttpUtil";
-import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
-import { showDialog } from "../com/evotech/common/alert/toastHelper";
+import React, {Component} from "react";
+import {View, Text, ScrollView, Dimensions, TouchableOpacity, SafeAreaView} from "react-native";
+import {Modal, Button, Input, FormControl, NativeBaseProvider} from "native-base";
+
+import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
+import {driverDeleteAccount, userDeleteAccount} from "../com/evotech/common/http/BizHttpUtil";
+import {responseOperation} from "../com/evotech/common/http/ResponseOperation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useNavigation} from "@react-navigation/native";
+import {showDialog} from "../com/evotech/common/alert/toastHelper";
+import {userLogOut} from "../com/evotech/common/appUser/UserConstant";
 
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
     const paddingToBottom = 20;
@@ -54,6 +57,7 @@ class DeleteAccount extends Component {
                 driverDeleteAccount().then(data => {
                     responseOperation(data.code, () => {
                         //清空本地所有信息
+                        userLogOut();
                         AsyncStorage.clear();
                         //跳转Home
                         this.props.navigation.navigate("Home");
@@ -69,6 +73,7 @@ class DeleteAccount extends Component {
                 userDeleteAccount().then(data => {
                     responseOperation(data.code, () => {
                         //清空本地所有信息
+                        userLogOut();
                         AsyncStorage.clear();
                         //跳转Home
                       this.props.navigation.navigate("Home");

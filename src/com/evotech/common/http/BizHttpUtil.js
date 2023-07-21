@@ -212,7 +212,7 @@ export function driverDeleteAccount() {
 export function userLogoutIt() {
     return request.post(featureAndPath.USER_LOGOUT.path, SupportContextType.APPLICATION_JSON, {})
 }
-export function userDeleteEAccount() {
+export function userDeleteAccount() {
     return request.post(featureAndPath.USER_DELETE_ACCOUNT.path, SupportContextType.APPLICATION_JSON, {})
 }
 

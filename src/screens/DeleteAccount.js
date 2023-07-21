@@ -1,62 +1,90 @@
-import React, { Component, useState } from "react";
-import { View, Text, ScrollView, Dimensions, TouchableOpacity, SafeAreaView } from "react-native";
-import { Modal, Button, Input, FormControl, NativeBaseProvider } from "native-base";
-import { values } from "@babel/runtime/regenerator";
-import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
-import { driverDeleteAccount } from "../com/evotech/common/http/BizHttpUtil";
-import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import React, {Component} from "react";
+import {View, Text, ScrollView, Dimensions, TouchableOpacity, SafeAreaView} from "react-native";
+import {Modal, Button, Input, FormControl, NativeBaseProvider} from "native-base";
 
-const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
-  const paddingToBottom = 20;
-  return layoutMeasurement.height + contentOffset.y >=
-    contentSize.height - paddingToBottom;
+import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
+import {driverDeleteAccount, userDeleteAccount} from "../com/evotech/common/http/BizHttpUtil";
+import {responseOperation} from "../com/evotech/common/http/ResponseOperation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useNavigation} from "@react-navigation/native";
+import {showDialog} from "../com/evotech/common/alert/toastHelper";
+
+const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+        contentSize.height - paddingToBottom;
 };
 const deleteContent = "I agree to delete my account";
+const navigation = useNavigation();
 
 class DeleteAccount extends Component {
 
-  state = {
-    accepted: false,
-    modalVisible: false,
-    value: "",
-    isMatch: false,
-  };
+    state = {
+        accepted: false,
+        modalVisible: false,
+        value: "",
+        isMatch: false,
+    };
 
 
-  setModalVisible = (visible) => {
-    this.setState({ modalVisible: visible });
-  };
+    setModalVisible = (visible) => {
+        this.setState({modalVisible: visible});
+    };
 
-  handleChangeText = (value) => {
-    this.setState({ value }, () => {
-      if (value.length === deleteContent.length) {
-        if (value === deleteContent) {
-          this.setState({ isMatch: true });
+    handleChangeText = (value) => {
+        this.setState({value}, () => {
+            if (value.length === deleteContent.length) {
+                if (value === deleteContent) {
+                    this.setState({isMatch: true});
+                } else {
+                    this.setState({isMatch: false});
+                }
+            }
+        });
+    };
+
+
+    handleProceed = async () => {
+        if (this.state.isMatch) {
+            const userInfo = await getUserInfoWithLocal();
+            if (!userInfo) {
+                //用户信息查询失败
+                showDialog('WARNING', 'Delete Account', "Local User info query failed,Please Login again!");
+                return;
+            }
+            if (userInfo.isDriver()) {
+                driverDeleteAccount().then(data => {
+                    responseOperation(data.code, () => {
+                        //清空本地所有信息
+                        AsyncStorage.clear();
+                        //跳转Home
+                        navigation.navigate("Home");
+                    }, () => {
+                        showDialog('WARNING', 'Delete Account', data.message);
+                    });
+                }).catch(err => {
+                    showDialog('WARNING', 'Delete Account', "Delete failed,Please try again later!");
+                });
+
+            }
+            if (userInfo.isUser()) {
+                userDeleteAccount().then(data => {
+                    responseOperation(data.code, () => {
+                        //清空本地所有信息
+                        AsyncStorage.clear();
+                        //跳转Home
+                        navigation.navigate("Home");
+                    }, () => {
+                        showDialog('WARNING', 'Delete Account', data.message);
+                    });
+                }).catch(err => {
+                    showDialog('WARNING', 'Delete Account', "Delete failed,Please try again later!");
+                });
+            }
         } else {
-          this.setState({ isMatch: false });
+            showDialog('WARNING', 'Delete Account', "Input text is not match");
         }
-      }
-    });
-  };
-
-
-  handleProceed = async () => {
-    if (this.state.isMatch) {
-      const userInfo = await getUserInfoWithLocal();
-      if (!userInfo) {
-        //用户信息查询失败
-        return;
-      }
-      if (userInfo.isDriver()) {
-        driverDeleteAccount().then(data=>{
-          responseOperation(data.code,()=>{
-
-          });
-        })
-      }
-      this.setModalVisible(false);
-    }
-  };
+    };
 
   render() {
     return (
@@ -164,7 +192,7 @@ class DeleteAccount extends Component {
   }
 }
 
-const { width, height } = Dimensions.get("window");
+const {width, height} = Dimensions.get("window");
 
 const styles = {
 

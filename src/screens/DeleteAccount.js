@@ -89,191 +89,161 @@ class DeleteAccount extends Component {
         }
     };
 
-    render() {
-        return (
-            <NativeBaseProvider>
-                <SafeAreaView style={{flex: 1}}>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Terms and conditions</Text>
-                        <ScrollView
-                            style={styles.tcContainer}
-                            onScroll={({nativeEvent}) => {
-                                if (isCloseToBottom(nativeEvent)) {
-                                    this.setState({
-                                        accepted: true,
-                                    });
-                                }
-                            }}
-                        >
-                            <Text style={styles.tcP}>Welcome to our website. If you continue to browse and use this
-                                website, you are
-                                agreeing to comply with and be bound by the following terms and conditions of use, which
-                                together with
-                                our privacy policy govern [business name]’s relationship with you in relation to this
-                                website. If you
-                                disagree with any part of these terms and conditions, please do not use our
-                                website.</Text>
-                            <Text style={styles.tcP}>The term ‘[business name]’ or ‘us’ or ‘we’ refers to the owner of
-                                the website
-                                whose registered office is [address]. Our company registration number is [company
-                                registration number
-                                and place of registration]. The term ‘you’ refers to the user or viewer of our
-                                website.</Text>
-                            <Text style={styles.tcL}>{"\u2022"} The content of the pages of this website is for your
-                                general
-                                information and use only. It is subject to change without notice.</Text>
-                            <Text style={styles.tcL}>{"\u2022"} This website uses cookies to monitor browsing
-                                preferences. If you do
-                                allow cookies to be used, the following personal information may be stored by us for use
-                                by third
-                                parties: [insert list of information].</Text>
-                            <Text style={styles.tcL}>{"\u2022"} Neither we nor any third parties provide any warranty or
-                                guarantee as
-                                to the accuracy, timeliness, performance, completeness or suitability of the information
-                                and materials
-                                found or offered on this website for any particular purpose. You acknowledge that such
-                                information and
-                                materials may contain inaccuracies or errors and we expressly exclude liability for any
-                                such
-                                inaccuracies or errors to the fullest extent permitted by law.</Text>
-                            <Text style={styles.tcL}>{"\u2022"} Your use of any information or materials on this website
-                                is entirely
-                                at your own risk, for which we shall not be liable. It shall be your own responsibility
-                                to ensure that
-                                any products, services or information available through this website meet your specific
-                                requirements.</Text>
-                            <Text style={styles.tcL}>{"\u2022"} This website contains material which is owned by or
-                                licensed to us.
-                                This material includes, but is not limited to, the design, layout, look, appearance and
-                                graphics.
-                                Reproduction is prohibited other than in accordance with the copyright notice, which
-                                forms part of these
-                                terms and conditions.</Text>
-                            <Text style={styles.tcL}>{"\u2022"} All trademarks reproduced in this website, which are not
-                                the property
-                                of, or licensed to the operator, are acknowledged on the website.
-                                Unauthorised use of this website may give rise to a claim for damages and/or be a
-                                criminal
-                                offence.</Text>
-                            <Text style={styles.tcL}>{"\u2022"} From time to time, this website may also include links
-                                to other
-                                websites. These links are provided for your convenience to provide further information.
-                                They do not
-                                signify that we endorse the website(s). We have no responsibility for the content of the
-                                linked
-                                website(s).</Text>
-                            <Text style={styles.tcL}>{"\u2022"} Your use of this website and any dispute arising out of
-                                such use of
-                                the website is subject to the laws of England, Northern Ireland, Scotland and
-                                Wales.</Text>
-                            <Text style={styles.tcP}>The use of this website is subject to the following terms of
-                                use</Text>
-                        </ScrollView>
-
-                        <TouchableOpacity
-                            disabled={!this.state.accepted}
-                            onPress={() => {
-                                this.setModalVisible(true);
-                            }}
-                            style={this.state.accepted ? styles.button : styles.buttonDisabled}
-                        >
-                            <Text style={styles.buttonLabel}>Accept</Text>
-                        </TouchableOpacity>
-
-                        <Modal
-                            isOpen={this.state.modalVisible}
-                            onClose={() => this.setModalVisible(false)}
-                            avoidKeyboard
-                            size="full"
-                        >
-                            <Modal.Content>
-                                <Modal.CloseButton/>
-                                <Modal.Header>Confirm Delete?</Modal.Header>
-                                <Modal.Body>
-                                    Please enter ' I agree to delete my account '
-                                    <FormControl mt="3">
-                                        <FormControl.Label>Delete</FormControl.Label>
-                                        <Input
-                                            value={this.state.value}
-                                            size="lg"
-                                            maxLength={deleteContent.length}
-                                            onChangeText={this.handleChangeText}
-                                        />
-                                    </FormControl>
-                                    {this.state.value.length === deleteContent.length && !this.state.isMatch ?
-                                        <Text style={{color: "red"}}>Please enter: I agree to delete my
-                                            account</Text> : null}
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button
-                                        bg={this.state.isMatch ? "#136AC7" : "#999"}
-                                        flex="1"
-                                        onPress={this.handleProceed}
-                                        disabled={!this.state.isMatch}  // Add this line
-                                    >
-                                        Proceed
-                                    </Button>
-                                </Modal.Footer>
+  render() {
+    return (
+      <NativeBaseProvider>
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <Text style={styles.title}>Account Deletion Policy</Text>
+            <ScrollView
+              style={styles.tcContainer}
+              onScroll={({ nativeEvent }) => {
+                if (isCloseToBottom(nativeEvent)) {
+                  this.setState({
+                    accepted: true,
+                  });
+                }
+              }}
+            >
+              <Text style={styles.tcP}>Definitions: In these terms, "Account" refers to the personal account created by users on our platform or service, UniEase.
+                The term "Platform" specifically pertains to the UniEase platform.
+                The term "Service" refers to the functionalities provided by UniEase to users, including but not limited to "Ride Reservation" and others.</Text>
+              <Text style={styles.tcP}>Preconditions for Account Cancellation:
+                When applying for account cancellation, all orders associated with the account must be in a completed
+                status or cancel status. If there are ongoing orders, please proceed with the cancellation
+                request after their completion.</Text>
+              <Text style={styles.tcP}>Account Cancellation Request: </Text>
+              <Text style={styles.tcL}>{"\u2022"} Upon submission of the account cancellation request, users will no longer
+                be able to log in or access any information related to the account, and all account information along
+                with associated order details will be permanently deleted.</Text>
+              <Text style={styles.tcL}>{"\u2022"} Prior to submitting the account cancellation request, please ensure that
+                you have retained or backed up all necessary data information. Please note that account cancellation is
+                an irreversible action, and we cannot recover your account data after the cancellation.</Text>
+              <Text style={styles.tcL}>{"\u2022"} Once the account cancellation is completed, all services, subscriptions,
+                or other engagements associated with the account will be automatically terminated,
+                and we shall not be liable for any resulting losses or responsibilities.</Text>
 
 
-                            </Modal.Content>
-                        </Modal>
-                    </View>
-                </SafeAreaView>
-            </NativeBaseProvider>
-        );
-    }
+              <Text style={styles.tcP}>Refund Policy:
+                Users with pending or ongoing refund requests will not be able to proceed with the account
+                cancellation. Please wait for the completion of the refund process before reapplying for account cancellation.</Text>
+
+              <Text style={styles.tcP}>Disclaimer:
+                After account cancellation, users will no longer be bound by our Terms of Service and Privacy Policy.
+                Please be aware that we shall not bear any responsibility for any leakage or consequences arising from the
+                user's self-maintenance of account information and other data after account cancellation.</Text>
+              <Text style={styles.tcP}>Changes and Termination:
+                We reserve the right to modify or terminate the terms for account cancellation at any time.
+                In case of any changes, we will notify users through appropriate communication channels.</Text>
+              <Text style={styles.tcP}>Legal Jurisdiction:
+                These account cancellation terms are governed by relevant laws, and any disputes will be subject
+                to the jurisdiction of the relevant legal authorities.</Text>
+
+            </ScrollView>
+
+            <TouchableOpacity
+              disabled={!this.state.accepted}
+              onPress={() => {
+                this.setModalVisible(true);
+              }}
+              style={this.state.accepted ? styles.button : styles.buttonDisabled}
+            >
+              <Text style={styles.buttonLabel}>Accept</Text>
+            </TouchableOpacity>
+
+            <Modal
+              isOpen={this.state.modalVisible}
+              onClose={() => this.setModalVisible(false)}
+              avoidKeyboard
+              size="full"
+            >
+              <Modal.Content>
+                <Modal.CloseButton />
+                <Modal.Header>Confirm Delete?</Modal.Header>
+                <Modal.Body>
+                  Please enter ' I agree to delete my account '
+                  <FormControl mt="3">
+                    <FormControl.Label>Delete</FormControl.Label>
+                    <Input
+                      value={this.state.value}
+                      size="lg"
+                      maxLength={deleteContent.length}
+                      onChangeText={this.handleChangeText}
+                    />
+                  </FormControl>
+                  {this.state.value.length === deleteContent.length && !this.state.isMatch ?
+                    <Text style={{ color: "red" }}>Please enter: I agree to delete my account</Text> : null}
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    bg={this.state.isMatch ? "#136AC7" : "#999"}
+                    flex="1"
+                    onPress={this.handleProceed}
+                    disabled={!this.state.isMatch}  // Add this line
+                  >
+                    Proceed
+                  </Button>
+                </Modal.Footer>
+
+
+              </Modal.Content>
+            </Modal>
+          </View>
+        </SafeAreaView>
+      </NativeBaseProvider>
+    );
+  }
 }
 
 const {width, height} = Dimensions.get("window");
 
 const styles = {
 
-    container: {
-        marginTop: 20,
-        marginLeft: 10,
-        marginRight: 10,
-    },
-    title: {
-        fontSize: 22,
-        alignSelf: "center",
-    },
-    tcP: {
-        marginTop: 10,
-        marginBottom: 10,
-        fontSize: 12,
-        textAlign: "justify",
-    },
-    tcL: {
-        marginLeft: 10,
-        marginTop: 10,
-        marginBottom: 10,
-        fontSize: 12,
-        textAlign: "justify",
-    },
-    tcContainer: {
-        marginTop: 15,
-        marginBottom: 25,
-        height: height * .8,
-    },
+  container: {
+    marginTop: 20,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  title: {
+    fontSize: 22,
+    alignSelf: "center",
+  },
+  tcP: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 12,
+    textAlign: "justify",
+  },
+  tcL: {
+    marginLeft: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 12,
+    textAlign: "justify",
+  },
+  tcContainer: {
+    marginTop: 15,
+    marginBottom: 25,
+    height: height * .8,
+  },
 
-    button: {
-        backgroundColor: "#136AC7",
-        borderRadius: 5,
-        padding: 10,
-    },
+  button: {
+    backgroundColor: "#136AC7",
+    borderRadius: 5,
+    padding: 10,
+  },
 
-    buttonDisabled: {
-        backgroundColor: "#999",
-        borderRadius: 5,
-        padding: 10,
-    },
+  buttonDisabled: {
+    backgroundColor: "#999",
+    borderRadius: 5,
+    padding: 10,
+  },
 
-    buttonLabel: {
-        fontSize: 14,
-        color: "#FFF",
-        alignSelf: "center",
-    },
+  buttonLabel: {
+    fontSize: 14,
+    color: "#FFF",
+    alignSelf: "center",
+  },
 
 };
 

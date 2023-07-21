@@ -79,6 +79,11 @@ const RegisterScreen = () => {
             return;
         }
 
+        if ((firstName.length + lastName.length) > 23) {
+            showDialog('WARNING', 'Invalid Input', 'The combined length of your first name and last name should not exceed 24 characters.');
+            return;
+        }
+
         // 验证电子邮件格式
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {

@@ -223,7 +223,7 @@ const styles = {
   },
   tcContainer: {
     marginTop: 15,
-    marginBottom: 25,
+    marginBottom: 5,
     height: height * .8,
   },
 

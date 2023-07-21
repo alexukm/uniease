@@ -1,13 +1,11 @@
-import React, {Component} from "react";
-import {View, Text, ScrollView, Dimensions, TouchableOpacity, SafeAreaView} from "react-native";
-import {Modal, Button, Input, FormControl, NativeBaseProvider} from "native-base";
-
-import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
-import {driverDeleteAccount, userDeleteAccount} from "../com/evotech/common/http/BizHttpUtil";
-import {responseOperation} from "../com/evotech/common/http/ResponseOperation";
+import React, { Component } from "react";
+import { View, Text, ScrollView, Dimensions, TouchableOpacity, SafeAreaView } from "react-native";
+import { Modal, Button, Input, FormControl, NativeBaseProvider } from "native-base";
+import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
+import { driverDeleteAccount, userDeleteAccount } from "../com/evotech/common/http/BizHttpUtil";
+import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useNavigation} from "@react-navigation/native";
-import {showDialog} from "../com/evotech/common/alert/toastHelper";
 
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
     const paddingToBottom = 20;
@@ -15,7 +13,7 @@ const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
         contentSize.height - paddingToBottom;
 };
 const deleteContent = "I agree to delete my account";
-const navigation = useNavigation();
+
 
 class DeleteAccount extends Component {
 
@@ -23,7 +21,7 @@ class DeleteAccount extends Component {
         accepted: false,
         modalVisible: false,
         value: "",
-        isMatch: false,
+        isMatch: false
     };
 
 
@@ -58,7 +56,7 @@ class DeleteAccount extends Component {
                         //清空本地所有信息
                         AsyncStorage.clear();
                         //跳转Home
-                        navigation.navigate("Home");
+                        this.props.navigation.navigate("Home");
                     }, () => {
                         showDialog('WARNING', 'Delete Account', data.message);
                     });
@@ -73,7 +71,7 @@ class DeleteAccount extends Component {
                         //清空本地所有信息
                         AsyncStorage.clear();
                         //跳转Home
-                        navigation.navigate("Home");
+                      this.props.navigation.navigate("Home");
                     }, () => {
                         showDialog('WARNING', 'Delete Account', data.message);
                     });

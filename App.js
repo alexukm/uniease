@@ -25,7 +25,8 @@ import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnum
 import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate";
 import {enableSystemNotify, notifyOrderChannel} from "./src/com/evotech/common/notify/SystemNotify";
 import RNBootSplash from "react-native-bootsplash";
-import DeleteAccount from "./src/screens/./DeleteAccount";
+import DeleteAccount from "./src/screens/DeleteAccount";
+
 
 
 enableScreens();

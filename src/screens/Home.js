@@ -1,8 +1,7 @@
-import React, {  useContext } from "react";
+import React from "react";
 import { VStack, Box,  Button, Text } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, Image } from "react-native";
-import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 
 function Home() {
     const navigation = useNavigation();
@@ -49,7 +48,7 @@ function Home() {
 }
 
 // 自定义钩子以在其他组件中获取用户类型
-const useUserType = () => useContext(UserTypeContext);
+/*const useUserType = () => useContext(UserTypeContext);
 
-export { useUserType };
+export { useUserType };*/
 export default Home;

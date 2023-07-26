@@ -377,10 +377,8 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
             <Text>Driver: {orderDetailInfo.userName}</Text>
           </VStack>
           <View style={{ alignItems: "flex-end" }}>
-            {/*<Text style={{...styles.licensePlateText, lineHeight: 30}}>License Plate: {orderDetailInfo.licensePlate}</Text>*/}
-            {/*<Text>Car Model: {orderDetailInfo.carBrand}</Text>*/}
             <Text style={{ ...styles.licensePlateText, lineHeight: 30 }}>{orderDetailInfo.licensePlate}</Text>
-            <Text>{orderDetailInfo.carColor} - {orderDetailInfo.carBrand}</Text>
+            <Text style={{ lineHeight: 30 }}>{orderDetailInfo.carColor} - {orderDetailInfo.carBrand}</Text>
           </View>
         </HStack>
         {status !== OrderStateEnum.DELIVERED ? (

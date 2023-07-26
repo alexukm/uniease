@@ -163,7 +163,9 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 14,
+    color: '#000000', // Add this line
   },
+
   curveMask: {
     position: "absolute",
     bottom: 0,

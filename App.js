@@ -26,6 +26,7 @@ import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate
 import {enableSystemNotify, notifyOrderChannel} from "./src/com/evotech/common/notify/SystemNotify";
 import RNBootSplash from "react-native-bootsplash";
 import DeleteAccount from "./src/screens/DeleteAccount";
+import EditProfile from "./src/screens/EditProfileScreen";
 
 
 
@@ -118,6 +119,8 @@ const App = () => {
                         <Stack.Screen name="DriverAccount" component={DriverAccount}/>
                         <Stack.Screen name="DriverRegisterImage" component={DriverRegisterImage}/>
                         <Stack.Screen name="DeleteAccount" component={DeleteAccount}/>
+                        <Stack.Screen name="EditProfile" component={EditProfile}/>
+
 
                     </Stack.Navigator>}
                 </Provider>

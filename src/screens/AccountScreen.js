@@ -62,6 +62,10 @@ const AccountScreen = () => {
     navigation.navigate("DeleteAccount")
   };
 
+  const handleAvatarPress = () => {
+    navigation.navigate("EditProfile");
+  };
+
   const handleLogoutPress = () => {
     Alert.alert(
       // Title
@@ -102,10 +106,12 @@ const AccountScreen = () => {
     <>
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
-          <Image
-            source={require('../picture/person.jpg')}
-            style={styles.avatar}
-          />
+          <TouchableOpacity onPress={handleAvatarPress}>
+            <Image
+              source={require('../picture/person.jpg')}
+              style={styles.avatar}
+            />
+          </TouchableOpacity>
           <Text style={styles.name}>{userName}</Text>
         </View>
         <View style={styles.curveMask} />

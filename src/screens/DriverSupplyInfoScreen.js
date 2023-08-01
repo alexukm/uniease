@@ -36,10 +36,11 @@ const DriverSupplyInfo = () => {
     const [carType, setCarType] = useState(0);
     const [carTypeDesc, setCarTypeDesc] = useState('Sedan');
     const [carBrand, setCarBrand] = useState('');
-    const [bankAccount, setBankAccount] = useState("");
-    const [bankName, setBankName] = useState("");
-    const [bankHolderName, setBankHolderName] = useState("");
-    const [bankAddress, setBankAddress] = useState("");
+    const [carPlate, setCarPlate] = useState('');
+    // const [bankAccount, setBankAccount] = useState("");
+    // const [bankName, setBankName] = useState("");
+    // const [bankHolderName, setBankHolderName] = useState("");
+    // const [bankAddress, setBankAddress] = useState("");
     const [emergencyName, setEmergencyName] = useState("");
     const [emergencyPhone, setEmergencyPhone] = useState("");
     const [emergencyRs, setEmergencyRs] = useState("");
@@ -97,10 +98,11 @@ const DriverSupplyInfo = () => {
             {name: 'Car Registry Date', value: carRegistryDate, maxLength: null, isNumber: false},
             {name: 'Car Color', value: carColor, maxLength: 8, isNumber: false},
             {name: 'Car Brand', value: carBrand, maxLength: 20, isNumber: false},
-            {name: 'Bank Account', value: bankAccount, maxLength: 18, isNumber: true},
-            {name: 'Bank Name', value: bankName, maxLength: 12, isNumber: false},
-            {name: 'Bank Holder Name', value: bankHolderName, maxLength: 12, isNumber: false},
-            {name: 'Bank Address', value: bankAddress, maxLength: 255, isNumber: false},
+            {name: 'Car Plate', value: carPlate, maxLength: 14, isNumber: false},
+            // {name: 'Bank Account', value: bankAccount, maxLength: 18, isNumber: true},
+            // {name: 'Bank Name', value: bankName, maxLength: 12, isNumber: false},
+            // {name: 'Bank Holder Name', value: bankHolderName, maxLength: 12, isNumber: false},
+            // {name: 'Bank Address', value: bankAddress, maxLength: 255, isNumber: false},
             {name: 'Emergency Name', value: emergencyName, maxLength: 20, isNumber: false},
             {name: 'Emergency Phone', value: emergencyPhone, maxLength: 20, isNumber: true},
             {name: 'Emergency Relation', value: emergencyRs, maxLength: 12, isNumber: false},
@@ -147,10 +149,11 @@ const DriverSupplyInfo = () => {
                 carColor: carColor,
                 carType: carType,
                 carBrand: carBrand,
-                bankAccount: bankAccount,
-                bankName: bankName,
-                bankHolderName: bankHolderName,
-                bankAddress: bankAddress,
+                carPlate: carPlate,
+                // bankAccount: bankAccount,
+                // bankName: bankName,
+                // bankHolderName: bankHolderName,
+                // bankAddress: bankAddress,
                 emergencyName: emergencyName,
                 emergencyPhone: emergencyPhone,
                 emergencyRs: emergencyRs,
@@ -275,6 +278,7 @@ const DriverSupplyInfo = () => {
                                                             date={carRegistryDate || new Date()}
                                                             onDateChange={date => setCarRegistryDate(date)}
                                                             mode="date"
+                                                            textColor="black"
                                                         />
                                                         <Button onPress={() => setDatePickerVisibility(false)}>
                                                             Confirm
@@ -362,80 +366,99 @@ const DriverSupplyInfo = () => {
                                             </FormControl>
                                         </Box>
                                     </Flex>
+
+
+                                    {/* Car Plate */}
+                                    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>
+                                        <Box flex={0.3}>
+                                            <Text fontSize="xs">Car Plate</Text>
+                                        </Box>
+                                        <Box flex={0.7}>
+                                            <FormControl>
+                                                <Input
+                                                  variant="underlined"
+                                                  fontSize="xs"
+                                                  placeholder="Enter Car Plate..."
+                                                  value={carBrand.toString()}
+                                                  onChangeText={(value) => setCarPlate(value)}
+                                                />
+                                            </FormControl>
+                                        </Box>
+                                    </Flex>
                                 </Box>
 
-                                {/* Bank Information */}
-                                <Box bg="white" p={4} shadow={1} rounded="lg" marginTop={5}>
-                                    <Text bold>Bank Information</Text>
-                                    {/* Bank Account */}
-                                    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>
-                                        <Box flex={0.3}>
-                                            <Text fontSize="xs">Bank Account</Text>
-                                        </Box>
-                                        <Box flex={0.7}>
-                                            <FormControl>
-                                                <Input
-                                                    variant="underlined"
-                                                    fontSize="xs"
-                                                    placeholder="Enter Bank Account..."
-                                                    value={bankAccount}
-                                                    onChangeText={(value) => setBankAccount(value)}
-                                                />
-                                            </FormControl>
-                                        </Box>
-                                    </Flex>
-                                    {/* Bank Name */}
-                                    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>
-                                        <Box flex={0.3}>
-                                            <Text fontSize="xs">Bank Name</Text>
-                                        </Box>
-                                        <Box flex={0.7}>
-                                            <FormControl>
-                                                <Input
-                                                    variant="underlined"
-                                                    fontSize="xs"
-                                                    placeholder="Enter Bank Name..."
-                                                    value={bankName}
-                                                    onChangeText={(value) => setBankName(value)}
-                                                />
-                                            </FormControl>
-                                        </Box>
-                                    </Flex>
-                                    {/* Bank Holder Name */}
-                                    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>
-                                        <Box flex={0.3}>
-                                            <Text fontSize="xs">Bank Holder Name</Text>
-                                        </Box>
-                                        <Box flex={0.7}>
-                                            <FormControl>
-                                                <Input
-                                                    variant="underlined"
-                                                    fontSize="xs"
-                                                    placeholder="Enter Bank Holder Name..."
-                                                    value={bankHolderName}
-                                                    onChangeText={(value) => setBankHolderName(value)}
-                                                />
-                                            </FormControl>
-                                        </Box>
-                                    </Flex>
-                                    {/* Bank Address */}
-                                    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>
-                                        <Box flex={0.3}>
-                                            <Text fontSize="xs">Bank Address</Text>
-                                        </Box>
-                                        <Box flex={0.7}>
-                                            <FormControl>
-                                                <Input
-                                                    variant="underlined"
-                                                    fontSize="xs"
-                                                    placeholder="Enter Bank Address..."
-                                                    value={bankAddress}
-                                                    onChangeText={(value) => setBankAddress(value)}
-                                                />
-                                            </FormControl>
-                                        </Box>
-                                    </Flex>
-                                </Box>
+                                {/*/!* Bank Information *!/*/}
+                                {/*<Box bg="white" p={4} shadow={1} rounded="lg" marginTop={5}>*/}
+                                {/*    <Text bold>Bank Information</Text>*/}
+                                {/*    /!* Bank Account *!/*/}
+                                {/*    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>*/}
+                                {/*        <Box flex={0.3}>*/}
+                                {/*            <Text fontSize="xs">Bank Account</Text>*/}
+                                {/*        </Box>*/}
+                                {/*        <Box flex={0.7}>*/}
+                                {/*            <FormControl>*/}
+                                {/*                <Input*/}
+                                {/*                    variant="underlined"*/}
+                                {/*                    fontSize="xs"*/}
+                                {/*                    placeholder="Enter Bank Account..."*/}
+                                {/*                    value={bankAccount}*/}
+                                {/*                    onChangeText={(value) => setBankAccount(value)}*/}
+                                {/*                />*/}
+                                {/*            </FormControl>*/}
+                                {/*        </Box>*/}
+                                {/*    </Flex>*/}
+                                {/*    /!* Bank Name *!/*/}
+                                {/*    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>*/}
+                                {/*        <Box flex={0.3}>*/}
+                                {/*            <Text fontSize="xs">Bank Name</Text>*/}
+                                {/*        </Box>*/}
+                                {/*        <Box flex={0.7}>*/}
+                                {/*            <FormControl>*/}
+                                {/*                <Input*/}
+                                {/*                    variant="underlined"*/}
+                                {/*                    fontSize="xs"*/}
+                                {/*                    placeholder="Enter Bank Name..."*/}
+                                {/*                    value={bankName}*/}
+                                {/*                    onChangeText={(value) => setBankName(value)}*/}
+                                {/*                />*/}
+                                {/*            </FormControl>*/}
+                                {/*        </Box>*/}
+                                {/*    </Flex>*/}
+                                {/*    /!* Bank Holder Name *!/*/}
+                                {/*    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>*/}
+                                {/*        <Box flex={0.3}>*/}
+                                {/*            <Text fontSize="xs">Bank Holder Name</Text>*/}
+                                {/*        </Box>*/}
+                                {/*        <Box flex={0.7}>*/}
+                                {/*            <FormControl>*/}
+                                {/*                <Input*/}
+                                {/*                    variant="underlined"*/}
+                                {/*                    fontSize="xs"*/}
+                                {/*                    placeholder="Enter Bank Holder Name..."*/}
+                                {/*                    value={bankHolderName}*/}
+                                {/*                    onChangeText={(value) => setBankHolderName(value)}*/}
+                                {/*                />*/}
+                                {/*            </FormControl>*/}
+                                {/*        </Box>*/}
+                                {/*    </Flex>*/}
+                                {/*    /!* Bank Address *!/*/}
+                                {/*    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>*/}
+                                {/*        <Box flex={0.3}>*/}
+                                {/*            <Text fontSize="xs">Bank Address</Text>*/}
+                                {/*        </Box>*/}
+                                {/*        <Box flex={0.7}>*/}
+                                {/*            <FormControl>*/}
+                                {/*                <Input*/}
+                                {/*                    variant="underlined"*/}
+                                {/*                    fontSize="xs"*/}
+                                {/*                    placeholder="Enter Bank Address..."*/}
+                                {/*                    value={bankAddress}*/}
+                                {/*                    onChangeText={(value) => setBankAddress(value)}*/}
+                                {/*                />*/}
+                                {/*            </FormControl>*/}
+                                {/*        </Box>*/}
+                                {/*    </Flex>*/}
+                                {/*</Box>*/}
 
                                 {/* Emergency Contact Information */}
                                 <Box bg="white" p={4} shadow={1} rounded="lg" marginTop={5}>
@@ -484,7 +507,7 @@ const DriverSupplyInfo = () => {
                                                 <Input
                                                     variant="underlined"
                                                     fontSize="xs"
-                                                    placeholder="Enter Emergency Rs..."
+                                                    placeholder="Enter Emergency Relationships"
                                                     value={emergencyRs}
                                                     onChangeText={(value) => setEmergencyRs(value)}
                                                 />

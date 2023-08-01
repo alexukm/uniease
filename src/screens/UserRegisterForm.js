@@ -242,7 +242,11 @@ const RegisterScreen = () => {
       );
     } else {
       return (
-        <Button mt="4" onPress={submitData}>
+        <Button
+          backgroundColor="#0055A4"
+          mt="4"
+          onPress={submitData}
+        >
           Get OTP
         </Button>
       );
@@ -290,7 +294,11 @@ const RegisterScreen = () => {
               <FormControl width="100%">
                 <FormControl.Label>Phone Number</FormControl.Label>
                 <HStack space={2} width="100%">
-                  <Button flex={3} onPress={() => setShowModal(true)}>
+                  <Button
+                    backgroundColor="#0055A4"
+                    color="white"
+                    onPress={() => setShowModal(true)}
+                  >
                     {buttonText()}
                   </Button>
                   <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
@@ -300,19 +308,34 @@ const RegisterScreen = () => {
                       <Modal.Body>
                         <Radio.Group defaultValue={selectedValue} name="countryCode" size="sm" onChange={handleSelect}>
                           <VStack space={3}>
-                            <Radio alignItems="flex-start" _text={{ mt: "-1", ml: "2", fontSize: "sm" }} value="my">
+                            <Radio
+                              alignItems="flex-start"
+                              _text={{ mt: "-1", ml: "2", fontSize: "sm" }}
+                              value="my"
+                              colorScheme="blue"
+                            >
                               +60 Malaysia
                             </Radio>
-                            <Radio alignItems="flex-start" _text={{ mt: "-1", ml: "2", fontSize: "sm" }} value="cn">
+                            <Radio
+                              alignItems="flex-start"
+                              _text={{ mt: "-1", ml: "2", fontSize: "sm" }}
+                              value="cn"
+                              colorScheme="blue"
+                            >
                               +86 China
                             </Radio>
                           </VStack>
                         </Radio.Group>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button flex="1" onPress={() => {
-                          setShowModal(false);
-                        }}>
+                        <Button
+                          flex="1"
+                          onPress={() => {
+                            setShowModal(false);
+                          }}
+                          backgroundColor="#0055A4"
+                          color="white"
+                        >
                           Continue
                         </Button>
                       </Modal.Footer>

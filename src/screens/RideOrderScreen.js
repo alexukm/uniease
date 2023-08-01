@@ -241,8 +241,12 @@ const RideOrderScreen = () => {
 
     // 这个函数处理打开日期选择器的逻辑
     const handleOpenDatePicker = () => {
+        let time = new Date();
+        time.setMinutes(time.getMinutes() + 30);
+        setDate(time);
         setOpen(true);
     };
+
 
     const allowOrder = () => {
         userOrderCheck()
@@ -346,12 +350,12 @@ const RideOrderScreen = () => {
             // Calculate the difference in minutes
             const diffInMinutes = Math.abs(plannedDepartureTime.getTime() - currentTime.getTime()) / 1000 / 60;
 
-            // If the difference is less than 10 minutes
-            if (diffInMinutes < 10) {
+            // If the difference is less than 60 minutes
+            if (diffInMinutes < 60) {
                 // Trigger the alert
                 Alert.alert(
                   'Time Alert',
-                  'Departure in less than 10 minutes? Book ahead to avoid the risk of no drivers being available.',
+                  'Departure in less than 60 minutes? Book ahead to avoid the risk of no drivers being available.',
                   [
                       {
                           text: 'Cancel Order',
@@ -371,7 +375,7 @@ const RideOrderScreen = () => {
                   { cancelable: false }
                 );
             } else {
-                // If the difference is more than 10 minutes, just execute the order submission
+                // If the difference is more than 60 minutes, just execute the order submission
                 proceedWithOrder(orderSubmitParam);
             }
         } catch (e) {
@@ -490,6 +494,8 @@ const RideOrderScreen = () => {
 
     };
 
+    let minimumTime = new Date();
+    minimumTime.setMinutes(minimumTime.getMinutes() + 30);
 
     // 处理返回的逻辑，根据当前的状态，取消预订或返回到主页
     const handleBack = () => {
@@ -722,17 +728,17 @@ const RideOrderScreen = () => {
                                 </Button>
                             )}
                             <DatePicker
-                                modal
-                                open={open}
-                                date={date || new Date()}
-                                minimumDate={new Date()}
-                                onConfirm={(date) => {
-                                    setOpen(false);
-                                    setDate(date);
-                                }}
-                                onCancel={() => {
-                                    setOpen(false);
-                                }}
+                              modal
+                              open={open}
+                              date={date || new Date()}
+                              minimumDate={minimumTime}
+                              onConfirm={(date) => {
+                                  setOpen(false);
+                                  setDate(date);
+                              }}
+                              onCancel={() => {
+                                  setOpen(false);
+                              }}
                             />
                             <Modal
                                 isOpen={modalVisible}

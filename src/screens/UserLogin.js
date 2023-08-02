@@ -20,6 +20,7 @@ import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
 import { showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import DeviceInfo from 'react-native-device-info';
 
 const countryCodes = {
   my: "60",
@@ -137,6 +138,17 @@ function UserScreen() {
     submitData();
   };
 
+  // useEffect(() => {
+  //   const fetchDeviceId = async () => {
+  //     let deviceId = await DeviceInfo.getUniqueId();
+  //     console.log('User Login Device ID:', deviceId);
+  //   };
+  //
+  //   fetchDeviceId();
+  // }, []);
+
+
+
   const handleOtpInputChange = (text) => {
     if (!isTimerActive) {
       showToast("WARNING", "Warning", "Please get OTP first before entering it.");
@@ -149,11 +161,13 @@ function UserScreen() {
     }
   };
 
+  let deviceId = DeviceInfo.getUniqueId();
+
   const userLoginWithSmsCode = (userPhone, code) => {
     const loginParams = {
       "userPhone": userPhone,
       "code": MD5(code).toString(), // 对验证码进行 MD5 加密
-      "deviceId": getUserID(),
+      "deviceId": deviceId,
       "platform": 0,
     };
     userLogin(loginParams)

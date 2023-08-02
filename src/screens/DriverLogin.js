@@ -24,6 +24,7 @@ import {
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { ALERT_TYPE } from "react-native-alert-notification";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import DeviceInfo from "react-native-device-info";
 
 const countryCodes = {
   my: "60",
@@ -155,11 +156,13 @@ function DriverScreen() {
     navigation.replace("DriverRegisterImage",  {token: data.token,userPhone: userPhone});
   };
 
+  let deviceId = DeviceInfo.getUniqueId();
+
   const userLoginWithSmsCode = (userPhone, code) => {
     const loginParams = {
       "userPhone": userPhone,
       "code": MD5(code).toString(), // 对验证码进行 MD5 加密
-      "deviceId": "12345",
+      "deviceId": deviceId,
       "platform": 0,
     };
     driverLogin(loginParams)

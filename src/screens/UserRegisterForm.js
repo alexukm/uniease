@@ -19,6 +19,7 @@ import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import DeviceInfo from "react-native-device-info";
 
 
 const RegisterScreen = () => {
@@ -187,17 +188,19 @@ const RegisterScreen = () => {
       doUserRegistry();
     }
   };
+
   const doUserRegistry = () => {
     const userPhone = selectedValue === "my" ? "60" + phoneNumber : "86" + phoneNumber;
 
     const md5VerificationCode = MD5(verificationCode).toString();
 
+    let deviceId = DeviceInfo.getUniqueId();
     const registryParams = {
       firstName: firstName,
       lastName: lastName,
       email: email,
       userPhone: userPhone,
-      deviceId: "123",
+      deviceId: deviceId,
       platform: 0,
       // code: verificationCode,
       code: md5VerificationCode, // 使用加密后的验证码

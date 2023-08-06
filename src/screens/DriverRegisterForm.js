@@ -20,6 +20,7 @@ import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import DeviceInfo from "react-native-device-info";
+import { deviceId } from "../com/evotech/common/system/OSUtils";
 
 
 const RegisterScreen = () => {
@@ -176,7 +177,6 @@ const RegisterScreen = () => {
         }
     }
 
-    let deviceId = DeviceInfo.getUniqueId();
     const doUserRegistry = () => {
         const userPhone = selectedValue === 'my' ? '60' + phoneNumber : '86' + phoneNumber;
 

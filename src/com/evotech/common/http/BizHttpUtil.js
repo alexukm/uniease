@@ -89,8 +89,13 @@ const featureAndPath = {
     DRIVER_QUERY_USER_PHONE: {method: supportRequestMethod.POST, path: '/v1/oms/api/driver/order/queryUserPhone'},
 
     USER_QUERY_DRIVER_PHONE: {method: supportRequestMethod.POST, path: '/v1/oms/api/user/order/queryUserPhone'},
+
+    SYNC_USER_FIREBASE_TOKEN: {method: supportRequestMethod.GET, path: '/v1/auth/api/token/syncFireBaseToken'},
 }
 
+export function syncUserFirebaseToken(params = {}) {
+    return request.get(featureAndPath.SYNC_USER_FIREBASE_TOKEN.path, {params: params});
+}
 export function driverSupplyInfo(params = {}) {
     return request.post(featureAndPath.DRIVER_SUPPLY_INFO.path, SupportContextType.APPLICATION_JSON, {params: params});
 }

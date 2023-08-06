@@ -20,6 +20,7 @@ import { UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import DeviceInfo from "react-native-device-info";
+import { deviceId } from "../com/evotech/common/system/OSUtils";
 
 
 const RegisterScreen = () => {
@@ -194,7 +195,6 @@ const RegisterScreen = () => {
 
     const md5VerificationCode = MD5(verificationCode).toString();
 
-    let deviceId = DeviceInfo.getUniqueId();
     const registryParams = {
       firstName: firstName,
       lastName: lastName,

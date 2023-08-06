@@ -3,6 +3,8 @@ import {defaultHeaders} from "../http/HttpUtil";
 import {getUserInfoWithLocal, removeUserInfo} from "./UserInfo";
 import {closeWebsocket} from "../websocket/SingletonWebSocketClient";
 import { clearLocalChat } from "../redux/UserChat";
+import DeviceInfo from "react-native-device-info";
+import { deviceId } from "../system/OSUtils";
 
 export const UserOrigin = {APP: 0}
 export const UserPlatform = {Android: 1, IOS: 2,}
@@ -34,7 +36,7 @@ export const DriverImageType = {
 }
 
 export function getUserID() {
-    return "123";
+    return deviceId;
 }
 
 export function getUserType() {

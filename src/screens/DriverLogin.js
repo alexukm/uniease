@@ -25,6 +25,7 @@ import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { ALERT_TYPE } from "react-native-alert-notification";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import DeviceInfo from "react-native-device-info";
+import { deviceId } from "../com/evotech/common/system/OSUtils";
 
 const countryCodes = {
   my: "60",
@@ -156,7 +157,6 @@ function DriverScreen() {
     navigation.replace("DriverRegisterImage",  {token: data.token,userPhone: userPhone});
   };
 
-  let deviceId = DeviceInfo.getUniqueId();
 
   const userLoginWithSmsCode = (userPhone, code) => {
     const loginParams = {

@@ -83,7 +83,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
     },
     map: {
       width: Dimensions.get("window").width,
-      height: Dimensions.get("window").height * 0.55, // 让地图占据40%的屏幕
+      height: Dimensions.get("window").height * 0.45, // 让地图占据40%的屏幕
     },
     box: {
       padding: 5,
@@ -95,7 +95,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
       alignItems: "center",
     },
     fullScreen: {
-      height: Dimensions.get("window").height * 0.45, // 让box占据60%的屏幕
+      height: Dimensions.get("window").height * 0.55, // 让box占据60%的屏幕
     },
     licensePlateText: {
       fontSize: 20, // 1.5 times the usual size, adjust as needed

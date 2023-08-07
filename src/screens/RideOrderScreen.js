@@ -41,6 +41,7 @@ import {locationPermission} from "../com/evotech/permissions/PermissionsSupport"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
+import { UserChat } from "../com/evotech/common/redux/UserChat";
 
 
 
@@ -389,7 +390,7 @@ const RideOrderScreen = () => {
           .then(data => {
               responseOperation(data.code, () => {
                   setIsSubmitting(false);
-                  userOrderWebsocket((body) => {}).then();
+                  // userOrderWebsocket((body) => {}).then();
                   navigation.replace('OrderDetailScreen', {
                       departure,
                       destination,

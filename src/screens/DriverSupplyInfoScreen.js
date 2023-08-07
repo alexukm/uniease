@@ -94,7 +94,7 @@ const DriverSupplyInfo = () => {
 
     const handleSubmit = async () => {
         const fields = [
-            {name: 'Chassis Number', value: chassisNumber, maxLength: 20, isNumber: true},
+            // {name: 'Chassis Number', value: chassisNumber, maxLength: 20, isNumber: true},
             {name: 'Car Registry Date', value: carRegistryDate, maxLength: null, isNumber: false},
             {name: 'Car Color', value: carColor, maxLength: 8, isNumber: false},
             {name: 'Car Brand', value: carBrand, maxLength: 20, isNumber: false},
@@ -144,12 +144,12 @@ const DriverSupplyInfo = () => {
 
             const uploadParams = {
                 userPhone: userInfo.userPhone,
-                chassisNumber: chassisNumber,
+                // chassisNumber: chassisNumber,
                 carRegistryDate: format(carRegistryDate, 'yyyy-MM-dd HH:mm:ss'),
                 carColor: carColor,
                 carType: carType,
                 carBrand: carBrand,
-                carPlate: carPlate,
+                licensePlate: carPlate,
                 // bankAccount: bankAccount,
                 // bankName: bankName,
                 // bankHolderName: bankHolderName,
@@ -223,7 +223,7 @@ const DriverSupplyInfo = () => {
                                 <Box bg="white" p={4} shadow={1} rounded="lg" marginTop={5}>
                                     <Text bold>Car Information</Text>
                                     {/* Chassis Number */}
-                                    <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>
+                                  {/*  <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>
                                         <Box flex={0.3}>
                                             <Text fontSize="xs">Chassis Number</Text>
                                         </Box>
@@ -238,7 +238,7 @@ const DriverSupplyInfo = () => {
                                                 />
                                             </FormControl>
                                         </Box>
-                                    </Flex>
+                                    </Flex>*/}
                                     {/* Car Registry Date */}
                                     <Flex direction="row" justify="space-between" alignItems="center" marginTop={5}>
                                         <Box flex={0.3}>
@@ -379,7 +379,7 @@ const DriverSupplyInfo = () => {
                                                   variant="underlined"
                                                   fontSize="xs"
                                                   placeholder="Enter Car Plate..."
-                                                  value={carBrand.toString()}
+                                                  value={carPlate}
                                                   onChangeText={(value) => setCarPlate(value)}
                                                 />
                                             </FormControl>

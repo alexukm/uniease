@@ -5,11 +5,11 @@ import { useNavigation } from "@react-navigation/native";
 import Swiper from "react-native-swiper";
 import { initLocalChat, UserChat } from "../com/evotech/common/redux/UserChat";
 import { queryUserOrderStatus } from "../com/evotech/common/http/BizHttpUtil";
-import { userOrderWebsocket } from "../com/evotech/common/websocket/UserChatWebsocket";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
+import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
 
 const UserHome = () => {
   const navigation = useNavigation();
@@ -17,10 +17,11 @@ const UserHome = () => {
   const initChatSocket = (data) => {
     const orderStatus = data.data;
     //存在待接单的订单
-    if (orderStatus.awaiting) {
-      //订阅  订单接单通知
+    if (orderStatus.pending || orderStatus.inTransit) {
       setTimeout(async () => {
-        await userOrderWebsocket((body)=>{}).then();
+        // await userOrderWebsocket((body)=>{}).then();
+        //开启聊天
+        UserChat(true).then();
       }, 0);
     }
     return orderStatus;
@@ -54,6 +55,7 @@ const UserHome = () => {
 
   useEffect(() => {
     setTimeout(() => {
+      enableSystemNotify().then();
       subscriptionOrderAccept(initUserChat).then();
     }, 0);
 

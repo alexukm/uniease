@@ -25,11 +25,11 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { format } from "date-fns";
 import ActionSheet from "@alessiocancian/react-native-actionsheet";
 import { closeWebsocket } from "../com/evotech/common/websocket/SingletonWebSocketClient";
-import { driverCancelSubscribe } from "../com/evotech/common/websocket/UserChatWebsocket";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { formatDate } from "../com/evotech/common/formatDate";
 import { googleMapsApiKey } from "../com/evotech/common/apiKey/mapsApiKey";
+import { driverCancelSubscribe } from "../com/evotech/common/websocket/UserChatWebsocket";
 
 Geocoder.init(googleMapsApiKey);
 
@@ -208,7 +208,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     },
     map: {
       width: Dimensions.get("window").width,
-      height: Dimensions.get("window").height * 0.51, // 让地图占据40%的屏幕
+      height: Dimensions.get("window").height * 0.45, // 让地图占据40%的屏幕
     },
     box: {
       padding: 5,
@@ -220,7 +220,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       alignItems: "center",
     },
     fullScreen: {
-      height: Dimensions.get("window").height * 0.49, // 让box占据60%的屏幕
+      height: Dimensions.get("window").height * 0.55, // 让box占据60%的屏幕
     },
     licensePlateText: {
       fontSize: 20, // 1.5 times the usual size, adjust as needed

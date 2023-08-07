@@ -20,6 +20,7 @@ import { responseOperation } from "../com/evotech/common/http/ResponseOperation"
 import { formatDate } from "../com/evotech/common/formatDate";
 import { userOrderWebsocket } from "../com/evotech/common/websocket/UserChatWebsocket";
 import { tr } from "date-fns/locale";
+import { UserChat } from "../com/evotech/common/redux/UserChat";
 
 
 const DriverOrderListScreen = () => {
@@ -106,9 +107,9 @@ const DriverOrderListScreen = () => {
     driverAcceptOrder(params).then(data => {
       responseOperation(data.code, () => {
         showDialog("SUCCESS", "Success", "Order successfully Accepted");
-        // UserChat(false).then();
-        userOrderWebsocket((body) => {
-        }).then();
+        UserChat(false).then();
+     /*   userOrderWebsocket((body) => {
+        }).then();*/
         handleRefreshByUser().then(); //在这里添加代码，接受订单后刷新页面。
       }, () => {
         showToast("WARNING", "Warning", data.message);

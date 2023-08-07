@@ -139,7 +139,7 @@ function DriverScreen() {
 
   const driverSupplyInfo = (data,userPhone) => {
     setUserToken(data.token);
-    buildUserInfo(data.token, userType.DRIVER, userPhone,data.loginStatus,data.userName).saveWithLocal();
+    buildUserInfo(data.token, userType.DRIVER, userPhone,data.loginStatus,data.firstName,data.lastName).saveWithLocal();
     navigation.navigate("DriverSupplyInfo");
     showDialog(ALERT_TYPE.SUCCESS, "Action Required", "Please complete your driver information.");
   };
@@ -149,7 +149,7 @@ function DriverScreen() {
   };
   const driverActive = (data,userPhone) => {
     setUserToken(data.token);
-    buildUserInfo(data.token, userType.DRIVER, userPhone,data.loginStatus,data.userName).saveWithLocal();
+    buildUserInfo(data.token, userType.DRIVER, userPhone,data.loginStatus,data.firstName,data.lastName).saveWithLocal();
     navigation.replace("Driver");
   };
 

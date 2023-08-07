@@ -203,7 +203,7 @@ const RegisterScreen = () => {
                     showDialog('WARNING', 'Warning', data.message);
                 }
             }).then((token) => {
-            saveUserInfo('', userType.DRIVER, userPhone, getUserID(),"DRIVER")
+            saveUserInfo('', userType.DRIVER, userPhone, getUserID(),registryParams.firstName,registryParams.lastName)
             })
             .catch(error => {
                 showDialog('DANGER', 'Error', 'Error', error.message);
@@ -211,8 +211,8 @@ const RegisterScreen = () => {
         setVerificationCode('');
     };
 
-    const saveUserInfo = (token, userType, userPhone, identifier,userName) => {
-        const userInfo = buildUserInfo(token, userType, userPhone, identifier,userName);
+    const saveUserInfo = (token, userType, userPhone, identifier,firstName,lastName) => {
+        const userInfo = buildUserInfo(token, userType, userPhone, identifier,firstName,lastName);
         userInfo.saveWithLocal();
     }
 

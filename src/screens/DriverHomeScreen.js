@@ -8,6 +8,7 @@ import { queryDriverOrderStatus } from "../com/evotech/common/http/BizHttpUtil";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
 
 
 const DriverHomeScreen = () => {
@@ -35,6 +36,7 @@ const DriverHomeScreen = () => {
   // const MyContext = createContext();
   useEffect(() => {
     setTimeout(async () => {
+      enableSystemNotify().then();
       await initLocalChat();
       initOrderStatusList(initChat);
     }, 0);

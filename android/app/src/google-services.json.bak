@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "33115311534",
-    "project_id": "notification-5ab36",
-    "storage_bucket": "notification-5ab36.appspot.com"
+    "project_number": "854464841471",
+    "project_id": "uni-ease-app",
+    "storage_bucket": "uni-ease-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:33115311534:android:4d78637b2e0b7eeb67cc3f",
+        "mobilesdk_app_id": "1:854464841471:android:c1fe9eb6baf281dd12aeca",
         "android_client_info": {
           "package_name": "com.uniease"
         }
       },
       "oauth_client": [
         {
-          "client_id": "33115311534-97i7k9l81jr3nj2cj8qdtqnvrds9imfa.apps.googleusercontent.com",
+          "client_id": "854464841471-6c7k19fkga2dgpir8br85k4fqoreq992.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB85Z4Em-8-5lbhyzlVQf7PlvXFAVGesd8"
+          "current_key": "AIzaSyD8UnJoz7-RVm97PJzQ1JpoQnydbePrHbw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "33115311534-97i7k9l81jr3nj2cj8qdtqnvrds9imfa.apps.googleusercontent.com",
+              "client_id": "854464841471-6c7k19fkga2dgpir8br85k4fqoreq992.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

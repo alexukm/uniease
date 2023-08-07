@@ -26,6 +26,7 @@ const DriverAccount = () => {
   useEffect(() => {
     const fillUserInfo = async () => {
       const userInfo = await getUserInfoWithLocal();
+      console.log(userInfo);
       if (userInfo) {
         let formattedUserName = userInfo.userName.toUpperCase();
         if (formattedUserName.length > 18) {
@@ -36,7 +37,6 @@ const DriverAccount = () => {
     };
     fillUserInfo().then()
   }, []);
-
 
 
   // Define handlers
@@ -64,6 +64,10 @@ const DriverAccount = () => {
 
   const deleteAccountPress = () => {
     navigation.navigate("DeleteAccount")
+  };
+
+  const handleAvatarPress = () => {
+    navigation.navigate("EditProfile");
   };
 
   const handleLogoutPress = () => {
@@ -103,10 +107,12 @@ const DriverAccount = () => {
     <>
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
-          <Image
-            source={require('../picture/person.jpg')}
-            style={styles.avatar}
-          />
+          <TouchableOpacity onPress={handleAvatarPress}>
+            <Image
+              source={require('../picture/avatar.jpg')}
+              style={styles.avatar}
+            />
+          </TouchableOpacity>
           <Text style={styles.name}>{userName}</Text>
         </View>
         <View style={styles.curveMask} />

@@ -108,7 +108,7 @@ const AccountScreen = () => {
         <View style={styles.header}>
           <TouchableOpacity onPress={handleAvatarPress}>
             <Image
-              source={require('../picture/person.jpg')}
+              source={require('../picture/avatar.jpg')}
               style={styles.avatar}
             />
           </TouchableOpacity>

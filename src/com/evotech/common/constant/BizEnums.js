@@ -8,7 +8,7 @@ export const OrderStateEnum = {
 };
 
 
-export const UserTypeEnum = { PASSER: "passer", DRIVER: "passer" };
+export const UserTypeEnum = { PASSER: "passer", DRIVER: "driver" };
 
 export const DriverInfoStatusEnum = {
   INCOMPLETE: "Incomplete",

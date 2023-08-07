@@ -91,10 +91,45 @@ const featureAndPath = {
     USER_QUERY_DRIVER_PHONE: {method: supportRequestMethod.POST, path: '/v1/oms/api/user/order/queryUserPhone'},
 
     SYNC_USER_FIREBASE_TOKEN: {method: supportRequestMethod.GET, path: '/v1/auth/api/token/syncFireBaseToken'},
+
+    DRIVER_UPLOAD_AVATAR: {method: supportRequestMethod.POST, path: '/v1/ums/api/driver/uploadAvatar'},
+
+    USER_UPLOAD_AVATAR: {method: supportRequestMethod.POST, path: '/v1/ums/api/user/uploadAvatar'},
+
+    DRIVER_MODIFY_USER_INFO: {method: supportRequestMethod.POST, path: '/v1/ums/api/driver/modifyUserInfo'},
+
+    USER_MODIFY_USER_INFO: {method: supportRequestMethod.POST, path: '/v1/ums/api/user/auditUserInfo'},
 }
 
+export function driverModifyUserInfo(params = {}) {
+    return request.post(featureAndPath.DRIVER_MODIFY_USER_INFO.path, SupportContextType.APPLICATION_JSON, {params: params});
+}
+export function userModifyUserInfo(params = {}) {
+    return request.post(featureAndPath.USER_MODIFY_USER_INFO.path, SupportContextType.APPLICATION_JSON, {params: params});
+}
+
+export function driverUploadAvatar(file, params,{headers}) {
+    const formData = new FormData();
+    formData.append('file', {
+        name: 'image.jpg',
+        type: 'image/jpeg',
+        uri: file
+    });
+    const requestURL = featureAndPath.DRIVER_UPLOAD_AVATAR.path + `?userPhone=${params['userPhone']}`;
+    return request.postFromData(requestURL, SupportContextType.MULTIPART_FROM, {formData: formData,header: headers});
+}
+export function userUploadAvatar(file, params,{headers}) {
+    const formData = new FormData();
+    formData.append('file', {
+        name: 'image.jpg',
+        type: 'image/jpeg',
+        uri: file
+    });
+    const requestURL = featureAndPath.USER_UPLOAD_AVATAR.path + `?userPhone=${params['userPhone']}`;
+    return request.postFromData(requestURL, SupportContextType.MULTIPART_FROM, {formData: formData,header: headers});
+}
 export function syncUserFirebaseToken(params = {}) {
-    return request.get(featureAndPath.SYNC_USER_FIREBASE_TOKEN.path, {params: params});
+    return request.get(featureAndPath.SYNC_USER_FIREBASE_TOKEN.path, params);
 }
 export function driverSupplyInfo(params = {}) {
     return request.post(featureAndPath.DRIVER_SUPPLY_INFO.path, SupportContextType.APPLICATION_JSON, {params: params});

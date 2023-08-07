@@ -6,13 +6,15 @@ import * as logger from "react-native-gifted-chat/lib/logging";
 const userInfoKey = 'userInfo';
 
 export class UserInfo {
-    constructor(token, userType, userPhone, identifier,loginStatus,userName) {
+    constructor(token, userType, userPhone, identifier,loginStatus,firstName,lastName) {
         this.token = token;
         this.userType = userType;
         this.userPhone = userPhone;
         this.identifier = identifier;
         this.loginStatus = loginStatus;
-        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = lastName+" "+firstName;
     }
 
     saveWithLocal() {
@@ -36,14 +38,14 @@ export class UserInfo {
 export async function getUserInfoWithLocal() {
     const userInfoJson = await getUserInfo();
     const userInfo = JSON.parse(userInfoJson);
-    return userInfo ? new UserInfo(userInfo.token, userInfo.userType, userInfo.userPhone, userInfo.identifier,userInfo.loginStatus,userInfo.userName) : userInfo;
+    return userInfo ? new UserInfo(userInfo.token, userInfo.userType, userInfo.userPhone, userInfo.identifier,userInfo.loginStatus,userInfo.firstName,userInfo.lastName) : userInfo;
 }
 
 export async function getUserInfo() {
     return await getValue(userInfoKey);
 }
-export function buildUserInfo(token, userType, userPhone,loginStatus,userName) {
-    return new UserInfo(token, userType, userPhone, getUserID(),loginStatus,userName);
+export function buildUserInfo(token, userType, userPhone,loginStatus,firstName,lastName) {
+    return new UserInfo(token, userType, userPhone, getUserID(),loginStatus,firstName,lastName);
 }
 
 export async function userSkipLogin(setInitialRoute, tokenCheck) {
@@ -73,8 +75,7 @@ async function tokenCheck(userInfo, setInitialRoute) {
     return await accessToken(checkTokenParam).then(data => {
         return skipOp(userInfo, setInitialRoute, data.code === 200);
     }).catch(err => {
-        console.error("access Token failed:" + err.message)
-        console.error(err)
+        console.error("access Token failed:" ,err)
         return "Home";
     });
 }

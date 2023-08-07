@@ -1,6 +1,6 @@
 import {asyncDelKey, getValue, setKeyValue} from "./LocalStorageUtil";
 import {defaultHeaders} from "../http/HttpUtil";
-import {getUserInfoWithLocal, removeUserInfo} from "./UserInfo";
+import { buildUserInfo, getUserInfoWithLocal, removeUserInfo } from "./UserInfo";
 import {closeWebsocket} from "../websocket/SingletonWebSocketClient";
 import { clearLocalChat } from "../redux/UserChat";
 import DeviceInfo from "react-native-device-info";
@@ -92,3 +92,14 @@ export async function getChatList() {
 
 }
 
+export async function resetUserToken(token,firstName,lastName) {
+    setUserToken(token);
+    const userInfo = await getUserInfoWithLocal();
+    if (userInfo) {
+        buildUserInfo(token, userInfo.userType, userInfo.userPhone, userInfo.loginStatus,firstName,lastName).saveWithLocal();
+    }
+
+}
+export function saveUserAvatar(userPhone) {
+
+}

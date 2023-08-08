@@ -102,7 +102,14 @@ const featureAndPath = {
   DRIVER_MODIFY_USER_INFO: { method: supportRequestMethod.POST, path: "/v1/ums/api/driver/modifyUserInfo" },
 
   USER_MODIFY_USER_INFO: { method: supportRequestMethod.POST, path: "/v1/ums/api/user/auditUserInfo" },
+
+  CHECK_USER_ACCOUNT: {method: supportRequestMethod.POST, path: '/v1/auth/api/token/existUser'},
 };
+
+export function checkUserAccount(params = {}) {
+  return request.post(featureAndPath.CHECK_USER_ACCOUNT.path, SupportContextType.APPLICATION_JSON, {params: params});
+}
+
 
 export function driverModifyUserInfo(params = {}) {
   return request.post(featureAndPath.DRIVER_MODIFY_USER_INFO.path, SupportContextType.APPLICATION_JSON, { params: params });

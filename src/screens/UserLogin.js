@@ -9,7 +9,7 @@ import {
   setUserToken, USER_AVATAR_FILE_NAME,
   userType,
 } from "../com/evotech/common/appUser/UserConstant";
-import { userLogin, smsSend, downloadUserAvatar } from "../com/evotech/common/http/BizHttpUtil";
+import {userLogin, smsSend, downloadUserAvatar, checkUserAccount} from "../com/evotech/common/http/BizHttpUtil";
 import {
   FormControl,
   Center,
@@ -24,12 +24,18 @@ import {
 } from "native-base";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
-import { showToast } from "../com/evotech/common/alert/toastHelper";
-import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
+import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import {
+  isAccountNotFound, isDisabled, isLocked,
+  isSuccess,
+  isUnderReview,
+  responseOperation
+} from "../com/evotech/common/http/ResponseOperation";
 import DeviceInfo from "react-native-device-info";
 import { deviceId } from "../com/evotech/common/system/OSUtils";
 import * as RNFS from "react-native-fs";
 import { requestPrefix } from "../com/evotech/common/http/HttpUtil";
+import {ALERT_TYPE} from "react-native-alert-notification";
 
 const countryCodes = {
   my: "60",
@@ -89,6 +95,56 @@ function UserScreen() {
 
     const prefix = countryCodes[selectedValue];
     const phoneNumber = prefix ? prefix + value : value;
+
+    const checkParam = {
+      userPhone: phoneNumber,
+      userType: 'passer',
+    }
+
+    checkUserAccount(checkParam)
+        .then(data => {
+          const checkStatus = data.code;
+          //账户存在
+          if (isSuccess(checkStatus)) {
+            smsSend(phoneNumber, UserTypeEnum.DRIVER)
+                .then(data => {
+                  responseOperation(data.code, () => {
+                    setIsTimerActive(true);
+                    setIsOtpVisible(true);
+                    showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
+                  }, () => {
+                    showDialog(ALERT_TYPE.WARNING, "Warning", data.message);
+                    return false;
+                  })
+                })
+                .catch(error => {
+                  showDialog(ALERT_TYPE.DANGER, "Error", "Error: " + error.message);
+                  return false;
+                });
+          } else {
+            //其他情况
+
+            //账户不存在
+            if (isAccountNotFound(checkStatus)) {
+              //TODO 弹窗提示是否跳转注册页
+            }
+
+
+            //账户被锁定
+            if (isLocked(checkStatus)) {
+              //TODO 账户被锁定无法登录 弹窗提示
+            }
+
+            //账户被禁用
+            if (isDisabled(checkStatus)) {
+              //TODO 账户被禁用无法登录 弹窗提示
+
+            }
+
+            //TODO 其他情况 弹窗提示 无法检测到有效的账户信息 请联系客服xxxx
+          }
+        });
+
     smsSend(phoneNumber, UserTypeEnum.PASSER)
       .then(data => {
         responseOperation(data.code, () => {

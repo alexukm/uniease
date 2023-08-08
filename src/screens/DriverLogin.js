@@ -296,20 +296,13 @@ function DriverScreen() {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <VStack space="2.5" mt="4" px="8" style={{position: 'relative'}}>
-                <View style={{
-                    position: 'absolute',
-                    top: -180,
-                    left: 0,
-                    right: 0,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '50%'
-                }}>
-                    <Image source={{uri: ImagesEnum.DriverLogin}} style={{width: 100, height: 100}}/>
-                </View>
-                <FormControl isRequired>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '35%' }}>
+                  <Image source={require('../picture/driver_login_bcg.png')} style={{ width: '90%', height: '90%', resizeMode: 'cover', top: '5%', left: '5%' }} />
+              </View>
+              <VStack space="2.5" px="8">
+                  <FormControl isRequired>
                     <FormControl.Label>Please enter your phone number</FormControl.Label>
                     <HStack space={2}>
                         <Button
@@ -398,9 +391,9 @@ function DriverScreen() {
                         User
                     </Text>
                 </Text>
-
-            </VStack>
-        </TouchableWithoutFeedback>
+              </VStack>
+          </View>
+      </TouchableWithoutFeedback>
     );
 }
 

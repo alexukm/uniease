@@ -28,11 +28,11 @@ const UserHome = () => {
   };
   const subscriptionOrderAccept = async (orderStatusInitAfter) => {
     await queryUserOrderStatus().then((data) => {
-      return responseOperation(data.code,()=>{
-        return  initChatSocket(data);
-      },()=>{
+      return responseOperation(data.code, () => {
+        return initChatSocket(data);
+      }, () => {
         return data.data;
-      })
+      });
     }).then(orderStatus => {
       if (orderStatus) {
         orderStatusInitAfter(orderStatus);
@@ -42,9 +42,9 @@ const UserHome = () => {
 
   const initUserChat = (orderStatus) => {
     //在订单状态初始化之后执行
-    initLocalChat().then(data => {
+    initLocalChat(orderStatus).then(data => {
         //  本地存储聊天信息记录 且存在待出现和旅途中的订单 则初始化websocket聊天订阅
-        if (orderStatus.pending || orderStatus.inTransit) {
+        if (data) {
           setTimeout(async () => {
             await UserChat(true).then();
           }, 0);
@@ -56,7 +56,9 @@ const UserHome = () => {
   useEffect(() => {
     setTimeout(() => {
       enableSystemNotify().then();
-      subscriptionOrderAccept(initUserChat).then();
+      subscriptionOrderAccept((orderStatus) => {
+        initUserChat(orderStatus);
+      }).then();
     }, 0);
 
     setTimeout(async () => {

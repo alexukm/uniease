@@ -13,7 +13,7 @@ import { SafeAreaView } from "react-native";
 import { OrderStateEnum } from "../com/evotech/common/constant/BizEnums";
 
 export default function ChatRoom({ route }) {
-  const { receiverName, receiverUserCode, orderStatus } = route.params;
+  const { receiverName, receiverUserCode, orderStatus, orderId } = route.params;
   const dispatch = useDispatch();
   const showChatInput = orderStatus === OrderStateEnum.PENDING || OrderStateEnum.IN_TRANSIT === orderStatus;
   const messages = useSelector(selectChatMessage);
@@ -22,7 +22,6 @@ export default function ChatRoom({ route }) {
     await UserChat(false);
   };
   useEffect(() => {
-
     initChatClient().then();
   }, []);
 
@@ -37,6 +36,7 @@ export default function ChatRoom({ route }) {
       const message = {
         _id: uuid.v4(),
         userCode: receiverUserCode,
+        orderId: orderId,
         text: newMessages[0].text,
         orderStatus: orderStatus,
         createdAt: param.requestTime,
@@ -51,6 +51,7 @@ export default function ChatRoom({ route }) {
         message: message.text,
         userCode: receiverUserCode,
         time: param.requestTime,
+        orderId: orderId,
         createdAt: new Date().getTime(), // 获取当前时间，用来判断3天删除本地对话
         unread: "",
         avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
@@ -77,7 +78,7 @@ export default function ChatRoom({ route }) {
         onSend={newMessages => onSend(newMessages)}
         user={{ _id: 1 }}
         renderInputToolbar={(props) => {
-          return showChatInput ? <InputToolbar {...props} /> : null
+          return showChatInput ? <InputToolbar {...props} /> : null;
         }}
       />
     </SafeAreaView>

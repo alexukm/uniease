@@ -3,7 +3,7 @@ import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { driverLogin, smsSend } from "../com/evotech/common/http/BizHttpUtil";
 import { useNavigation } from "@react-navigation/native";
-import { setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
+import { saveUserAvatar, setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
 import {
   FormControl,
   Center,
@@ -150,6 +150,9 @@ function DriverScreen() {
   const driverActive = (data,userPhone) => {
     setUserToken(data.token);
     buildUserInfo(data.token, userType.DRIVER, userPhone,data.loginStatus,data.firstName,data.lastName).saveWithLocal();
+    setTimeout(() => {
+      saveUserAvatar(userPhone, data).then();
+    }, 0);
     navigation.replace("Driver");
   };
 

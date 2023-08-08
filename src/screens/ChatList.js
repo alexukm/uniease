@@ -25,6 +25,7 @@ export default function ChatList({navigation}) {
             receiverName: item.title,
             receiverUserCode: item.userCode,
             orderStatus: item.orderStatus,
+            orderId: item.orderId
         });
     };
     return (

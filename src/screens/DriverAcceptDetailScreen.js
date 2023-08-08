@@ -30,6 +30,9 @@ import { responseOperation } from "../com/evotech/common/http/ResponseOperation"
 import { formatDate } from "../com/evotech/common/formatDate";
 import { googleMapsApiKey } from "../com/evotech/common/apiKey/mapsApiKey";
 import { driverCancelSubscribe } from "../com/evotech/common/websocket/UserChatWebsocket";
+import { useDispatch } from "react-redux";
+import { addMessage, deleteChatByOrderId } from "../com/evotech/common/redux/chatSlice";
+import { delChatList } from "../com/evotech/common/appUser/UserConstant";
 
 Geocoder.init(googleMapsApiKey);
 
@@ -47,7 +50,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
   } = route.params;
   const [existDriverInfo, setExistDriverInfo] = useState(false);
   const [rating, setRating] = useState(5);
-
+  const dispatch = useDispatch();
   const refRBSheet = useRef();  // 引用RBSheet
 
   const cancelReasonRef = useRef("");
@@ -73,6 +76,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       .then(data => {
         responseOperation(data.code, () => {
             showToast("SUCCESS", "Success", "Order successfully cancelled");
+            dispatch(deleteChatByOrderId(orderDetailInfo.driverOrderId));
             driverCancelSubscribe().then();
             navigation.goBack(); // After canceling the order, return to the previous screen.
         }, () => {
@@ -96,6 +100,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             receiverName: data.data.userName,
             receiverUserCode: data.data.userCode,
             orderStatus: Status,
+            orderId: orderDetailInfo.driverOrderId
           });
         },()=>{
           console.log(data.message);
@@ -109,6 +114,8 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
 
   const driverOrderStatusCallBack = () => {
     setTimeout(() => {
+      //删除当前订单的聊天记录
+      dispatch(deleteChatByOrderId(orderDetailInfo.driverOrderId));
       queryDriverOrderStatus().then(data => {
         responseOperation(data.code, () => {
             const orderStatus = data.data;
@@ -160,7 +167,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
           responseOperation(data.code, () => {
             fetchDataAndUpdateParams();
             // 判断 是否需要关闭websocket
-            driverOrderStatusCallBack();
+            if (timePropertyName === "actualArrivalTime") {
+              driverOrderStatusCallBack();
+            }
           }, () => {
             showDialog("WARNING", "Warning", data.message);
           });

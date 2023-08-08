@@ -123,6 +123,7 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
       receiverName: data.data.userName,
       receiverUserCode: data.data.userCode,
       orderStatus: Status,
+      orderId: orderDetailInfo.orderId
     });
   }
   const openChatRoom = () => {

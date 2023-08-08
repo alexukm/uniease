@@ -11,11 +11,14 @@ import DriverOrderListScreen from './DriverOrderListScreen';
 import DriverAcceptDetailScreen from "./DriverAcceptDetailScreen";
 import ChatList from "./ChatList";
 import ChatRoom from "./ChatRoom";
+import AccountScreen from "./AccountScreen";
+import EditProfile from "./EditProfileScreen";
 
 const DriverAcceptDetailNavigator = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const MainStack = createNativeStackNavigator();  // 新增
+const DriverAccountStack = createNativeStackNavigator();
 
 const DriverBottomTabNavigator = () => {
     return (
@@ -47,7 +50,7 @@ const DriverBottomTabNavigator = () => {
             <Tab.Screen name="Home" component={DriverHomeScreen} />
             <Tab.Screen name="Orders" component={DriverAcceptListScreen}/>
             <Tab.Screen name="Messages" component={ChatList}/>
-            <Tab.Screen name="Account" component={DriverAccountScreen}/>
+            <Tab.Screen name="DriverAccount" component={DriverAccountNavigator} />
         </Tab.Navigator>
     );
 };
@@ -74,6 +77,14 @@ const DriverAcceptDetailStackScreen = () => (
         <DriverAcceptDetailNavigator.Screen name="DriverAcceptDetailScreen" component={DriverAcceptDetailScreen}/>
     </DriverAcceptDetailNavigator.Navigator>
 );
+
+const DriverAccountNavigator = () => (
+  <DriverAccountStack.Navigator screenOptions={{ headerShown: false }}>
+    <DriverAccountStack.Screen name="DriverAccountScreen" component={DriverAccountScreen} />
+    <DriverAccountStack.Screen name="EditProfileScreen" component={EditProfile} />
+  </DriverAccountStack.Navigator>
+);
+
 
 
 const styles = StyleSheet.create({

@@ -2,8 +2,14 @@ import { Image, Keyboard, Platform, TouchableWithoutFeedback, View } from "react
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { getUserID, setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
-import { userLogin, smsSend } from "../com/evotech/common/http/BizHttpUtil";
+import {
+  getUserID,
+  LOCAL_USER_INFO_FILE_PATH,
+  saveLocalImage, saveUserAvatar,
+  setUserToken, USER_AVATAR_FILE_NAME,
+  userType,
+} from "../com/evotech/common/appUser/UserConstant";
+import { userLogin, smsSend, downloadUserAvatar } from "../com/evotech/common/http/BizHttpUtil";
 import {
   FormControl,
   Center,
@@ -20,8 +26,10 @@ import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
 import { showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
-import DeviceInfo from 'react-native-device-info';
+import DeviceInfo from "react-native-device-info";
 import { deviceId } from "../com/evotech/common/system/OSUtils";
+import * as RNFS from "react-native-fs";
+import { requestPrefix } from "../com/evotech/common/http/HttpUtil";
 
 const countryCodes = {
   my: "60",
@@ -157,7 +165,7 @@ function UserScreen() {
     setOtp(text);
     if (text.length === 4) {
       const userPhone = countryCodes[selectedValue] + value;
-      userLoginWithSmsCode(userPhone, text);
+      userLoginWithSmsCode(userPhone, text).then();
     }
   };
 
@@ -174,7 +182,10 @@ function UserScreen() {
         responseOperation(data.code, () => {
           const loginResult = data.data;
           setUserToken(loginResult.token);
-          buildUserInfo(loginResult.token, userType.USER, userPhone,"", loginResult.firstName,loginResult.lastName).saveWithLocal();
+          buildUserInfo(loginResult.token, userType.USER, userPhone, "", loginResult.firstName, loginResult.lastName).saveWithLocal();
+          setTimeout(() => {
+            saveUserAvatar(userPhone, loginResult);
+          }, 0);
           navigation.replace("User");
           showToast("SUCCESS", "Login Successful", "You have successfully logged in!");
         }, () => {
@@ -227,28 +238,26 @@ function UserScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <VStack space="2.5" mt="4" px="8" style={{ position: "relative" }}>
-        <View style={{
-          position: "absolute",
-          top: -180,
-          left: 0,
-          right: 0,
-          alignItems: "center",
-          justifyContent: "center",
-          height: "50%",
-        }}>
-          <Image source={{ uri: ImagesEnum.UserLogin }} style={{ width: 100, height: 100 }} />
+      <View style={{ flex: 1 }}>
+        {/* Image */}
+        <Image source={require('../picture/login_bcg.png')} style={{ width: '100%', height: '30%', position: "absolute", top: 0, left: 0 }} />
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '30%', justifyContent: 'center' }}>
+          <Text style={{ marginLeft: 10, color: 'white', fontWeight: 'bold', fontSize: 18 }}>
+            Sign in to your account
+          </Text>
         </View>
-        <FormControl isRequired>
-          <FormControl.Label>Please enter your phone number</FormControl.Label>
-          <HStack space={2}>
-            <Button
-              backgroundColor="#0055A4"
-              color="white"
-              onPress={() => setShowModal(true)}
-            >
-              {buttonText()}
-            </Button>
+        {/* VStack */}
+        <VStack space="2.5" mt="280" px="8">
+          <FormControl isRequired>
+            <FormControl.Label>Please enter your phone number</FormControl.Label>
+            <HStack space={2}>
+              <Button
+                backgroundColor="#0055A4"
+                color="white"
+                onPress={() => setShowModal(true)}
+              >
+                {buttonText()}
+              </Button>
             <Input
               placeholder="Phone Number"
               value={value}
@@ -334,6 +343,7 @@ function UserScreen() {
         </Text>
 
       </VStack>
+      </View>
     </TouchableWithoutFeedback>
   );
 }

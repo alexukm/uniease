@@ -12,12 +12,15 @@ import UserOrderDetailScreen from './UserOrderDetailScreen';
 import ChatList from "./ChatList";
 import ChatRoom from "./ChatRoom";
 import UserHome from "./UserHomeScreen";
+import EditProfile from "./EditProfileScreen";
 
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const OrderStack = createNativeStackNavigator();
 const SimpleOrderDetailStack = createNativeStackNavigator();
+const AccountStack = createNativeStackNavigator();
+
 
 const OrderStackScreen = () => (
     <OrderStack.Navigator screenOptions={{ headerShown: false }}>
@@ -61,7 +64,7 @@ const UserBottomTabNavigator = () => (
         <Tab.Screen name="Home" component={UserHome} />
         <Tab.Screen name="Activity" component={OrderListScreen} />
         <Tab.Screen name="Messages" component={ChatList}/>
-        <Tab.Screen name="Account" component={AccountScreen} />
+        <Tab.Screen name="Account" component={AccountStackScreen} />
     </Tab.Navigator>
 );
 
@@ -72,6 +75,13 @@ const MainNavigator = () => (
         <HomeStack.Screen name="SimpleOrderDetails" component={SimpleOrderDetailStackScreen} />
         <HomeStack.Screen name="ChatRoom" component={ChatRoom}/>
     </HomeStack.Navigator>
+);
+
+const AccountStackScreen = () => (
+  <AccountStack.Navigator screenOptions={{ headerShown: false }}>
+    <AccountStack.Screen name="AccountScreen" component={AccountScreen} />
+    <AccountStack.Screen name="EditProfileScreen" component={EditProfile} />
+  </AccountStack.Navigator>
 );
 
 const styles = StyleSheet.create({

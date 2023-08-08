@@ -27,8 +27,8 @@ const DriverHomeScreen = () => {
     });
   };
 
-  const initChat = (orderStatusList) => {
-    if (orderStatusList.pending || orderStatusList.inTransit) {
+  const initChat = (needOpenChat) => {
+    if (needOpenChat) {
       UserChat(true).then();
     }
   };
@@ -37,8 +37,13 @@ const DriverHomeScreen = () => {
   useEffect(() => {
     setTimeout(async () => {
       enableSystemNotify().then();
-      await initLocalChat();
-      initOrderStatusList(initChat);
+      initOrderStatusList((orderStatusList) => {
+        initLocalChat(orderStatusList).then(data => {
+          if (data) {
+            initChat();
+          }
+        });
+      });
     }, 0);
   }, []);
 

@@ -77,9 +77,7 @@ export default function ChatRoom({ route }) {
         messages={messages[receiverUserCode] || []}
         onSend={newMessages => onSend(newMessages)}
         user={{ _id: 1 }}
-        renderInputToolbar={(props) => {
-          return showChatInput ? <InputToolbar {...props} /> : null;
-        }}
+        renderInputToolbar={(props) => <InputToolbar {...props} />} // 始终显示输入工具栏
       />
     </SafeAreaView>
   );

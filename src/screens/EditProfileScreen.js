@@ -11,63 +11,79 @@ import {
 import { defaultHeaders } from "../com/evotech/common/http/HttpUtil";
 import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
-import { resetUserToken } from "../com/evotech/common/appUser/UserConstant";
+import {
+  copyUserAvatarLocal, getUserToken,
+  resetUserToken,
+  saveLocalImage,
+  USER_AVATAR_FILE_NAME,
+  userLocalImagePath,
+} from "../com/evotech/common/appUser/UserConstant";
+import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 
-const Header = ({ title }) => {
-  const navigation = useNavigation();
 
-  return (
-    <View style={styles.header}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={styles.backButtonText}>&lt; Back</Text>
-      </TouchableOpacity>
-      <Text style={styles.headerTitle}>{title}</Text>
-    </View>
-  );
-};
 
 const EditProfile = () => {
   const navigation = useNavigation();
   const profile = {
     firstName: "firstName",
     lastName: "lastName",
-    avatar: require("../picture/avatar.jpg"),
   };
   const [firstName, setFirstName] = useState(profile.firstName);
   const [lastName, setLastName] = useState(profile.lastName);
-  const [avatar, setAvatar] = useState(profile.avatar);
+  const [avatar, setAvatar] = useState("");
+  const [userInfo, setUserInfo] = useState();
   useEffect(() => {
     const fillUserInfo = async () => {
       const userInfo = await getUserInfoWithLocal();
       if (userInfo) {
         setFirstName(userInfo.firstName);
         setLastName(userInfo.lastName);
+        setUserInfo(userInfo)
       }
     };
+    userLocalImagePath(USER_AVATAR_FILE_NAME).then((fileName) => {
+      setAvatar("file://" + fileName+'?time=' + new Date().getTime() );
+    });
     fillUserInfo().then();
   }, []);
   const handleSubmit = async ({ firstName, lastName }) => {
+    if (userInfo && firstName === userInfo.firstName && lastName === userInfo.lastName) {
+      showToast("WARNING", "No info changed", "No changes detected. Please update your information before saving.");
+      return; // Return early to stop further execution
+    }
     const params = {
       firstName: firstName,
       lastName: lastName,
     };
 
-    const userInfo = await getUserInfoWithLocal();
+    // 注意：这里我们不再重新声明 userInfo
     if (userInfo.isDriver()) {
       driverModifyUserInfo(params).then(data => {
         handleResponse(data, firstName, lastName, () => {
-          navigation.replace("DriverAccount");
+          navigation.navigate("DriverAccount");
         });
       });
     } else if (userInfo.isUser()) {
       userModifyUserInfo(params).then(data => {
         handleResponse(data, firstName, lastName, () => {
-          navigation.replace("UserAccount");
+          navigation.navigate("AccountScreen");
         });
       });
     }
   };
 
+
+  const navigationSkip= ()=>{
+    if (userInfo) {
+      if (userInfo.isUser()) {
+        navigation.navigate("AccountScreen");
+      }else if (userInfo.isDriver()) {
+        navigation.navigate("DriverAccount");
+      } else {
+        navigation.goBack();
+      }
+    }
+  }
   const handleResponse = (data, firstName, lastName, navigationOp) => {
     responseOperation(data.code, () => {
       resetUserToken(data.data, firstName, lastName).then(() => {
@@ -90,7 +106,7 @@ const EditProfile = () => {
       },
     };
     const userInfo = await getUserInfoWithLocal();
-
+    const userToken = await getUserToken();
     await launchImageLibrary(options, async response => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
@@ -102,7 +118,7 @@ const EditProfile = () => {
         const params = {
           userPhone: userInfo.userPhone,
         };
-        const header = defaultHeaders.getAuthentication(userInfo.token);
+        const header = defaultHeaders.getAuthentication(userToken);
         let uploadResponse;
         if (userInfo.isDriver()) {
           uploadResponse = await driverUploadAvatar(selectedImageUri, params, { headers: header });
@@ -111,12 +127,29 @@ const EditProfile = () => {
         }
 
         responseOperation(uploadResponse.code, () => {
-          setAvatar({ uri: selectedImageUri });  // 上传成功后在本地设置新的头像
+          copyUserAvatarLocal(selectedImageUri, USER_AVATAR_FILE_NAME).then(data=>{
+            setAvatar("file://" + data+'?time=' + new Date().getTime() );
+          });
+           // 上传成功后在本地设置新的头像
         }, () => {
           console.error("Failed to upload avatar.");
         });
       }
     });
+  };
+
+  const Header = ({ title }) => {
+
+    return (
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => {
+          navigationSkip()
+        }} style={styles.backButton}>
+          <Text style={styles.backButtonText}>&lt; Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>{title}</Text>
+      </View>
+    );
   };
 
   return (
@@ -127,10 +160,7 @@ const EditProfile = () => {
         source={require("../picture/acc_bg.png")}
       />
       <View style={styles.avatarContainer}>
-        <Image
-          style={styles.avatar}
-          source={avatar}  // 使用state中的avatar
-        />
+        {avatar ? <Image source={{ uri: avatar }} style={styles.avatar} /> : null}
         <TouchableOpacity style={styles.changeAvatarButton} onPress={changeAvatar}>
           <Text style={styles.changeAvatarButtonText}>Change Avatar</Text>
         </TouchableOpacity>
@@ -193,15 +223,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#0055A4",
     borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
     height: 50,
     width: "90%",
+    justifyContent: 'center', // 垂直居中
+    alignItems: 'center',     // 水平居中
   },
   buttonText: {
     color: "#fff",
     fontSize: 14,
-    textAlign: "center",
+    // textAlign: "center",
   },
   avatarContainer: {
     marginTop: 20,

@@ -13,8 +13,8 @@ import {
 } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 import { driverLogout } from "../com/evotech/common/http/BizHttpUtil";
-import { userLogOut } from "../com/evotech/common/appUser/UserConstant";
-import { useNavigation } from "@react-navigation/native";
+import { USER_AVATAR_FILE_NAME, userLocalImagePath, userLogOut } from "../com/evotech/common/appUser/UserConstant";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 
@@ -22,8 +22,14 @@ import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 const DriverAccount = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState("");
+  const [avatarURI, setAvatarURI] = useState("");
 
-  useEffect(() => {
+
+  useFocusEffect(
+    React.useCallback(() => {
+    userLocalImagePath(USER_AVATAR_FILE_NAME).then((fileName) => {
+      setAvatarURI("file://" + fileName+'?time=' + new Date().getTime() );
+    });
     const fillUserInfo = async () => {
       const userInfo = await getUserInfoWithLocal();
       console.log(userInfo);
@@ -35,8 +41,9 @@ const DriverAccount = () => {
         setUserName(formattedUserName);
       }
     };
-    fillUserInfo().then()
-  }, []);
+      fillUserInfo().then();
+    }, []),
+  );
 
 
   // Define handlers
@@ -108,10 +115,7 @@ const DriverAccount = () => {
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleAvatarPress}>
-            <Image
-              source={require('../picture/avatar.jpg')}
-              style={styles.avatar}
-            />
+            {avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}
           </TouchableOpacity>
           <Text style={styles.name}>{userName}</Text>
         </View>

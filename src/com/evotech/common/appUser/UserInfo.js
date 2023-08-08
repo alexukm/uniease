@@ -47,7 +47,9 @@ export async function getUserInfo() {
 export function buildUserInfo(token, userType, userPhone,loginStatus,firstName,lastName) {
     return new UserInfo(token, userType, userPhone, getUserID(),loginStatus,firstName,lastName);
 }
-
+export function reBuildUserInfoWithToken(token,userInfo) {
+    return buildUserInfo(token, userInfo.userType, userInfo.userPhone, userInfo.loginStatus, userInfo.firstName, userInfo.lastName);
+}
 export async function userSkipLogin(setInitialRoute, tokenCheck) {
     const userInfo = await getUserInfoWithLocal()
     if (!isAccessToken(userInfo)) {

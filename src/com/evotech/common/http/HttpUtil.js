@@ -3,13 +3,13 @@ import { getUserID, getUserToken} from "../appUser/UserConstant";
 
 // const defaultRequestAddress = "unieaseapp.com"
 // 测试环境
-const defaultRequestAddress = "192.168.49.128:8080"
+const defaultRequestAddress = "192.168.100.18:8080"
 
 
 const contextPath = "/uniEase";
 
 
-const requestPrefix = {
+export const requestPrefix = {
     // httpPrefix: "https://" + defaultRequestAddress,
     // 测试环境
     httpPrefix: "http://" + defaultRequestAddress,
@@ -80,7 +80,6 @@ async function headerMap({supportContextType = null, header = {}},) {
 export class HttpUtil {
     constructor(timeOut, http = true) {
         this.requestBaseURL = requestPrefix.httpPrefix + contextPath;
-        console.log(this.requestBaseURL)
         this.http = http;
         this.instance = axios.create({
             baseURL: this.requestBaseURL,
@@ -90,6 +89,7 @@ export class HttpUtil {
 
     async get(url, params = {}, header = {}) {
         const requestURL = this.getRequestURI(url);
+        console.log(requestURL);
         const headers = await headerMap({header: header});
         return new Promise((resolve, catchException) => {
             this.instance.get(requestURL, {
@@ -106,7 +106,6 @@ export class HttpUtil {
     async post(uri, supportContextType2, {params = null, header = {}}) {
         const requestBody = JSON.stringify(params);
         const requestURL = this.getRequestURI(uri);
-        console.log(requestURL);
         const headers = await headerMap({supportContextType: supportContextType2, header: header});
         return new Promise((resolve, catchException) => {
             this.instance.post(requestURL, requestBody, {headers})

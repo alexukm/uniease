@@ -12,8 +12,8 @@ import {
 } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 import { userLogoutIt } from "../com/evotech/common/http/BizHttpUtil";
-import { userLogOut } from "../com/evotech/common/appUser/UserConstant";
-import { useNavigation } from "@react-navigation/native";
+import { USER_AVATAR_FILE_NAME, userLocalImagePath, userLogOut } from "../com/evotech/common/appUser/UserConstant";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 
@@ -21,23 +21,30 @@ import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
 const AccountScreen = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState("");
+  const [avatarURI, setAvatarURI] = useState("");
   const handleWalletPress = () => {
     showDialog("WARNING", "Notice", "We are still working on the e-wallet feature. Please wait for the next version update.");
   };
+  useFocusEffect(
+    React.useCallback(() => {
+      userLocalImagePath(USER_AVATAR_FILE_NAME).then((fileName) => {
+        setAvatarURI("file://" + fileName + "?time=" + new Date().getTime());
+      });
 
-  useEffect(() => {
-    const fillUserInfo = async () => {
-      const userInfo = await  getUserInfoWithLocal();
-      if (userInfo) {
-        let formattedUserName = userInfo.userName.toUpperCase();
-        if (formattedUserName.length > 18) {
-          formattedUserName = formattedUserName.slice(0, 18) + '...';
+      const fillUserInfo = async () => {
+        const userInfo = await getUserInfoWithLocal();
+        if (userInfo) {
+          let formattedUserName = userInfo.userName.toUpperCase();
+          if (formattedUserName.length > 18) {
+            formattedUserName = formattedUserName.slice(0, 18) + "...";
+          }
+
+          setUserName(formattedUserName);
         }
-        setUserName(formattedUserName);
-      }
-    };
-    fillUserInfo().then()
-  }, []);
+      };
+      fillUserInfo().then();
+    }, []),
+  );
 
 
   const handleSharePress = () => {
@@ -59,7 +66,7 @@ const AccountScreen = () => {
   };
 
   const deleteAccountPress = () => {
-    navigation.navigate("DeleteAccount")
+    navigation.navigate("DeleteAccount");
   };
 
   const handleAvatarPress = () => {
@@ -107,10 +114,7 @@ const AccountScreen = () => {
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleAvatarPress}>
-            <Image
-              source={require('../picture/avatar.jpg')}
-              style={styles.avatar}
-            />
+            {avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}
           </TouchableOpacity>
           <Text style={styles.name}>{userName}</Text>
         </View>
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 14,
-    color: '#000000', // Add this line
+    color: "#000000", // Add this line
   },
 
   curveMask: {

@@ -16,7 +16,7 @@ import DriverRegisterImage from "./src/screens/DriverRegisterImage";
 import DriverSupplyInfo from "./src/screens/DriverSupplyInfoScreen";
 import { TextEncoder, TextDecoder } from "text-encoding";
 import { accessToken } from "./src/com/evotech/common/http/BizHttpUtil";
-import { userSkipLogin } from "./src/com/evotech/common/appUser/UserInfo";
+import { buildUserInfo, reBuildUserInfoWithToken, userSkipLogin } from "./src/com/evotech/common/appUser/UserInfo";
 import DriverAccount from "./src/screens/DriverAccountScreen";
 import { AlertNotificationRoot } from "react-native-alert-notification";
 import { enableScreens } from "react-native-screens";
@@ -82,6 +82,8 @@ const App = () => {
       .then(data => {
         if (data.data) {
           setUserToken(data.data);
+          userInfo = reBuildUserInfoWithToken(data.data, userInfo);
+          userInfo.saveWithLocal();
         }
         skipOp(userInfo, data.code === 200);
       })
@@ -121,8 +123,8 @@ const App = () => {
               <Stack.Screen name="DriverSupplyInfo" component={DriverSupplyInfo} />
               <Stack.Screen name="UserSignUp" component={UserSignUp} />
               <Stack.Screen name="DriverSignUp" component={DriverSignUp} />
-              <Stack.Screen name="DriverAccount" component={DriverAccount} />
-              <Stack.Screen name="UserAccount" component={AccountScreen} />
+              {/*<Stack.Screen name="DriverAccount" component={DriverAccount} />*/}
+              {/*<Stack.Screen name="UserAccount" component={AccountScreen} />*/}
               <Stack.Screen name="DriverRegisterImage" component={DriverRegisterImage} />
               <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
               <Stack.Screen name="EditProfile" component={EditProfile} />

@@ -1,4 +1,4 @@
-import { Alert, Image, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native";
+import { Image, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -35,7 +35,6 @@ import DeviceInfo from "react-native-device-info";
 import { deviceId } from "../com/evotech/common/system/OSUtils";
 import * as RNFS from "react-native-fs";
 import { requestPrefix } from "../com/evotech/common/http/HttpUtil";
-import { ALERT_TYPE } from "react-native-alert-notification";
 
 const countryCodes = {
   my: "60",
@@ -106,7 +105,7 @@ function UserScreen() {
         const checkStatus = data.code;
         //账户存在
         if (isSuccess(checkStatus)) {
-          smsSend(phoneNumber, UserTypeEnum.PASSER)
+          smsSend(phoneNumber, UserTypeEnum.DRIVER)
             .then(data => {
               responseOperation(data.code, () => {
                 setIsTimerActive(true);
@@ -126,40 +125,38 @@ function UserScreen() {
 
           //账户不存在
           if (isAccountNotFound(checkStatus)) {
-            Alert.alert(
-              "Account Not Found",
-              "We couldn't find your account. Would you like to register?",
-              [
-                {
-                  text: "Yes, Register",
-                  onPress: () => {
-                    navigation.navigate('UserSignUp'); // 请根据您的路由配置进行调整
-                  }
-                },
-                {
-                  text: "No, Thanks",
-                  style: "cancel"
-                }
-              ],
-              { cancelable: false }
-            );
-            return;
+            //TODO 弹窗提示是否跳转注册页
           }
+
 
           //账户被锁定
           if (isLocked(checkStatus)) {
-            showDialog("WARNING", "Login Failed", "Your account has been locked and cannot login. Please email to unieaseapp@gmail.com find help.");
-            return;
+            //TODO 账户被锁定无法登录 弹窗提示
           }
 
           //账户被禁用
           if (isDisabled(checkStatus)) {
-            showDialog("WARNING", "Login Failed", "Your account has been disabled and cannot login. Please email to unieaseapp@gmail.com find help.");
-            return;
+            //TODO 账户被禁用无法登录 弹窗提示
+
           }
-          showDialog("WARNING", "Login Failed", "Unable to detect valid account information. Please contact customer service at 60-184682878.");
+
+          //TODO 其他情况 弹窗提示 无法检测到有效的账户信息 请联系客服xxxx
         }
       });
+   /* smsSend(phoneNumber, UserTypeEnum.PASSER)
+      .then(data => {
+        responseOperation(data.code, () => {
+          setIsTimerActive(true);
+          setIsOtpVisible(true);
+          showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
+        }, () => {
+          showToast("WARNING", "Warning", data.message);
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        showToast("DANGER", "Error", "There was an error submitting your data. Please try again.");
+      });*/
   };
 
 

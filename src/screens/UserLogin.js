@@ -1,4 +1,4 @@
-import { Image, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Image, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -9,7 +9,7 @@ import {
   setUserToken, USER_AVATAR_FILE_NAME,
   userType,
 } from "../com/evotech/common/appUser/UserConstant";
-import {userLogin, smsSend, downloadUserAvatar, checkUserAccount} from "../com/evotech/common/http/BizHttpUtil";
+import { userLogin, smsSend, downloadUserAvatar, checkUserAccount } from "../com/evotech/common/http/BizHttpUtil";
 import {
   FormControl,
   Center,
@@ -24,18 +24,18 @@ import {
 } from "native-base";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
-import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
+import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import {
-  isAccountNotFound, isDisabled, isLocked,
+  isAccountNotFound, isDisabled,
+  isLocked,
   isSuccess,
-  isUnderReview,
-  responseOperation
+  responseOperation,
 } from "../com/evotech/common/http/ResponseOperation";
 import DeviceInfo from "react-native-device-info";
 import { deviceId } from "../com/evotech/common/system/OSUtils";
 import * as RNFS from "react-native-fs";
 import { requestPrefix } from "../com/evotech/common/http/HttpUtil";
-import {ALERT_TYPE} from "react-native-alert-notification";
+import { ALERT_TYPE } from "react-native-alert-notification";
 
 const countryCodes = {
   my: "60",
@@ -102,62 +102,63 @@ function UserScreen() {
     }
 
     checkUserAccount(checkParam)
-        .then(data => {
-          const checkStatus = data.code;
-          //账户存在
-          if (isSuccess(checkStatus)) {
-            smsSend(phoneNumber, UserTypeEnum.DRIVER)
-                .then(data => {
-                  responseOperation(data.code, () => {
-                    setIsTimerActive(true);
-                    setIsOtpVisible(true);
-                    showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
-                  }, () => {
-                    showDialog(ALERT_TYPE.WARNING, "Warning", data.message);
-                    return false;
-                  })
-                })
-                .catch(error => {
-                  showDialog(ALERT_TYPE.DANGER, "Error", "Error: " + error.message);
-                  return false;
-                });
-          } else {
-            //其他情况
-
-            //账户不存在
-            if (isAccountNotFound(checkStatus)) {
-              //TODO 弹窗提示是否跳转注册页
-            }
-
-
-            //账户被锁定
-            if (isLocked(checkStatus)) {
-              //TODO 账户被锁定无法登录 弹窗提示
-            }
-
-            //账户被禁用
-            if (isDisabled(checkStatus)) {
-              //TODO 账户被禁用无法登录 弹窗提示
-
-            }
-
-            //TODO 其他情况 弹窗提示 无法检测到有效的账户信息 请联系客服xxxx
-          }
-        });
-
-    smsSend(phoneNumber, UserTypeEnum.PASSER)
       .then(data => {
-        responseOperation(data.code, () => {
-          setIsTimerActive(true);
-          setIsOtpVisible(true);
-          showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
-        }, () => {
-          showToast("WARNING", "Warning", data.message);
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        showToast("DANGER", "Error", "There was an error submitting your data. Please try again.");
+        const checkStatus = data.code;
+        //账户存在
+        if (isSuccess(checkStatus)) {
+          smsSend(phoneNumber, UserTypeEnum.PASSER)
+            .then(data => {
+              responseOperation(data.code, () => {
+                setIsTimerActive(true);
+                setIsOtpVisible(true);
+                showToast("SUCCESS", "Success", "The SMS has been sent successfully.");
+              }, () => {
+                showDialog(ALERT_TYPE.WARNING, "Warning", data.message);
+                return false;
+              })
+            })
+            .catch(error => {
+              showDialog(ALERT_TYPE.DANGER, "Error", "Error: " + error.message);
+              return false;
+            });
+        } else {
+          //其他情况
+
+          //账户不存在
+          if (isAccountNotFound(checkStatus)) {
+            Alert.alert(
+              "Account Not Found",
+              "We couldn't find your account. Would you like to register?",
+              [
+                {
+                  text: "Yes, Register",
+                  onPress: () => {
+                    navigation.navigate('UserSignUp'); // 请根据您的路由配置进行调整
+                  }
+                },
+                {
+                  text: "No, Thanks",
+                  style: "cancel"
+                }
+              ],
+              { cancelable: false }
+            );
+            return;
+          }
+
+          //账户被锁定
+          if (isLocked(checkStatus)) {
+            showDialog("WARNING", "Login Failed", "Your account has been locked and cannot login. Please email to unieaseapp@gmail.com find help.");
+            return;
+          }
+
+          //账户被禁用
+          if (isDisabled(checkStatus)) {
+            showDialog("WARNING", "Login Failed", "Your account has been disabled and cannot login. Please email to unieaseapp@gmail.com find help.");
+            return;
+          }
+          showDialog("WARNING", "Login Failed", "Unable to detect valid account information. Please contact customer service at 60-184682878.");
+        }
       });
   };
 
@@ -294,16 +295,12 @@ function UserScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={{ flex: 1 }}>
-        {/* Image */}
-        <Image source={require('../picture/login_bcg.png')} style={{ width: '100%', height: '30%', position: "absolute", top: 0, left: 0 }} />
-        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '30%', justifyContent: 'center' }}>
-          <Text style={{ marginLeft: 10, color: 'white', fontWeight: 'bold', fontSize: 18 }}>
-            Sign in to your account
-          </Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '35%' }}>
+          <Image source={require('../picture/login_bcg.png')} style={{ width: '90%', height: '90%', resizeMode: 'cover', top: '5%', left: '5%' }} />
         </View>
         {/* VStack */}
-        <VStack space="2.5" mt="280" px="8">
+        <VStack space="2.5" mt="" px="8">
           <FormControl isRequired>
             <FormControl.Label>Please enter your phone number</FormControl.Label>
             <HStack space={2}>

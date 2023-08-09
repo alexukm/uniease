@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h"
-
+#import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 #import <UserNotifications/UserNotifications.h>
 #import <RNCPushNotificationIOS.h>
@@ -14,7 +14,7 @@
                                           moduleName:moduleName
                                            initProps:initProps];
 
-  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+  [RNBootSplash initWithStoryboard:@"LaunchScreen" rootView:rootView];
 
   return rootView;
 }
@@ -23,7 +23,9 @@
 {
   self.moduleName = @"uniease";
   self.initialProps = @{};
-
+   if ([FIRApp defaultApp] == nil) {
+      [FIRApp configure];
+    }
   // Define UNUserNotificationCenter
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
@@ -34,6 +36,7 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
  [RNCPushNotificationIOS didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+ [FIRMessaging messaging].APNSToken = deviceToken;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo

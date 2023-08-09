@@ -27,7 +27,7 @@ import { enableSystemNotify, notifyOrderChannel } from "./src/com/evotech/common
 import RNBootSplash from "react-native-bootsplash";
 import DeleteAccount from "./src/screens/DeleteAccount";
 import EditProfile from "./src/screens/EditProfileScreen";
-import messaging from "@react-native-firebase/messaging";
+import messaging, {firebase} from "@react-native-firebase/messaging";
 import { NotificationListener, requestUserPermission } from "./src/screens/notification";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setDeviceId } from "./src/com/evotech/common/system/OSUtils";
@@ -95,6 +95,20 @@ const App = () => {
     setTimeout(async () => {
       await setDeviceId();
     }, 0);
+    if (!firebase.apps.length) {
+      const firebaseConfig = {
+        apiKey: "AIzaSyDjMhlXb0cwPafFs37XQUBgYHQ5NVJ6TDE",
+        authDomain: "notification-5ab36.firebaseapp.com", // 这通常是 PROJECT_ID.firebaseapp.com
+        databaseURL: "https://notification-5ab36.firebaseio.com", // 这通常是 https://PROJECT_ID.firebaseio.com
+        projectId: "notification-5ab36",
+        storageBucket: "notification-5ab36.appspot.com",
+        messagingSenderId: "33115311534",
+        appId: "1:33115311534:ios:f76867d2c950e6fb67cc3f"
+      };
+      ;
+      console.log("init firebase")
+      firebase.initializeApp(firebaseConfig).then();
+    }
     const checkTokenAndUserType = async () => {
       await userSkipLogin(setInitialRoute, (userInfo) => tokenCheck(userInfo));
     };

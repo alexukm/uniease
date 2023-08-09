@@ -19,6 +19,7 @@ import {
   userLocalImagePath,
 } from "../com/evotech/common/appUser/UserConstant";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
+import * as RNFS from "react-native-fs";
 
 
 
@@ -118,6 +119,13 @@ const EditProfile = () => {
         const params = {
           userPhone: userInfo.userPhone,
         };
+        const exist = await RNFS.exists(selectedImageUri);
+
+        if (!exist) {
+          //TODO tan chuang tishi
+          console.log("select image not found")
+          return;
+        }
         const header = defaultHeaders.getAuthentication(userToken);
         let uploadResponse;
         if (userInfo.isDriver()) {
@@ -128,6 +136,7 @@ const EditProfile = () => {
 
         responseOperation(uploadResponse.code, () => {
           copyUserAvatarLocal(selectedImageUri, USER_AVATAR_FILE_NAME).then(data=>{
+            console.log("保存本地图片成功",data)
             setAvatar("file://" + data+'?time=' + new Date().getTime() );
           });
            // 上传成功后在本地设置新的头像

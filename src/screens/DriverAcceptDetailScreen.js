@@ -33,6 +33,9 @@ import { driverCancelSubscribe } from "../com/evotech/common/websocket/UserChatW
 import { useDispatch } from "react-redux";
 import { addMessage, deleteChatByOrderId } from "../com/evotech/common/redux/chatSlice";
 import { delChatList } from "../com/evotech/common/appUser/UserConstant";
+import BackgroundTimer from 'react-native-background-timer';
+import Geolocation from '@react-native-community/geolocation';
+
 
 Geocoder.init(googleMapsApiKey);
 
@@ -59,6 +62,47 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
   const refRBSheetReview = useRef();  // 引用RBSheet for ReviewBox
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const haversineDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371000; // Earth radius in meters
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+    return distance;
+  };
+
+  useEffect(() => {
+    // 启动后台定时器
+    BackgroundTimer.runBackgroundTimer(() => {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          const driverLat = position.coords.latitude;
+          const driverLon = position.coords.longitude;
+          const distance = haversineDistance(driverLat, driverLon, DestinationCoords.latitude, DestinationCoords.longitude);
+          const threshold = 500;  // 设置为500米
+
+          if (distance <= threshold) {
+            updateTravelStatus("actualArrivalTime", driverOrderCompleted);
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    }, 15 * 60 * 1000);  // 执行每15分钟
+
+    return () => {
+      // 在组件卸载时停止后台定时器
+      BackgroundTimer.stopBackgroundTimer();
+    };
+  }, []);
+
 
 
   const handleCancel = () => {

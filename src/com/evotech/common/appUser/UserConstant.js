@@ -6,6 +6,7 @@ import { clearLocalChat } from "../redux/UserChat";
 import { deviceId } from "../system/OSUtils";
 import * as RNFS from "react-native-fs";
 import { Image } from "react-native";
+import {async} from "@babel/runtime/regenerator";
 
 export const LOCAL_FILE_PATH = RNFS.DocumentDirectoryPath + "/uniease";
 export const LOCAL_USER_INFO_FILE_PATH = LOCAL_FILE_PATH + "/user_info";
@@ -148,6 +149,10 @@ export async function saveLocalImage(imageUrl, fileName) {
 export async function copyUserAvatarLocal(sourceUri,fileName) {
   const path = `${LOCAL_USER_INFO_FILE_PATH}/${fileName}`;
   try {
+     const exist  = await RNFS.exists(path);
+    if (exist) {
+      await RNFS.unlink(path);
+    }
     await RNFS.copyFile(sourceUri, path);
     console.log(`Image saved at ${path}`);
   } catch (error) {

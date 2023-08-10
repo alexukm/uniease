@@ -68,7 +68,6 @@ const App = () => {
       return skipLogin ? setInitialRoute("User") : setInitialRoute("UserLogin");
     };
     const driverSkip = (skipLogin) => {
-      console.log(userInfo);
       return skipLogin ? DriverLoginStatusEnum.NEED_SUPPLY === userInfo.loginStatus ? setInitialRoute("DriverSupplyInfo") : setInitialRoute("Driver") : setInitialRoute("DriverLogin");
     };
     return userInfo.isUser() ? userSkip(skipLogin) : driverSkip(skipLogin);
@@ -105,8 +104,6 @@ const App = () => {
         messagingSenderId: "33115311534",
         appId: "1:33115311534:ios:f76867d2c950e6fb67cc3f"
       };
-      ;
-      console.log("init firebase")
       firebase.initializeApp(firebaseConfig).then();
     }
     const checkTokenAndUserType = async () => {
@@ -153,28 +150,3 @@ const App = () => {
 };
 
 export default App;
-
-
-// import react, { useEffect } from 'react';
-// import { View, Button } from 'react-native';
-// import analytics from '@react-native-firebase/analytics';
-//
-// function App() {
-//     return (
-//         <View>
-//             <Button
-//                 title="Add To Basket"
-//                 onPress={async () =>
-//                 {
-//                     await analytics().logSelectContent({
-//                         content_type: 'clothing',
-//                         item_id: 'abcd',
-//                     })
-//                     console.log("dianji")
-//                 }
-//                 }
-//             />
-//         </View>
-//     );
-// }
-// export default App;

@@ -11,7 +11,6 @@ class WebSocketClient {
             brokerURL: brokerURL,
             connectHeaders: headers,
             debug: function (params) {
-                // console.log(params);
             },
             reconnectDelay: reconnectDelay,
             heartbeatIncoming: heartbeatIncoming,
@@ -95,7 +94,6 @@ class WebSocketClient {
     }
 
     cancelSubscribe(topic) {
-        console.log(topic);
         if (this.subscriptions[topic]) {
             this.subscriptions[topic].unsubscribe();
         }

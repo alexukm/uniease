@@ -38,7 +38,6 @@ const DriverOrderListScreen = () => {
       setFirstLoad(false);
       return;
     }
-    console.log("handleLoadMore merge");
     const orderList = await queryOrders(pageSize, page);
     if (orderList.length > 0) {
       setRideOrders([...rideOrders, ...orderList]);
@@ -103,7 +102,6 @@ const DriverOrderListScreen = () => {
     const params = {
       userOrderId: orderId,
     };
-    console.log(orderId);
     driverAcceptOrder(params).then(data => {
       responseOperation(data.code, () => {
         showDialog("SUCCESS", "Success", "Order successfully Accepted");

@@ -83,7 +83,6 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             showDialog("WARNING", "Warning", "Order cancellation failed, Please try again later!");
         })
       }).catch(error => {
-      console.log(error);
       showDialog("DANGER", "Error", "System error: " + error.message);
     });
     refRBSheet.current.close();
@@ -103,7 +102,6 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             orderId: orderDetailInfo.driverOrderId
           });
         },()=>{
-          console.log(data.message);
           showDialog("WARNING", "Warning", data.message);
         })
       }).catch(err => {

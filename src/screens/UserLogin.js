@@ -204,16 +204,6 @@ function UserScreen() {
     submitData();
   };
 
-  // useEffect(() => {
-  //   const fetchDeviceId = async () => {
-  //     let deviceId = await DeviceInfo.getUniqueId();
-  //     console.log('User Login Device ID:', deviceId);
-  //   };
-  //
-  //   fetchDeviceId();
-  // }, []);
-
-
   const handleOtpInputChange = (text) => {
     if (!isTimerActive) {
       showToast("WARNING", "Warning", "Please get OTP first before entering it.");
@@ -250,7 +240,6 @@ function UserScreen() {
         });
       })
       .catch(error => {
-        console.log(error);
         showToast("WARNING", "Login Error", "Error: " + error.message);
       });
   };

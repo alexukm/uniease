@@ -168,12 +168,10 @@ const DriverSupplyInfo = () => {
                       userInfo.saveWithLocal();
                       navigation.navigate("Driver");
                   } else {
-                      console.log('Upload failed', data.message);
                       showToast('WARNING', 'Upload Failed', 'Upload failed: ' + data.message);
                   }
               })
               .catch(error => {
-                  console.log('Upload failed', error);
                   showToast('DANGER', 'Upload Failed', 'Upload failed: ' + error.message);
               });
         }

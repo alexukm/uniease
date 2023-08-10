@@ -259,13 +259,11 @@ const RideOrderScreen = () => {
                         [
                             {
                                 text: "Cancel", onPress: () => {
-                                    console.log("Cancel Pressed");
                                     setIsBookingConfirmed(false);
                                 }
                             },
                             {
                                 text: "OK", onPress: () => {
-                                    console.log("OK Pressed");
                                     handleNextStep();
                                 }
                             }
@@ -275,7 +273,6 @@ const RideOrderScreen = () => {
                     handleNextStep();
                 }
             }).catch(err => {
-            console.log("user order check fail" + err.message);
             showDialog('DANGER', 'System error', err.message);
             setIsLoading(false);  // 处理失败，停止 spinner
         });
@@ -361,7 +358,6 @@ const RideOrderScreen = () => {
                       {
                           text: 'Cancel Order',
                           onPress: () => {
-                              console.log('Order cancelled');
                               setIsSubmitting(false);
                           },
                           style: 'cancel'
@@ -478,7 +474,6 @@ const RideOrderScreen = () => {
                                     }
                                 }, 1000); // 这是延迟的时间，你可以根据你的应用调整
                             },()=>{
-                                console.log(data.message)
                                 showDialog('WARNING', 'Get price error', data.message);
                                 // setIsBookingConfirmed(false);
                                 setIsLoading(false); // 立即停止加载动画

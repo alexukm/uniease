@@ -64,12 +64,10 @@ const connect = async (socketClient, onConnect) => {
     }, (onError) => {
         console.error("websocket error", onError);
     }, (onClose) => {
-        console.log("websocket closed", onClose);
         socketClient.client.forceDisconnect();
         //异常关闭
         if (!socketClient.shouldClosed) {
             if (!intervalJob) {
-                console.log("new job")
                 intervalJob = setInterval(async () => {
                     const socketClient = await newSocketClient();
                     mergeSocketClient(socketClient)

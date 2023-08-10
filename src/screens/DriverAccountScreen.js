@@ -32,7 +32,6 @@ const DriverAccount = () => {
     });
     const fillUserInfo = async () => {
       const userInfo = await getUserInfoWithLocal();
-      console.log(userInfo);
       if (userInfo) {
         let formattedUserName = userInfo.userName.toUpperCase();
         if (formattedUserName.length > 18) {
@@ -89,7 +88,6 @@ const DriverAccount = () => {
         {
           text: "OK",
           onPress: async () => {
-            console.log("Logout is clicked");
             // Handle logout click event
             await driverLogout();
             userLogOut();

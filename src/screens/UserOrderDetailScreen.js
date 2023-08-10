@@ -67,7 +67,6 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
           showDialog("WARNING", "Failed", "Cancel Order failed, Please try again later!");
         });
       }).catch(error => {
-      console.log(error);
       showDialog("DANGER", "Error", "System error: " + error.message);
     });
     refRBSheet.current.close();
@@ -130,7 +129,6 @@ const UserOrderDetailScreen = ({ route, navigation }) => {
     const params = {
       orderId: orderDetailInfo.driverOrderId,
     };
-    console.log(orderDetailInfo.driverOrderId);
     passerGetDriverCode(params)
       .then(data => {
         responseOperation(data.code, () => {

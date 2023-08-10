@@ -154,7 +154,6 @@ const RegisterScreen = () => {
 
     // 调用后端函数发送验证码
     const userPhone = selectedValue === "my" ? "60" + phoneNumber : "86" + phoneNumber;
-    console.log(userPhone);
     smsSend(userPhone, UserTypeEnum.PASSER)
       .then(data => {
         responseOperation(data.code, () => {
@@ -218,7 +217,6 @@ const RegisterScreen = () => {
         });
       })
       .catch(error => {
-        console.log(error);
         showDialog("DANGER", "Error", "Error: " + error.message);
       });
     setVerificationCode("");

@@ -113,13 +113,10 @@ const EditProfile = () => {
     await launchImageLibrary(options, async response => {
       if (response.didCancel) {
         showToast("WARNING", "Image Picker", "User cancelled image picker");
-        console.log("User cancelled image picker");
       } else if (response.error) {
         showToast("WARNING", "ImagePicker Error", response.error);
-        console.log("ImagePicker Error: ", response.error);
       } else {
         const selectedImageUri = response.assets[0].uri;
-        console.log("Selected Image URI:", selectedImageUri);
         const params = {
           userPhone: userInfo.userPhone,
         };
@@ -127,7 +124,6 @@ const EditProfile = () => {
 
         if (!exist) {
           showToast("WARNING", "Image Not Found", "Selected image not found");
-          console.log("select image not found")
           return;
         }
         const header = defaultHeaders.getAuthentication(userToken);
@@ -141,7 +137,6 @@ const EditProfile = () => {
         responseOperation(uploadResponse.code, () => {
           showToast("SUCCESS", "Upload Successful", "Avatar uploaded successfully.");
           copyUserAvatarLocal(selectedImageUri, USER_AVATAR_FILE_NAME).then(data=>{
-            console.log("保存本地图片成功",data)
             setAvatar("file://" + data+'?time=' + new Date().getTime() );
           });
            // 上传成功后在本地设置新的头像

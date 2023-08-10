@@ -135,7 +135,6 @@ const DriverAcceptListScreen = ({navigation}) => {
     }, []);
 
     const handleRefresh = useCallback(async () => {
-        console.log("handleRefresh");
         setRefreshing(true);
         const orderList = await queryOrderList(5, 0);  // 5表示首次加载的项数
         setOrders(orderList.content);
@@ -154,11 +153,9 @@ const DriverAcceptListScreen = ({navigation}) => {
               return responseOperation(data.code, () => {
                     return data.data;
                 }, () => {
-                    console.log(data.message);
                     return [];
                 })
             }).catch(error => {
-                console.log(error);
                 return [];
             })
     };

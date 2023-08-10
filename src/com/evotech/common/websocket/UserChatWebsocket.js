@@ -25,7 +25,6 @@ export const userInitChatWebsocket = async (onConnect, needRetry) => {
 export const userOrderWebsocket = async (subscribe) => {
     await getSocketClient().then();
     await whenConnect((client) => {
-        console.log("subscribe orderNotify");
         client.subscribe('/user/topic/orderNotify', 'orderNotify', (body) => {
             body = JSON.parse(body)
             // 调用系统通知

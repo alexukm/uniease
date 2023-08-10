@@ -137,7 +137,6 @@ const RegisterScreen = () => {
                 }
             })
             .catch(error => {
-                console.log(error);
                 showDialog('DANGER', 'Error', 'Error', error.message);
             });
     };

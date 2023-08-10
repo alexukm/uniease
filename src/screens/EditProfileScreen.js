@@ -49,7 +49,7 @@ const EditProfile = () => {
   }, []);
   const handleSubmit = async ({ firstName, lastName }) => {
     if (userInfo && firstName === userInfo.firstName && lastName === userInfo.lastName) {
-      showToast("WARNING", "No info changed", "No changes detected. Please update your information before saving.");
+      navigationSkip();
       return; // Return early to stop further execution
     }
     const params = {

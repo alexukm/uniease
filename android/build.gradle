@@ -1,24 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-allprojects {
-    repositories {
-       /*  mavenLocal()
-        maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url("$rootDir/../node_modules/react-native/android")
-        }
-        maven {
-            // Android JSC is installed from npm
-            url("$rootDir/../node_modules/jsc-android/dist")
-        } */
-      maven {
-          // react-native-background-fetch
-          url("${project(':react-native-background-fetch').projectDir}/libs")
-      }
-
-    }
-}
-
 buildscript {
     ext {
         buildToolsVersion = "33.0.0"

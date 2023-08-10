@@ -98,7 +98,7 @@ const DriverHomeScreen = () => {
           flexDirection: "row",
           paddingLeft: 20,
         }}>
-          <Image source={{ uri: ImagesEnum.Logo }}
+          <Image source={require("../picture/logo.png")}
                  style={{ width: 100, height: 100 }} />
         </View>
 

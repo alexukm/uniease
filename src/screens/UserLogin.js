@@ -242,7 +242,7 @@ function UserScreen() {
           buildUserInfo(loginResult.token, userType.USER, userPhone, "", loginResult.firstName, loginResult.lastName).saveWithLocal();
           setTimeout(() => {
             saveUserAvatar(userPhone, loginResult);
-          }, 0);
+          }, 0.5);
           navigation.replace("User");
           showToast("SUCCESS", "Login Successful", "You have successfully logged in!");
         }, () => {

@@ -3,7 +3,7 @@ import {closeWebsocket} from "./SingletonWebSocketClient";
 
 // export const defaultBrokerURL = "wss://unieaseapp.com/uniEase/ws-sfc";
 //测试环境
-export const defaultBrokerURL = "ws://192.168.49.128:8080/uniEase/ws-sfc";
+export const defaultBrokerURL = "ws://35.197.128.231/uniEase/ws-sfc";
 
 class WebSocketClient {
     constructor(brokerURL, headers, reconnectDelay, heartbeatIncoming, heartbeatOutgoing) {

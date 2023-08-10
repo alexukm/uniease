@@ -3,7 +3,7 @@ import { getUserID, getUserToken} from "../appUser/UserConstant";
 
 // const defaultRequestAddress = "unieaseapp.com"
 // 测试环境
-const defaultRequestAddress = "192.168.100.18:8080"
+const defaultRequestAddress = "35.197.128.231"
 
 
 const contextPath = "/uniEase";

@@ -113,7 +113,7 @@ function DriverScreen() {
                         });
                 } else {
                     //其他情况
-
+                    console.log("checkStatus",checkStatus);
                     //账户不存在
                     if (isAccountNotFound(checkStatus)) {
                         Alert.alert(

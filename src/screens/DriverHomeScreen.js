@@ -39,9 +39,7 @@ const DriverHomeScreen = () => {
       enableSystemNotify().then();
       initOrderStatusList((orderStatusList) => {
         initLocalChat(orderStatusList).then(data => {
-          if (data) {
-            initChat();
-          }
+          initChat(data);
         });
       });
     }, 0);

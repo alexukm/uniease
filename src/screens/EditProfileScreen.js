@@ -150,7 +150,6 @@ const EditProfile = () => {
   const Header = ({ title }) => {
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => {
           navigationSkip()
@@ -159,7 +158,6 @@ const EditProfile = () => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{title}</Text>
       </View>
-      </SafeAreaView>
     );
   };
 

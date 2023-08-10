@@ -88,6 +88,7 @@ const EditProfile = () => {
   const handleResponse = (data, firstName, lastName, navigationOp) => {
     responseOperation(data.code, () => {
       resetUserToken(data.data, firstName, lastName).then(() => {
+        showToast("SUCCESS", "Update Successful", "User information has been updated successfully."); // Show success toast
         navigationOp();
       });
     }, () => {

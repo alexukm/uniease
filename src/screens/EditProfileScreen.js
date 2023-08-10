@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, Platform, StatusBar } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker";
 import {
@@ -168,7 +168,6 @@ const EditProfile = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
       <Header title="Edit Profile" />
       <Image
@@ -203,7 +202,6 @@ const EditProfile = () => {
         </TouchableOpacity>
       </View>
     </View>
-    </SafeAreaView>
   );
 };
 
@@ -277,7 +275,9 @@ const styles = StyleSheet.create({
   backButton: {
     position: "absolute",
     left: 10,
+    paddingTop: Platform.OS === 'ios' ? StatusBar.currentHeight : 0,
   },
+
   backButtonText: {
     fontSize: 14,
     color: "#000000",

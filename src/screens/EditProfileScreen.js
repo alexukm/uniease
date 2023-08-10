@@ -92,6 +92,7 @@ const EditProfile = () => {
       });
     }, () => {
       // TODO: 修改失败
+      showToast("WARNING", "Update Failed", "Failed to update user information.");
       console.error("Failed to update user information.");
     });
   };
@@ -110,8 +111,10 @@ const EditProfile = () => {
     const userToken = await getUserToken();
     await launchImageLibrary(options, async response => {
       if (response.didCancel) {
+        showToast("WARNING", "Image Picker", "User cancelled image picker");
         console.log("User cancelled image picker");
       } else if (response.error) {
+        showToast("WARNING", "ImagePicker Error", response.error);
         console.log("ImagePicker Error: ", response.error);
       } else {
         const selectedImageUri = response.assets[0].uri;
@@ -122,7 +125,7 @@ const EditProfile = () => {
         const exist = await RNFS.exists(selectedImageUri);
 
         if (!exist) {
-          //TODO tan chuang tishi
+          showToast("WARNING", "Image Not Found", "Selected image not found");
           console.log("select image not found")
           return;
         }
@@ -135,12 +138,14 @@ const EditProfile = () => {
         }
 
         responseOperation(uploadResponse.code, () => {
+          showToast("SUCCESS", "Upload Successful", "Avatar uploaded successfully.");
           copyUserAvatarLocal(selectedImageUri, USER_AVATAR_FILE_NAME).then(data=>{
             console.log("保存本地图片成功",data)
             setAvatar("file://" + data+'?time=' + new Date().getTime() );
           });
            // 上传成功后在本地设置新的头像
         }, () => {
+          showToast("WARNING", "Upload Failed", "Failed to upload avatar.");
           console.error("Failed to upload avatar.");
         });
       }

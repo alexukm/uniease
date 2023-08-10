@@ -28,6 +28,41 @@ export default function ChatList({navigation}) {
             orderId: item.orderId
         });
     };
+
+    function formatChatTime(timestamp) {
+        const now = new Date();
+        const messageDate = new Date(timestamp);
+
+        // Check if it's the same day
+        if (now.toDateString() === messageDate.toDateString()) {
+            const hour = messageDate.getHours();
+            const minute = String(messageDate.getMinutes()).padStart(2, '0');  // Ensure minute is always two digits
+            return `${hour}:${minute}`;
+        }
+
+        // Check if it's yesterday
+        const yesterday = new Date();
+        yesterday.setDate(now.getDate() - 1);
+        if (yesterday.toDateString() === messageDate.toDateString()) {
+            return 'yesterday';
+        }
+
+        // Check if within the same week
+        const startOfWeek = new Date();
+        startOfWeek.setDate(now.getDate() - now.getDay() + 1);
+        if (messageDate >= startOfWeek) {
+            const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            return weekdays[messageDate.getDay()];
+        }
+
+        // If it's an earlier date
+        const day = messageDate.getDate();
+        const month = messageDate.getMonth() + 1;
+        const year = messageDate.getFullYear();
+        return `${month}/${day}/${year}`;
+    }
+
+
     return (
       <SafeAreaView style={{flex: 1}}>
         <View style={styles.container}>
@@ -70,7 +105,7 @@ export default function ChatList({navigation}) {
                             <Text style={styles.chatMessage}>{item.message}</Text>
                         </View>
                         <View style={styles.chatMeta}>
-                            <Text style={styles.chatTime}>{item.time}</Text>
+                            <Text style={styles.chatTime}>{formatChatTime(item.time)}</Text>
                             {item.unread > 0 &&
                                 <View style={styles.badge}><Text style={styles.badgeText}>{item.unread}</Text></View>}
                         </View>

@@ -18,8 +18,8 @@ function Home() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <VStack flex={1} space={4} alignItems="center">
-        <Box alignItems={"center"} flex={0.8} w="full" mt="5%">
+      <VStack flex={1} space={3} alignItems="center">
+        <Box alignItems={"center"} flex={0.7} w="full" mt="5%">
           <Image
             source={require('../picture/home_bcg.png')}
             style={{ width: '90%', height: '120%' }}
@@ -51,6 +51,7 @@ function Home() {
       </VStack>
     </SafeAreaView>
   );
+
 }
 
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker";
 import {
@@ -168,6 +168,7 @@ const EditProfile = () => {
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
       <Header title="Edit Profile" />
       <Image
@@ -202,6 +203,7 @@ const EditProfile = () => {
         </TouchableOpacity>
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 

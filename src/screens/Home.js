@@ -26,13 +26,13 @@ function Home() {
             resizeMode="cover"
           />
         </Box>
-        <VStack flex={0.1} w="full" space={1} alignItems="center" px="5%">
+        <VStack flex={0.1} w="full" space={1} alignItems="center" px="5%" mb="1%">
           <Text fontWeight="bold">UniEase. Limitless Ease</Text>
           <Text textAlign="center">
             Embrace the simplicity, convenience, and versatility of this all-in-one solution. UniEase: Simplify, Unify, and Ease your digital life.
           </Text>
         </VStack>
-        <VStack flex={0.2} w="full" justifyContent="flex-end" pb="15%" alignItems="center" px="5%">
+        <VStack flex={0.2} w="full" justifyContent="flex-end" alignItems="center" px="5%" pb="10%">
           <Box flexDirection="row" justifyContent="space-between" width="100%">
             <Button
               size="lg"
@@ -52,5 +52,6 @@ function Home() {
     </SafeAreaView>
   );
 }
+
 
 export default Home;

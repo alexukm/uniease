@@ -66,6 +66,8 @@ export function userLogOut() {
   closeWebsocket();
   // clear chat room
   clearLocalChat().then();
+  //删除用户头像
+  unLinkUserAvatar();
 }
 
 export async function getUserToken() {
@@ -168,9 +170,14 @@ export async function userLocalImagePath(fileName) {
   });
 }
 
+export const unLinkUserAvatar = async(userPhone) =>{
+  const localAvatarPath = `${LOCAL_USER_INFO_FILE_PATH}/${USER_AVATAR_FILE_NAME}`;
+  await RNFS.unlink(localAvatarPath).then();
+}
+
 export const saveUserAvatar = async (userPhone, data) => {
   // 存在自定义头像
-  if (data.userAvatarPath) {
+  if (data && data.userAvatarPath) {
     const imageUrl = `${requestPrefix.httpPrefix}/uniEaseApp/pia/avatar/${userPhone}/${data.userAvatarPath}`;
     saveLocalImage(imageUrl, USER_AVATAR_FILE_NAME).then();
   } else {

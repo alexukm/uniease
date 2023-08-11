@@ -112,7 +112,7 @@ const EditProfile = () => {
     const userToken = await getUserToken();
     await launchImageLibrary(options, async response => {
       if (response.didCancel) {
-        showToast("WARNING", "Image Picker", "User cancelled image picker");
+        console.log('User cancelled image picker');
       } else if (response.error) {
         showToast("WARNING", "ImagePicker Error", response.error);
       } else {

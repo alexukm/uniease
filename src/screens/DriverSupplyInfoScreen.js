@@ -68,7 +68,7 @@ const DriverSupplyInfo = () => {
 
         launchImageLibrary(options, async response => {
             if (response.didCancel) {
-                showToast('WARNING', 'Action Cancelled', 'User cancelled image picker');
+                console.log("User cancelled image picker");
             } else if (response.error) {
                 showToast('DANGER', 'Error', 'ImagePicker Error: ' + JSON.stringify(response.error));
             } else {

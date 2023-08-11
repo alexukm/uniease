@@ -36,7 +36,6 @@ export const enableSystemNotify = async () => {
     messaging()
       .requestPermission()
       .then(authStatus => {
-        console.log("APNs Status: ", authStatus);
         if (authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL) {
           messaging()
             .getToken()
@@ -46,11 +45,9 @@ export const enableSystemNotify = async () => {
                 fireBaseToken: encodeURIComponent(token),
                 userType: userType,
               };
-              console.log("sync token: ", params);
               syncUserFirebaseToken(params).then(data => {
                 responseOperation(data.code,()=>{
                   messaging().onMessage(async remoteMessage => {
-                    console.log("onMessage",remoteMessage);
                     notifyOrderChannel({
                       noticeTitle: remoteMessage.notification.title,
                       noticeContent: remoteMessage.notification.body,
@@ -64,14 +61,12 @@ export const enableSystemNotify = async () => {
                     syncUserFirebaseToken(params).then();
                   });
                   messaging().setBackgroundMessageHandler(async remoteMessage => {
-                    console.log("setBackgroundMessageHandler",remoteMessage);
                     notifyOrderChannel({
                       noticeTitle: remoteMessage.data.title,
                       noticeContent: remoteMessage.data.body,
                     });
                   });
                   messaging().onNotificationOpenedApp(remoteMessage => {
-                    console.log("Message received in background:", remoteMessage);
                     notifyOrderChannel({
                       noticeTitle: remoteMessage.data.title,
                       noticeContent: remoteMessage.data.body,

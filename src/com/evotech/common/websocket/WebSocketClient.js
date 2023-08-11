@@ -113,8 +113,8 @@ class WebSocketClient {
         Object.values(this.subscriptions).forEach(subscription => {
             subscription.unsubscribe();
         });
-        this.client.deactivate().then(r => {
-            console.log("close websocket client" + r);
+        this.client.deactivate().then(() => {
+            console.log("close websocket client");
         });
     }
 }

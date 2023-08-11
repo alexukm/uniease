@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>33115311534-24r612e4egj70kosbafb3mr2d9teaevp.apps.googleusercontent.com</string>
+	<string>33115311534-njpcptok80dt5ak1om36qpisoe9mh12j.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.33115311534-24r612e4egj70kosbafb3mr2d9teaevp</string>
+	<string>com.googleusercontent.apps.33115311534-njpcptok80dt5ak1om36qpisoe9mh12j</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDjMhlXb0cwPafFs37XQUBgYHQ5NVJ6TDE</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.evotech.uniease</string>
+	<string>com.unieaseapp</string>
 	<key>PROJECT_ID</key>
 	<string>notification-5ab36</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:33115311534:ios:f76867d2c950e6fb67cc3f</string>
+	<string>1:33115311534:ios:3320336577c0eab667cc3f</string>
 </dict>
 </plist>

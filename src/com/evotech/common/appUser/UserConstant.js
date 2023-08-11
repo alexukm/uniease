@@ -67,7 +67,7 @@ export function userLogOut() {
   // clear chat room
   clearLocalChat().then();
   //删除用户头像
-  unLinkUserAvatar();
+  unLinkUserAvatar().then();
 }
 
 export async function getUserToken() {
@@ -125,27 +125,20 @@ export async function saveLocalImage(imageUrl, fileName) {
     fromUrl: imageUrl,
     toFile: path,
   };
-  console.log(imageUrl);
-  await RNFS.exists(LOCAL_USER_INFO_FILE_PATH).then(data => {
-    if (!data) {
-      RNFS.mkdir(LOCAL_USER_INFO_FILE_PATH).then(() => {
-      });
-    }
-  }).then(async (data) => {
-    console.log("remove file");
-    await RNFS.unlink(path).then(() => {
-      console.log("file delete", path);
-    }).finally(async () => {
-      await RNFS.downloadFile(options).promise
-        .then(() => {
-          console.log("Image saved to", path);
-        })
-        .catch(error => {
-          console.error("Failed to save image:", error);
-        });
-    });
-  });
 
+  const existFile = await RNFS.exists(path)
+  if (existFile) {
+    await RNFS.unlink(path);
+  } else {
+    await RNFS.mkdir(LOCAL_USER_INFO_FILE_PATH).then();
+  }
+  await RNFS.downloadFile(options).promise
+      .then(() => {
+        console.log("Image saved to", path);
+      })
+      .catch(error => {
+        console.error("Failed to save image:", error);
+      });
 }
 
 export async function copyUserAvatarLocal(sourceUri,fileName) {
@@ -170,9 +163,9 @@ export async function userLocalImagePath(fileName) {
   });
 }
 
-export const unLinkUserAvatar = async(userPhone) =>{
+export const unLinkUserAvatar = async() =>{
   const localAvatarPath = `${LOCAL_USER_INFO_FILE_PATH}/${USER_AVATAR_FILE_NAME}`;
-  await RNFS.unlink(localAvatarPath).then();
+  return   await RNFS.unlink(localAvatarPath).then();
 }
 
 export const saveUserAvatar = async (userPhone, data) => {
@@ -187,15 +180,26 @@ export const saveUserAvatar = async (userPhone, data) => {
       fromUrl: assetPath.uri,
       toFile: destinationPath,
     };
-    await RNFS.mkdir(LOCAL_USER_INFO_FILE_PATH).then(() => {
-    }).finally(async () => {
-      await RNFS.downloadFile(options).promise
+
+    const existUserAvatar = await RNFS.exists(destinationPath);
+
+    // exist user avatar
+    if (existUserAvatar) {
+      return;
+    }
+
+    const exist = await RNFS.exists(LOCAL_USER_INFO_FILE_PATH);
+
+    if (!exist) {
+      await RNFS.mkdir(LOCAL_USER_INFO_FILE_PATH).then();
+    }
+
+    await RNFS.downloadFile(options).promise
         .then(() => {
           console.log("Image saved to", destinationPath);
         })
         .catch(error => {
           console.error("Failed to save image:", error);
         });
-    });
   }
 };

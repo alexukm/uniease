@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { GiftedChat, InputToolbar } from "react-native-gifted-chat";
+import { Composer, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { addChatList, addMessage, selectChatMessage } from "../com/evotech/common/redux/chatSlice";
@@ -77,8 +77,18 @@ export default function ChatRoom({ route }) {
         messages={messages[receiverUserCode] || []}
         onSend={newMessages => onSend(newMessages)}
         user={{ _id: 1 }}
-        renderInputToolbar={(props) => <InputToolbar {...props} />} // 始终显示输入工具栏
+        renderInputToolbar={(props) => (
+          <InputToolbar {...props}
+              renderComposer={(composerProps) => (
+                <Composer
+                  {...composerProps}
+                  textInputStyle={{ ...composerProps.textInputStyle, color: 'black' }} // 这里设置输入框文字颜色为黑色
+                />
+              )}
+          />
+        )}
       />
     </SafeAreaView>
   );
 }
+

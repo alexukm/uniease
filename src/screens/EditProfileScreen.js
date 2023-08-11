@@ -223,6 +223,7 @@ const styles = StyleSheet.create({
   label: {
     marginTop: 20,
     fontSize: 14,
+    color: "#000000", // 设置文本颜色为黑色
   },
   input: {
     borderColor: "#ccc",
@@ -230,6 +231,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     fontSize: 14,
+    color: "#000000",
   },
   button: {
     marginTop: 20,
@@ -280,6 +282,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#000000",
   },
   submitButtonContainer: {
     position: "absolute",

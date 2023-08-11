@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
+    "update_aab": "sh ./update_aab.sh",
     "iosReset": "cd ios && pod deintegrate && pod install",
     "iosInstall": "rm -rf node_modules && rm -f package-lock.json && npm install && cd ios && pod deintegrate && pod install"
   },

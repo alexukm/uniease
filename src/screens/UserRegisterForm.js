@@ -13,7 +13,7 @@ import {
 } from "native-base";
 import { MD5 } from "crypto-js";
 import { smsSend, userRegistry } from "../com/evotech/common/http/BizHttpUtil";
-import { setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
+import { saveUserAvatar, setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
 import { useNavigation } from "@react-navigation/native";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
@@ -210,7 +210,10 @@ const RegisterScreen = () => {
         responseOperation(data.code, () => {
           showToast("SUCCESS", "Registration Success", "Registration was successful");
           setUserToken(data.data);
-          buildUserInfo(data.data, userType.USER, userPhone, "",registryParams.lastName + " " + registryParams.firstName).saveWithLocal();
+          buildUserInfo(data.data, userType.USER, userPhone, "",registryParams.firstName,registryParams.lastName).saveWithLocal();
+          setTimeout(() => {
+            saveUserAvatar(userPhone, null).then();
+          }, 0.5);
           navigation.navigate("User");
         }, () => {
           showDialog("WARNING", "Registration Failed", data.message);

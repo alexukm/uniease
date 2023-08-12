@@ -23,7 +23,7 @@ export default function ChatRoom({ route }) {
   const initChatClient = async () => {
     await UserChat(false);
   };
-  useEffect(async () => {
+  useEffect( () => {
     // 从聊天详情页进入时 需要查询  从订单详情进入时不需要查询
     setTimeout(async () => {
       if (needQueryOrderStatus) {

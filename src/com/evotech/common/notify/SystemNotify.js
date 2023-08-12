@@ -1,7 +1,6 @@
 import { isAndroid, isIOS } from "../system/OSUtils";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
-import { iosNotifyPermission } from "../../permissions/ios/IOSPermissionsSupport";
 import messaging from "@react-native-firebase/messaging";
 import { syncUserFirebaseToken } from "../http/BizHttpUtil";
 import { getUserInfoWithLocal } from "../appUser/UserInfo";
@@ -9,27 +8,8 @@ import { UserTypeEnum } from "../constant/BizEnums";
 import { responseOperation } from "../http/ResponseOperation";
 
 const orderNotifyChannelId = "Order-Notify-Channel";
-const orderNotifyChannelName = "Order-Channel";
-const orderNotifyChannelDesc = "Channel to order information";
 
 export const enableSystemNotify = async () => {
-  /*if (isAndroid()) {
-    PushNotification.createChannel(
-      {
-        channelId: orderNotifyChannelId, // channel id
-        channelName: orderNotifyChannelName, // channel name
-        channelDescription: orderNotifyChannelDesc, // channel description
-        soundName: "default", // Makes the default notification sound
-        importance: 4, // set the importance of notifications
-        vibrate: true, // sets whether notifications posted to this channel trigger vibration
-      },
-      (created) => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-    );
-  }
-
-  if (isIOS()) {
-    iosNotifyPermission();
-  }*/
   const userInfo = await getUserInfoWithLocal();
   if (userInfo) {
     const userType = userInfo.isUser() ? UserTypeEnum.PASSER : userInfo.isDriver() ? UserTypeEnum.DRIVER : "";
@@ -48,6 +28,7 @@ export const enableSystemNotify = async () => {
               syncUserFirebaseToken(params).then(data => {
                 responseOperation(data.code,()=>{
                   messaging().onMessage(async remoteMessage => {
+                    console.log("remoteMessage",remoteMessage);
                     notifyOrderChannel({
                       noticeTitle: remoteMessage.notification.title,
                       noticeContent: remoteMessage.notification.body,

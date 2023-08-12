@@ -409,6 +409,13 @@ const RideOrderScreen = () => {
 
     // 处理下一步的逻辑，获取行程的距离和时间，如果已经确认预订，则跳转到订单详情页面
     const handleNextStep = () => {
+
+        if (!isDepartureSelected || !isDestinationSelected) {
+            showDialog("WARNING", "Address Reminder", "To ensure order accuracy, please select the system-recommended address.");
+            setIsLoading(false);
+            return;
+        }
+
         if (!departure || !destination || !date) {
             alert("Please fill in all fields!");
             setIsLoading(false);

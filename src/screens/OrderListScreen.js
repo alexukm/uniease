@@ -73,13 +73,13 @@ const OrderBox = React.memo(({ order, navigation }) => {
       <Box bg="white" shadow={2} rounded="lg" p={4} my={2}>
         <Text color={statusColors[orderState]} alignSelf="flex-end">{orderState}</Text>
         <VStack space={4}>
-          <HStack space={2} alignItems="center">
+          <HStack space={2} alignItems="center" style={{ flex: 1 }}>
             <RemixIcon name="checkbox-blank-circle-fill" size={15} color="blue" />
-            <Text>{departureAddress}</Text>
+            <Text style={{ flex: 1 }}>{departureAddress}</Text>
           </HStack>
-          <HStack space={2} alignItems="center">
+          <HStack space={2} alignItems="center" style={{ flex: 1 }}>
             <RemixIcon name="checkbox-blank-circle-fill" size={15} color="orange" />
-            <Text>{destinationAddress}</Text>
+            <Text style={{ flex: 1 }}>{destinationAddress}</Text>
           </HStack>
           <HStack space={2} alignItems="center">
             <RemixIcon name="time-fill" size={15} color="black" />

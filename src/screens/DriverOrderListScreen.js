@@ -131,13 +131,13 @@ const DriverOrderListScreen = () => {
         </View>
         <VStack space={1}>
           <Text style={styles.timeText}> {formatDate(new Date(item.plannedDepartureTime))}</Text>
-          <HStack space={2} alignItems="flex-start">
+          <HStack space={2} alignItems="flex-start" style={{ flex: 1 }}>
             <RemixIcon name="checkbox-blank-circle-fill" size={15} color="blue" style={{ marginTop: 2 }} />
             <Text style={{ flexWrap: "wrap", flex: 1, color: "black" }}>
               {item.departureAddress}
             </Text>
           </HStack>
-          <HStack space={2} alignItems="flex-start">
+          <HStack space={2} alignItems="flex-start" style={{ flex: 1 }}>
             <RemixIcon name="checkbox-blank-circle-fill" size={15} color="orange" style={{ marginTop: 2 }} />
             <Text style={{ flexWrap: "wrap", flex: 1, color: "black" }}>
               {item.destinationAddress}

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   View,
   Text,
@@ -60,6 +59,9 @@ const DriverAccount = () => {
       receiverName: "Customer Service",
       receiverUserCode: "user202307150002",
       orderStatus: "Pending",
+      needQueryOrderStatus: false,
+      orderId: "user202307150002",
+      receiverOrderId: "user202307150002",
     });
   };
 

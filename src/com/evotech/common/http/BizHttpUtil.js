@@ -104,7 +104,32 @@ const featureAndPath = {
   USER_MODIFY_USER_INFO: { method: supportRequestMethod.POST, path: "/v1/ums/api/user/auditUserInfo" },
 
   CHECK_USER_ACCOUNT: {method: supportRequestMethod.POST, path: '/v1/auth/api/token/existUser'},
+
+  QUERY_DRIVER_ORDER_STATUS_BY_ORDER_ID: {
+    method: supportRequestMethod.GET,
+    path: "/v1/oms/api/driver/order/getOrderStatus",
+  },
+
+  QUERY_USER_ORDER_STATUS_BY_ORDER_ID: {
+    method: supportRequestMethod.GET,
+    path: "/v1/oms/api/user/order/getOrderStatus",
+  },
 };
+
+export function queryDriverOrderStatusByOrderId(orderId) {
+  const params ={
+    orderId: orderId
+  }
+  return request.get(featureAndPath.QUERY_DRIVER_ORDER_STATUS_BY_ORDER_ID.path,params);
+}
+
+export function queryUserOrderStatusByOrderId(orderId) {
+  const params ={
+    orderId: orderId
+  }
+  return request.get(featureAndPath.QUERY_USER_ORDER_STATUS_BY_ORDER_ID.path,params);
+}
+
 
 export function checkUserAccount(params = {}) {
   return request.post(featureAndPath.CHECK_USER_ACCOUNT.path, SupportContextType.APPLICATION_JSON, {params: params});

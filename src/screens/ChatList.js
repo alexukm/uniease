@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, Alert, SafeAreaView } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {selectChatList} from "../com/evotech/common/redux/chatSlice";
 import { Box } from "native-base";
 import {delChatByUserCode} from "../com/evotech/common/redux/UserChat";
@@ -25,7 +25,9 @@ export default function ChatList({navigation}) {
             receiverName: item.title,
             receiverUserCode: item.userCode,
             orderStatus: item.orderStatus,
-            orderId: item.orderId
+            orderId: item.orderId,
+            receiverOrderId: item.receiverOrderId,
+            needQueryOrderStatus: true,
         });
     };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { NativeBaseProvider, Box, VStack, HStack, Button, Text, Avatar, Input, Image, Spinner } from "native-base";
 import MapView, { Marker } from "react-native-maps";
 import {
@@ -31,8 +31,8 @@ import { formatDate } from "../com/evotech/common/formatDate";
 import { googleMapsApiKey } from "../com/evotech/common/apiKey/mapsApiKey";
 import { driverCancelSubscribe } from "../com/evotech/common/websocket/UserChatWebsocket";
 import { useDispatch } from "react-redux";
-import { addMessage, deleteChatByOrderId } from "../com/evotech/common/redux/chatSlice";
-import { delChatList } from "../com/evotech/common/appUser/UserConstant";
+import {  deleteChatByOrderId } from "../com/evotech/common/redux/chatSlice";
+
 
 Geocoder.init(googleMapsApiKey);
 
@@ -48,7 +48,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
     DepartureCoords,
     DestinationCoords,
   } = route.params;
-  const [existDriverInfo, setExistDriverInfo] = useState(false);
+  // const [existDriverInfo, setExistDriverInfo] = useState(false);
   const [rating, setRating] = useState(5);
   const dispatch = useDispatch();
   const refRBSheet = useRef();  // 引用RBSheet
@@ -99,7 +99,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
             receiverName: data.data.userName,
             receiverUserCode: data.data.userCode,
             orderStatus: Status,
-            orderId: orderDetailInfo.driverOrderId
+            orderId: orderDetailInfo.driverOrderId,
+            receiverOrderId: orderDetailInfo.userOrderId,
+            needQueryOrderStatus: false,
           });
         },()=>{
           showDialog("WARNING", "Warning", data.message);
@@ -204,9 +206,9 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
       showToast("DANGER", "Error", "Unable to open navigation, an error occurred");
     }
   };
-  useEffect(() => {
+/*  useEffect(() => {
     setExistDriverInfo(orderDetailInfo.driverOrderId !== "");
-  }, []);
+  }, []);*/
 
 
   const styles = StyleSheet.create({

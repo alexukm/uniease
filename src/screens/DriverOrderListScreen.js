@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -18,21 +18,19 @@ import RemixIcon from "react-native-remix-icon";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { formatDate } from "../com/evotech/common/formatDate";
-import { userOrderWebsocket } from "../com/evotech/common/websocket/UserChatWebsocket";
-import { tr } from "date-fns/locale";
 import { UserChat } from "../com/evotech/common/redux/UserChat";
 
 
 const DriverOrderListScreen = () => {
   const [rideOrders, setRideOrders] = React.useState([]);
   const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(4);
+  // const [pageSize, setPageSize] = React.useState(4);
   const [refreshing, setRefreshing] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
 
-  const [updateFlag, setUpdateFlag] = useState(false); // 添加这个状态
-
-
+  // const [updateFlag, setUpdateFlag] = useState(false); // 添加这个状态
+  const updateFlag = false;
+  const pageSize = 4;
   const handleLoadMore = useCallback(async () => {
     if (firstLoad) {
       setFirstLoad(false);

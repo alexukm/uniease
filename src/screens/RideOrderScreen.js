@@ -35,13 +35,11 @@ import {format} from 'date-fns';
 import {googleMapsApiKey} from "../com/evotech/common/apiKey/mapsApiKey";
 import apiService from "../com/evotech/common/apiKey/apiService";
 import {formatDate} from "../com/evotech/common/formatDate";
-import {userOrderWebsocket} from "../com/evotech/common/websocket/UserChatWebsocket";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import {locationPermission} from "../com/evotech/permissions/PermissionsSupport";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
-import { UserChat } from "../com/evotech/common/redux/UserChat";
 
 
 
@@ -63,8 +61,8 @@ const RideOrderScreen = () => {
 
     // 更多的状态，主要与地图、路线和建议的显示有关
     const [isSuccessScreen, setIsSuccessScreen] = useState(false);
-    const [pickupWaiting, setPickupWaiting] = useState("Check the Status");
-
+    // const [pickupWaiting, setPickupWaiting] = useState("Check the Status");
+    const pickupWaiting = "Check the Status";
     //save departure location
     const [departureSuggestions, setDepartureSuggestions] = useState([]);
     const [showDepartureSuggestions, setShowDepartureSuggestions] = useState(false);

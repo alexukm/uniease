@@ -89,7 +89,6 @@ export class HttpUtil {
 
     async get(url, params = {}, header = {}) {
         const requestURL = this.getRequestURI(url);
-        console.log(requestURL);
         const headers = await headerMap({header: header});
         return new Promise((resolve, catchException) => {
             this.instance.get(requestURL, {

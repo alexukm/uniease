@@ -11,7 +11,6 @@ import DriverOrderListScreen from './DriverOrderListScreen';
 import DriverAcceptDetailScreen from "./DriverAcceptDetailScreen";
 import ChatList from "./ChatList";
 import ChatRoom from "./ChatRoom";
-import AccountScreen from "./AccountScreen";
 import EditProfile from "./EditProfileScreen";
 
 const DriverAcceptDetailNavigator = createNativeStackNavigator();

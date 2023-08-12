@@ -54,6 +54,7 @@ export default function ChatRoom({ route }) {
         receiverName: receiverName,
         receiverUserCode: receiverUserCode,
         receiverOrderId: receiverOrderId,
+        senderOrderId: orderId,
         message: newMessages[0].text,
         requestTime: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };

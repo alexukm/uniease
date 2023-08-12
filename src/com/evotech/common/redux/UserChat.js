@@ -16,6 +16,7 @@ export const UserChat = async (needRetry) => {
   const dispatch = store.dispatch;
 
   const buildChatMsg = (body) => {
+    console.log("received body",body);
     const receiveMsg = JSON.parse(body);
     const message = {
       _id: uuid.v4(),
@@ -33,7 +34,8 @@ export const UserChat = async (needRetry) => {
       title: receiveMsg.senderName,
       message: receiveMsg.message,
       time: receiveMsg.requestTime,
-      orderId: receiveMsg.receiverOrderId,
+      orderId: receiveMsg.orderId,
+      receiverOrderId: receiveMsg.senderOrderId,
       userCode: receiveMsg.senderUserCode,
       unread: "",
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
@@ -104,6 +106,7 @@ export async function saveLocalChat() {
   if (!chatList) {
     return;
   }
+  console.log("set chat list", chatList);
   setChatList(chatList).then();
   const chatMessage = store.getState().chat.chatMessage;
   if (!chatMessage) {

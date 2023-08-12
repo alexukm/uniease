@@ -31,9 +31,9 @@ export default function ChatRoom({ route }) {
         const userInfo = await getUserInfoWithLocal();
         let orderStatus = "";
         if (userInfo.isUser()) {
-          orderStatus = await queryUserOrderStatusByOrderId(orderId);
+          orderStatus = (await queryUserOrderStatusByOrderId(orderId)).data;
         } else if (userInfo.isDriver()) {
-          orderStatus = await queryDriverOrderStatusByOrderId(orderId);
+          orderStatus = (await queryDriverOrderStatusByOrderId(orderId)).data;
         }
         const allowChat = orderStatus === OrderStateEnum.PENDING || OrderStateEnum.IN_TRANSIT === orderStatus;
         setChatStatus(allowChat);

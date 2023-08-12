@@ -22,7 +22,6 @@ const chatSlice = createSlice({
         state.chatMessage[message.userCode] = [message];
       }
       setTimeout(async () => {
-        console.log("save chat list");
         await saveLocalChat().then();
       }, 0.1);
     },

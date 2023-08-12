@@ -16,7 +16,6 @@ export const UserChat = async (needRetry) => {
   const dispatch = store.dispatch;
 
   const buildChatMsg = (body) => {
-    console.log("received body",body);
     const receiveMsg = JSON.parse(body);
     const message = {
       _id: uuid.v4(),
@@ -106,7 +105,6 @@ export async function saveLocalChat() {
   if (!chatList) {
     return;
   }
-  console.log("set chat list", chatList);
   setChatList(chatList).then();
   const chatMessage = store.getState().chat.chatMessage;
   if (!chatMessage) {

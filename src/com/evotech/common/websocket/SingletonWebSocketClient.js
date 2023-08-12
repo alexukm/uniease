@@ -62,7 +62,7 @@ const connect = async (socketClient, onConnect) => {
     socketClient.connect((frame) => {
         onConnect(socketClient, frame)
     }, (onError) => {
-        console.error("websocket error", onError);
+        console.info("websocket error", onError);
     }, (onClose) => {
         socketClient.client.forceDisconnect();
         //异常关闭

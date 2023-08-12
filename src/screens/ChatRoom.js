@@ -19,7 +19,7 @@ export default function ChatRoom({ route }) {
   const dispatch = useDispatch();
   // const showChatInput = orderStatus === OrderStateEnum.PENDING || OrderStateEnum.IN_TRANSIT === orderStatus;
   const messages = useSelector(selectChatMessage);
-  const [chatStatus, setChatStatus] = useState(false);
+  const [chatStatus, setChatStatus] = useState(true);
   const initChatClient = async () => {
     await UserChat(false);
   };

@@ -54,16 +54,16 @@ const DriverAccount = () => {
     Linking.openURL("https://unieaseapp.com/unieaseapp/").then();
   };
 
-  const handleCustomerServicePress = () => {
-    navigation.navigate("ChatRoom", {
-      receiverName: "Customer Service",
-      receiverUserCode: "user202307150002",
-      orderStatus: "Pending",
-      needQueryOrderStatus: false,
-      orderId: "user202307150002",
-      receiverOrderId: "user202307150002",
-    });
-  };
+  // const handleCustomerServicePress = () => {
+  //   navigation.navigate("ChatRoom", {
+  //     receiverName: "Customer Service",
+  //     receiverUserCode: "user202307150002",
+  //     orderStatus: "Pending",
+  //     needQueryOrderStatus: false,
+  //     orderId: "user202307150002",
+  //     receiverOrderId: "user202307150002",
+  //   });
+  // };
 
 
   const handlePricingRulesPress = () => {
@@ -104,7 +104,7 @@ const DriverAccount = () => {
   const options = [
     { name: "Wallet", onPress: handleWalletPress },
     { name: "Share", onPress: handleSharePress },
-    { name: "Customer Service", onPress: handleCustomerServicePress },
+    // { name: "Customer Service", onPress: handleCustomerServicePress },
     { name: "Pricing Rules", onPress: handlePricingRulesPress },
     { name: "Delete Account", onPress: deleteAccountPress },
     { name: "Logout", onPress: handleLogoutPress },

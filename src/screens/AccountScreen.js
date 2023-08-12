@@ -52,17 +52,16 @@ const AccountScreen = () => {
   };
 
 
-  const handleCustomerServicePress = () => {
-    navigation.navigate("ChatRoom", {
-      receiverName: "Customer Service",
-      receiverUserCode: "user202307150002",
-      orderStatus: "Pending",
-      needQueryOrderStatus: false,
-      orderId: "user202307150002",
-      receiverOrderId: "user202307150002",
-    });
-
-  };
+  // const handleCustomerServicePress = () => {
+  //   navigation.navigate("ChatRoom", {
+  //     receiverName: "Customer Service",
+  //     receiverUserCode: "user202307150002",
+  //     orderStatus: "Pending",
+  //     needQueryOrderStatus: false,
+  //     orderId: "user202307150002",
+  //     receiverOrderId: "user202307150002",
+  //   });
+  // };
 
   const handlePricingRulesPress = () => {
     Linking.openURL("https://unieaseapp.com/unieaseConditions/").then();
@@ -106,7 +105,7 @@ const AccountScreen = () => {
   const options = [
     { name: "Wallet", onPress: handleWalletPress },
     { name: "Share", onPress: handleSharePress },
-    { name: "Customer Service", onPress: handleCustomerServicePress },
+    // { name: "Customer Service", onPress: handleCustomerServicePress },
     { name: "Pricing Rules", onPress: handlePricingRulesPress },
     { name: "Delete Account", onPress: deleteAccountPress },
     { name: "Logout", onPress: handleLogoutPress },

@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     },
     chatTitle: {
         fontWeight: 'bold',
+        color: 'black',
     },
     chatMessage: {
         color: 'grey',

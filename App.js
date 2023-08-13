@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
@@ -30,8 +30,10 @@ import EditProfile from "./src/screens/EditProfileScreen";
 import messaging, {firebase} from "@react-native-firebase/messaging";
 import { NotificationListener, requestUserPermission } from "./src/screens/notification";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setDeviceId } from "./src/com/evotech/common/system/OSUtils";
+import { isAndroid, setDeviceId } from "./src/com/evotech/common/system/OSUtils";
 import AccountScreen from "./src/screens/AccountScreen";
+import { AppState } from "react-native";
+import { retrySocketConn } from "./src/com/evotech/common/websocket/SingletonWebSocketClient";
 
 enableScreens();
 
@@ -44,7 +46,8 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [initialRoute, setInitialRoute] = useState(null);
-
+  const [appState, setAppState] = useState(AppState.currentState);
+  const refAppState = useRef(appState);
   // 忽略特定的警告信息
   const originalWarn = console.warn;
   console.warn = (message, ...optionalParams) => {
@@ -56,7 +59,9 @@ const App = () => {
   };
 
 
-
+  useEffect(() => {
+    refAppState.current = appState;  // 在此处，每次appState变化时，我们更新previousAppState的值
+  }, [appState]);
   // useEffect(() => {
   //      AsyncStorage.clear()
   //  }, []);
@@ -90,7 +95,18 @@ const App = () => {
         return setInitialRoute("Home");
       });
   };
+
+  const handleAppStateChange = (nextAppState) => {
+    if (refAppState.current === "background" && nextAppState === "active" && isAndroid()) {
+      setTimeout(async () => {
+        await retrySocketConn();
+      }, 0);
+    }
+    setAppState(nextAppState);
+  };
   useEffect(() => {
+  const appSateHandler =   AppState.addEventListener("change", handleAppStateChange);
+
     setTimeout(async () => {
       await setDeviceId();
     }, 0);
@@ -111,6 +127,9 @@ const App = () => {
     };
     checkTokenAndUserType().then(r => {
     });
+    return () => {
+      appSateHandler.remove();
+    };
   }, []);
 
   return (

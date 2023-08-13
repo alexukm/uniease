@@ -65,11 +65,13 @@ const connect = async (socketClient, onConnect) => {
         console.info("websocket error", onError);
     }, (onClose) => {
         socketClient.client.forceDisconnect();
+        socketClient.closed = true;
         //异常关闭
         if (!socketClient.shouldClosed) {
             if (!intervalJob) {
                 intervalJob = setInterval(async () => {
-                    const socketClient = await newSocketClient();
+                    await reSetSocketConn();
+                  /*  const socketClient = await newSocketClient();
                     mergeSocketClient(socketClient)
 
                     setTimeout(async () => {
@@ -81,12 +83,41 @@ const connect = async (socketClient, onConnect) => {
                                 clearInterval(intervalJob);
                             }
                         }
-                    }, 1000);
+                    }, 1000);*/
                 }, 5000);
             }
         }
     });
 
+}
+
+const reSetSocketConn = async () => {
+    const socketClient = await newSocketClient();
+    mergeSocketClient(socketClient)
+    setTimeout(async () => {
+        if (socketClient && socketClient.client.active) {
+            if (!socketClient.client.connected) {
+                await socketClient.client.deactivate();
+            } else {
+                replaceOldSocket();
+                clearInterval(intervalJob);
+            }
+        }
+    }, 1000);
+}
+export const retrySocketConn = async () =>{
+    // socketClient 为null  newSocket 不为null 则任务当前正在重试 为null则认为当前不需要 socket连接
+    console.log("尝试 重试socket");
+    if (!socketClient) {
+        console.log("socket 不需要重试");
+        return;
+    }
+    //异常关闭
+    if (!socketClient.shouldClosed && socketClient.closed) {
+        //重试
+        console.log("socket 重试");
+        await reSetSocketConn();
+    }
 }
 
 

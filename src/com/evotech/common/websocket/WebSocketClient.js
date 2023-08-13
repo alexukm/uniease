@@ -19,6 +19,7 @@ class WebSocketClient {
         this.handlers = {};
         this.subscriptions = {};
         this.shouldClosed = false;
+        this.closed = false;
     }
 
     connect(onConnect, onError, onClose) {
@@ -110,6 +111,7 @@ class WebSocketClient {
 
     disconnect() {
         this.shouldClosed = true;
+        this.closed = true;
         Object.values(this.subscriptions).forEach(subscription => {
             subscription.unsubscribe();
         });

@@ -21,10 +21,8 @@ export default function ChatList({ navigation }) {
         if (data.data.length < 0) {
           return;
         }
-        console.log("chat list", data.data);
         data.data.map(list => {
           const msg = messages[list.orderId];
-          console.log("msg",msg);
           let time = null;
           let lastMsg = "";
           if (msg && msg.length > 0) {
@@ -35,6 +33,7 @@ export default function ChatList({ navigation }) {
             id: uuid.v4(),
             title: list.receiverName,
             orderId: list.orderId,
+            receiverOrderId: list.receiverOrderId,
             message: lastMsg,
             time: time,
             userCode: list.receiverUserCode,
@@ -44,10 +43,11 @@ export default function ChatList({ navigation }) {
           };
         });
         setChatList(chatList);
-        console.log("chatList", Object.values(chatList));
-        setTimeout(async () => {
-          await UserChat(true).then();
-        }, 0);
+        if (Object.keys(chatList).length !== 0) {
+          setTimeout(async () => {
+            await UserChat(true).then();
+          }, 0);
+        }
       }, () => {
       });
     });
@@ -59,6 +59,7 @@ export default function ChatList({ navigation }) {
       receiverName: item.title,
       receiverUserCode: item.userCode,
       orderId: item.orderId,
+      receiverOrderId: item.receiverOrderId,
     });
   };
 

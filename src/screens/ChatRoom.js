@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Composer, GiftedChat, InputToolbar} from "react-native-gifted-chat";
 import {format} from "date-fns";
 import {useDispatch, useSelector} from "react-redux";
-import {addChatList, addMessage, selectChatMessage} from "../com/evotech/common/redux/chatSlice";
+import { addMessage, selectChatMessage} from "../com/evotech/common/redux/chatSlice";
 import uuid from "react-native-uuid";
 import {UserChat} from "../com/evotech/common/redux/UserChat";
 import {
@@ -38,6 +38,7 @@ export default function ChatRoom({route}) {
                 message: newMessages[0].text,
                 requestTime: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             };
+            console.log("param",param);
             const message = {
                 _id: uuid.v4(),
                 userCode: receiverUserCode,

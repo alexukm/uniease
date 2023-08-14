@@ -56,17 +56,17 @@ const UserHome = () => {
   useEffect(() => {
     setTimeout(() => {
       enableSystemNotify().then();
-      subscriptionOrderAccept((orderStatus) => {
+     /* subscriptionOrderAccept((orderStatus) => {
         initUserChat(orderStatus);
-      }).then();
+      }).then();*/
     }, 0);
 
-    setTimeout(async () => {
+  /*  setTimeout(async () => {
       const userInfo = await getUserInfoWithLocal();
       if (userInfo.userPhone === "601117593959") {
         await UserChat(true).then();
       }
-    }, 0);
+    }, 0);*/
   }, []);
 
   const handlePress = (screen) => {

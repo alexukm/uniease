@@ -77,7 +77,7 @@ const DriverAcceptDetailScreen = ({ route, navigation }) => {
         responseOperation(data.code, () => {
             showToast("SUCCESS", "Success", "Order successfully cancelled");
             dispatch(deleteChatByOrderId(orderDetailInfo.driverOrderId));
-            driverCancelSubscribe().then();
+            // driverCancelSubscribe().then();
             navigation.goBack(); // After canceling the order, return to the previous screen.
         }, () => {
             showDialog("WARNING", "Warning", "Order cancellation failed, Please try again later!");

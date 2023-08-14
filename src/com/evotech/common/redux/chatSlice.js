@@ -45,17 +45,18 @@ const chatSlice = createSlice({
     },
     deleteChatByOrderId(state, action) {
       const userOrderId = action.payload;
-      const chatListKeys = Object.keys(state.chatList);
-      for (const key of chatListKeys) {
-        if (state.chatList[key].orderId === userOrderId) {
-          delete state.chatList[key];
-          delete state.chatMessage[key];
-          setTimeout(() => {
-            saveLocalChat().then();
-          }, 0.1);
-          break;
-        }
-      }
+      delete state.chatMessage[userOrderId];
+      /* const chatListKeys = Object.keys(state.chatList);
+       for (const key of chatListKeys) {
+         if (state.chatList[key].orderId === userOrderId) {
+           delete state.chatList[key];
+
+           setTimeout(() => {
+             saveLocalChat().then();
+           }, 0.1);
+           break;
+         }
+       }*/
     },
   },
 });

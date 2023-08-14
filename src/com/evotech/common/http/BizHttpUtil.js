@@ -114,7 +114,14 @@ const featureAndPath = {
     method: supportRequestMethod.GET,
     path: "/v1/oms/api/user/order/getOrderStatus",
   },
+
+  QUERY_CHAT_LIST: { method: supportRequestMethod.GET,  path: "/v1/oms/api/public/order/getChatList",},
 };
+
+export function queryChatList() {
+  return request.get(featureAndPath.QUERY_CHAT_LIST.path);
+}
+
 
 export function queryDriverOrderStatusByOrderId(orderId) {
   const params ={

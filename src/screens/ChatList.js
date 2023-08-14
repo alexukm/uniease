@@ -11,7 +11,7 @@ import {  selectChatMessage } from "../com/evotech/common/redux/chatSlice";
 
 export default function ChatList({ navigation }) {
   const messages = useSelector(selectChatMessage);
-
+  const [firstLoad, setFirstLoad] = useState(true);
   const [chatList, setChatList] = useState({});
 
 
@@ -19,9 +19,7 @@ export default function ChatList({ navigation }) {
     queryChatList().then((data) => {
       const chatList = {};
       responseOperation(data.code, () => {
-        console.log("initChatList",data.data);
         if (data.data.length === 0) {
-          console.log("data is empty");
           setChatList([])
           return;
         }
@@ -33,7 +31,7 @@ export default function ChatList({ navigation }) {
             time = msg[0].createdAt;
             lastMsg = msg[0].text;
           }
-          console.log("lastMsg",lastMsg);
+
           chatList[list.orderId] = {
             id: uuid.v4(),
             title: list.receiverName,
@@ -59,9 +57,7 @@ export default function ChatList({ navigation }) {
       const chatOrderIds = Object.keys(chatList);
       const messageOrderIds = Object.keys(messages);
       const hasNewOrderId = messageOrderIds.some(orderId => !chatOrderIds.includes(orderId));
-      console.log(messageOrderIds);
       if (hasNewOrderId) {
-        console.log();
         initChatList();
       } else {
         // 遍历chatList，为每个item更新最新的消息内容
@@ -80,15 +76,16 @@ export default function ChatList({ navigation }) {
   }, [messages]);
 
   useEffect(() => {
-    return navigation.addListener('focus', () => {
-      initChatList();
-      if (Object.keys(chatList).length > 0) {
-        setTimeout(async () => {
-          await UserChat(true).then();
-        }, 0);
-      }
-    });
-  }, [navigation]);
+    initChatList();
+    if (Object.keys(chatList).length > 0) {
+      //第一次进入页面
+      const retry = firstLoad;
+      setFirstLoad(false);
+      setTimeout(async () => {
+        await UserChat(retry).then();
+      }, 0);
+    }
+  }, [firstLoad]);
 
 
 /*  useEffect(() => {

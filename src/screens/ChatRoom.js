@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Composer, GiftedChat, InputToolbar} from "react-native-gifted-chat";
 import {format} from "date-fns";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,20 +16,8 @@ export default function ChatRoom({route}) {
     const dispatch = useDispatch();
 
     const messages = useSelector(selectChatMessage);
-    const [chatStatus, setChatStatus] = useState(true);
-    const initChatClient = async () => {
-        await UserChat(false);
-    };
-    useEffect(() => {
-        initChatClient().then();
-    }, []);
 
     async function onSend(newMessages = []) {
-        if (!chatStatus) {
-            alert("Order completed, unable to send messages.");
-            return;
-        }
-
         try {
             const param = {
                 receiverName: receiverName,

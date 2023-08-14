@@ -11,7 +11,7 @@ class WebSocketClient {
             brokerURL: brokerURL,
             connectHeaders: headers,
             debug: function (params) {
-                console.log(params);
+                // console.log(params);
             },
             reconnectDelay: reconnectDelay,
             heartbeatIncoming: heartbeatIncoming,

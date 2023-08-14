@@ -5,22 +5,26 @@ import { delChatByUserCode, UserChat } from "../com/evotech/common/redux/UserCha
 import { queryChatList } from "../com/evotech/common/http/BizHttpUtil";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import uuid from "react-native-uuid";
-import {  useSelector } from "react-redux";
-import {  selectChatMessage } from "../com/evotech/common/redux/chatSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {  clearChat,  selectChatMessage } from "../com/evotech/common/redux/chatSlice";
+import { clientStatus } from "../com/evotech/common/websocket/SingletonWebSocketClient";
+import { useFocusEffect } from "@react-navigation/native";
 
 
 export default function ChatList({ navigation }) {
   const messages = useSelector(selectChatMessage);
   const [firstLoad, setFirstLoad] = useState(true);
   const [chatList, setChatList] = useState({});
+  const messagesRef = React.useRef(messages);
+  const dispatch = useDispatch();
 
-
-  const initChatList = ()=>{
+  const initChatList = (messages) => {
     queryChatList().then((data) => {
-      const chatList = {};
+      const newChatList = {};
       responseOperation(data.code, () => {
         if (data.data.length === 0) {
-          setChatList([])
+          setChatList({});
+          dispatch(clearChat());
           return;
         }
         data.data.map(list => {
@@ -32,7 +36,7 @@ export default function ChatList({ navigation }) {
             lastMsg = msg[0].text;
           }
 
-          chatList[list.orderId] = {
+          newChatList[list.orderId] = {
             id: uuid.v4(),
             title: list.receiverName,
             orderId: list.orderId,
@@ -45,53 +49,70 @@ export default function ChatList({ navigation }) {
             avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
           };
         });
-        setChatList(chatList);
+        setChatList(newChatList);
       }, () => {
       });
     });
-  }
+  };
 
-  useEffect(() => {
-    const updateChatListWithNewMessages = () => {
-
-      const chatOrderIds = Object.keys(chatList);
-      const messageOrderIds = Object.keys(messages);
-      const hasNewOrderId = messageOrderIds.some(orderId => !chatOrderIds.includes(orderId));
-      if (hasNewOrderId) {
-        initChatList();
-      } else {
-        // 遍历chatList，为每个item更新最新的消息内容
-        const newChatList ={...chatList};
-        for (let key in newChatList) {
-          const msg = messages[key];
-          if (msg && msg.length > 0) {
-            newChatList[key].message = msg[0].text;
-            newChatList[key].time = msg[0].createdAt;
-          }
+  const hasNewOrderMessage = () => {
+    const chatOrderIds = Object.keys(chatList);
+    const messageOrderIds = Object.keys(messages);
+    return messageOrderIds.some(orderId => !chatOrderIds.includes(orderId));
+  };
+  const updateChatListWithNewMessages = (messages) => {
+    if (Object.keys(chatList).length === 0){
+      initChatList(messages);
+      return;
+    }
+    if (hasNewOrderMessage()) {
+      initChatList(messages);
+    } else {
+      // 遍历chatList，为每个item更新最新的消息内容
+      const newChatList = { ...chatList };
+      for (let key in newChatList) {
+        const msg = messages[key];
+        if (msg && msg.length > 0) {
+          newChatList[key].message = msg[0].text;
+          newChatList[key].time = msg[0].createdAt;
         }
-        setChatList(newChatList); // 使用setChatList设置新的状态
       }
-    };
+      setChatList(newChatList); // 使用setChatList设置新的状态
+    }
+  };
+  useEffect(() => {
+    if (!(messages && Object.keys(messages).length > 0)) {
+      return;
+    }
     updateChatListWithNewMessages(messages);
+    messagesRef.current = messages;
   }, [messages]);
 
-  useEffect(() => {
-    initChatList();
-    if (Object.keys(chatList).length > 0) {
-      //第一次进入页面
-      const retry = firstLoad;
-      setFirstLoad(false);
-      setTimeout(async () => {
-        await UserChat(retry).then();
-      }, 0);
-    }
-  }, [firstLoad]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!firstLoad) {
+        initChatList(messagesRef.current);
+        if (Object.keys(chatList).length > 0 && !clientStatus()) {
+          setTimeout(async () => {
+            await UserChat(true).then();
+          }, 0);
+        }
+      } else {
+        initChatList(messages);
+        if (Object.keys(chatList).length > 0) {
+          //第一次进入页面
+          const retry = firstLoad;
+          setTimeout(async () => {
+            await UserChat(retry).then();
+          }, 0);
+        }
+        setFirstLoad(false);
+      }
+      return () => {
 
-
-/*  useEffect(() => {
-
-  }, []);*/
-
+      };
+    }, [firstLoad])
+  );
 
   const openChat = (item) => {
     navigation.navigate("ChatRoom", {

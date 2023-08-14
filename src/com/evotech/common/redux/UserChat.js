@@ -1,4 +1,4 @@
-import { addChatList, addMessage, clearChat, deleteChat,  initMessage } from "./chatSlice";
+import { addMessage, clearChat, deleteChat,  initMessage } from "./chatSlice";
 import uuid from "react-native-uuid";
 import { userInitChatWebsocket } from "../websocket/UserChatWebsocket";
 import store from "./store";

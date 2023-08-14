@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { saveLocalChat } from "./UserChat";
 
 const initialState = {
-  chatList: {},
   chatMessage: {},
 };
 
@@ -12,7 +11,6 @@ const chatSlice = createSlice({
   reducers: {
     clearChat(state, action) {
       state.chatMessage = {};
-      state.chatList = {};
     },
     addMessage(state, action) {
       const message = action.payload;
@@ -25,14 +23,12 @@ const chatSlice = createSlice({
         await saveLocalChat().then();
       }, 0.1);
     },
-
     initMessage(state, action) {
       state.chatMessage = action.payload;
     },
     deleteChat(state, action) {
-      const userCode = action.payload;
-      delete state.chatList[userCode];
-      delete state.chatMessage[userCode];
+      const orderId = action.payload;
+      delete state.chatMessage[orderId];
       setTimeout(() => {
         saveLocalChat().then();
       }, 0.1);
@@ -49,7 +45,6 @@ export const {
   addMessage,
   deleteChat,
   initMessage,
-  addChatList,
 
   deleteChatByOrderId,
 } = chatSlice.actions;

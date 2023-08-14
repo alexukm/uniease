@@ -110,6 +110,7 @@ const DriverAcceptDetailScreen = ({route, navigation}) => {
                     receiverName: orderDetailInfo.userName,
                     receiverUserCode: orderDetailInfo.passengerId,
                     receiverOrderId: orderDetailInfo.userOrderId,
+                    orderId: orderDetailInfo.driverOrderId,
                 });
             }, () => {
                 showDialog("WARNING", "Warning", data.message);

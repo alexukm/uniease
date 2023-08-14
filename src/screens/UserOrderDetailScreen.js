@@ -137,6 +137,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                     receiverName: orderDetailInfo.userName,
                     receiverUserCode: orderDetailInfo.driverId,
                     receiverOrderId: orderDetailInfo.driverOrderId,
+                    orderId: orderDetailInfo.orderId,
                 });
             }, () => {
                 showDialog("WARNING", "Warning", data.message);

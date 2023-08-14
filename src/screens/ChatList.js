@@ -5,53 +5,88 @@ import { delChatByUserCode, UserChat } from "../com/evotech/common/redux/UserCha
 import { queryChatList } from "../com/evotech/common/http/BizHttpUtil";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import uuid from "react-native-uuid";
-import { useSelector } from "react-redux";
-import { selectChatMessage } from "../com/evotech/common/redux/chatSlice";
+import {  useSelector } from "react-redux";
+import {  selectChatMessage } from "../com/evotech/common/redux/chatSlice";
 
 
 export default function ChatList({ navigation }) {
   const messages = useSelector(selectChatMessage);
-  // const chatList = useSelector(selectChatList);
-  const [chatList, setChatList] = useState([]);
+
+  const [chatList, setChatList] = useState({});
+
+
+  const initChatList = ()=>{
+    queryChatList().then((data) => {
+      const chatList = {};
+      responseOperation(data.code, () => {
+        console.log("initChatList",data.data);
+        if (data.data.length === 0) {
+          console.log("data is empty");
+          setChatList([])
+          return;
+        }
+        data.data.map(list => {
+          const msg = messages[list.orderId];
+          let time = null;
+          let lastMsg = "";
+          if (msg && msg.length > 0) {
+            time = msg[0].createdAt;
+            lastMsg = msg[0].text;
+          }
+          console.log("lastMsg",lastMsg);
+          chatList[list.orderId] = {
+            id: uuid.v4(),
+            title: list.receiverName,
+            orderId: list.orderId,
+            receiverOrderId: list.receiverOrderId,
+            message: lastMsg,
+            time: time,
+            userCode: list.receiverUserCode,
+            createdAt: list.createDateTime,
+            unread: "",
+            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+          };
+        });
+        setChatList(chatList);
+      }, () => {
+      });
+    });
+  }
+
+  useEffect(() => {
+    const updateChatListWithNewMessages = () => {
+
+      const chatOrderIds = Object.keys(chatList);
+      const messageOrderIds = Object.keys(messages);
+      const hasNewOrderId = messageOrderIds.some(orderId => !chatOrderIds.includes(orderId));
+      console.log(messageOrderIds);
+      if (hasNewOrderId) {
+        console.log();
+        initChatList();
+      } else {
+        // 遍历chatList，为每个item更新最新的消息内容
+        const newChatList ={...chatList};
+        for (let key in newChatList) {
+          const msg = messages[key];
+          if (msg && msg.length > 0) {
+            newChatList[key].message = msg[0].text;
+            newChatList[key].time = msg[0].createdAt;
+          }
+        }
+        setChatList(newChatList); // 使用setChatList设置新的状态
+      }
+    };
+    updateChatListWithNewMessages(messages);
+  }, [messages]);
 
   useEffect(() => {
     return navigation.addListener('focus', () => {
-      queryChatList().then((data) => {
-        const chatList = {};
-        responseOperation(data.code, () => {
-          if (data.data.length < 0) {
-            return;
-          }
-          data.data.map(list => {
-            const msg = messages[list.orderId];
-            let time = null;
-            let lastMsg = "";
-            if (msg && msg.length > 0) {
-              time = msg[0].createdAt;
-              lastMsg = msg[0].text;
-            }
-            chatList[list.orderId] = {
-              id: uuid.v4(),
-              title: list.receiverName,
-              orderId: list.orderId,
-              receiverOrderId: list.receiverOrderId,
-              message: lastMsg,
-              time: time,
-              userCode: list.receiverUserCode,
-              createdAt: list.createDateTime,
-              unread: "",
-              avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-            };
-          });
-          setChatList(chatList);
-          if (Object.keys(chatList).length !== 0) {
-            setTimeout(async () => {
-              await UserChat(true).then();
-            }, 0);
-          }
-        }, () => {
-        });
-      });
+      initChatList();
+      if (Object.keys(chatList).length > 0) {
+        setTimeout(async () => {
+          await UserChat(true).then();
+        }, 0);
+      }
     });
   }, [navigation]);
 

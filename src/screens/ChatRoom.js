@@ -38,7 +38,7 @@ export default function ChatRoom({route}) {
                 message: newMessages[0].text,
                 requestTime: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             };
-            console.log("param",param);
+
             const message = {
                 _id: uuid.v4(),
                 userCode: receiverUserCode,

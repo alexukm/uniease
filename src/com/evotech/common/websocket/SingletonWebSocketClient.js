@@ -108,12 +108,8 @@ const reSetSocketConn = async () => {
 export const retrySocketConn = async () =>{
     // socketClient 为null  newSocket 不为null 则任务当前正在重试 为null则认为当前不需要 socket连接
     console.log("尝试 重试socket");
-    if (!socketClient) {
-        console.log("socket 不需要重试");
-        return;
-    }
     //异常关闭
-    if (!socketClient.shouldClosed && socketClient.closed) {
+    if (socketClient && !socketClient.shouldClosed && socketClient.closed) {
         //重试
         console.log("socket 重试");
         await reSetSocketConn();

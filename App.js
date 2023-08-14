@@ -97,7 +97,7 @@ const App = () => {
   };
 
   const handleAppStateChange = (nextAppState) => {
-    if (refAppState.current === "background" && nextAppState === "active" && isAndroid()) {
+    if (refAppState.current === "background" && nextAppState === "active") {
       setTimeout(async () => {
         await retrySocketConn();
       }, 0);

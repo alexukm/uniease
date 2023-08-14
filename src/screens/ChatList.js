@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, Alert, SafeAreaView } from "react-native";
+import { Alert, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Box } from "native-base";
 import { delChatByUserCode, UserChat } from "../com/evotech/common/redux/UserChat";
 import { queryChatList } from "../com/evotech/common/http/BizHttpUtil";
@@ -15,43 +15,50 @@ export default function ChatList({ navigation }) {
   const [chatList, setChatList] = useState([]);
 
   useEffect(() => {
-    queryChatList().then((data) => {
-      const chatList = {};
-      responseOperation(data.code, () => {
-        if (data.data.length < 0) {
-          return;
-        }
-        data.data.map(list => {
-          const msg = messages[list.orderId];
-          let time = null;
-          let lastMsg = "";
-          if (msg && msg.length > 0) {
-            time = msg[0].createdAt;
-            lastMsg = msg[0].text;
+    return navigation.addListener('focus', () => {
+      queryChatList().then((data) => {
+        const chatList = {};
+        responseOperation(data.code, () => {
+          if (data.data.length < 0) {
+            return;
           }
-          chatList[list.orderId] = {
-            id: uuid.v4(),
-            title: list.receiverName,
-            orderId: list.orderId,
-            receiverOrderId: list.receiverOrderId,
-            message: lastMsg,
-            time: time,
-            userCode: list.receiverUserCode,
-            createdAt: list.createDateTime,
-            unread: "",
-            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-          };
+          data.data.map(list => {
+            const msg = messages[list.orderId];
+            let time = null;
+            let lastMsg = "";
+            if (msg && msg.length > 0) {
+              time = msg[0].createdAt;
+              lastMsg = msg[0].text;
+            }
+            chatList[list.orderId] = {
+              id: uuid.v4(),
+              title: list.receiverName,
+              orderId: list.orderId,
+              receiverOrderId: list.receiverOrderId,
+              message: lastMsg,
+              time: time,
+              userCode: list.receiverUserCode,
+              createdAt: list.createDateTime,
+              unread: "",
+              avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+            };
+          });
+          setChatList(chatList);
+          if (Object.keys(chatList).length !== 0) {
+            setTimeout(async () => {
+              await UserChat(true).then();
+            }, 0);
+          }
+        }, () => {
         });
-        setChatList(chatList);
-        if (Object.keys(chatList).length !== 0) {
-          setTimeout(async () => {
-            await UserChat(true).then();
-          }, 0);
-        }
-      }, () => {
       });
     });
-  }, []);
+  }, [navigation]);
+
+
+/*  useEffect(() => {
+
+  }, []);*/
 
 
   const openChat = (item) => {

@@ -1,13 +1,10 @@
-import { addChatList, addMessage, clearChat, deleteChat, initChatList, initMessage } from "./chatSlice";
+import { addChatList, addMessage, clearChat, deleteChat,  initMessage } from "./chatSlice";
 import uuid from "react-native-uuid";
 import { userInitChatWebsocket } from "../websocket/UserChatWebsocket";
 import store from "./store";
 import {
-  delChatList,
   delChatMessages,
-  getChatList,
   getChatMessages,
-  setChatList,
   setChatMessages,
 } from "../appUser/UserConstant";
 
@@ -20,6 +17,7 @@ export const UserChat = async (needRetry) => {
     const message = {
       _id: uuid.v4(),
       userCode: receiveMsg.senderUserCode,
+      orderId: receiveMsg.orderId,
       text: receiveMsg.message,
       createdAt: receiveMsg.requestTime,
       user: {
@@ -52,33 +50,11 @@ export async function initLocalChat(orderStatusList) {
     return false;
   }
 
-  //加载本地聊天信息
-  const chatList = await getChatList();
-
-  if (!chatList) {
-    return true;
-  }
-
   const chatMessage = await getChatMessages();
-  const chatListKeys = Object.keys(chatList);
 
-  for (const key of chatListKeys) {
-    const orderId = chatList[key].orderId;
-    const needSave = orderStatusList.pendingOrders.includes(orderId) || orderStatusList.inTransitOrders.includes(orderId);
-    if (!needSave) {
-      delete chatList[key];
-      if (chatMessage) {
-        delete chatMessage[key];
-      }
-    }
-  }
-
-  if (chatList.length < 0) {
-    return true;
-  }
 
   const dispatch = store.dispatch;
-  dispatch(initChatList(chatList));
+
 
   if (chatMessage) {
     dispatch(initMessage(chatMessage));
@@ -87,11 +63,6 @@ export async function initLocalChat(orderStatusList) {
 }
 
 export async function saveLocalChat() {
-  const chatList = store.getState().chat.chatList;
-  if (!chatList) {
-    return;
-  }
-  setChatList(chatList).then();
   const chatMessage = store.getState().chat.chatMessage;
   if (!chatMessage) {
     return;

@@ -12,7 +12,7 @@ import {
 import {SafeAreaView} from "react-native";
 
 export default function ChatRoom({route}) {
-    const {receiverName, receiverUserCode,orderId} = route.params;
+    const {receiverName, receiverUserCode,orderId,receiverOrderId} = route.params;
     const dispatch = useDispatch();
 
     const messages = useSelector(selectChatMessage);
@@ -34,6 +34,7 @@ export default function ChatRoom({route}) {
         try {
             const param = {
                 receiverName: receiverName,
+                receiverOrderId: receiverOrderId,
                 receiverUserCode: receiverUserCode,
                 message: newMessages[0].text,
                 requestTime: format(new Date(), "yyyy-MM-dd HH:mm:ss"),

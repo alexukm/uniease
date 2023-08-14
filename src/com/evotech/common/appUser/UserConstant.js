@@ -92,21 +92,10 @@ export async function getChatMessages() {
   });
 }
 
-export async function delChatList() {
-  const userInfo = await getUserInfoWithLocal();
-  return asyncDelKey("@chatList:" + userInfo.userPhone);
-}
 
 export async function delChatMessages() {
   const userInfo = await getUserInfoWithLocal();
   return asyncDelKey("@chatMessages:" + userInfo.userPhone);
-}
-export async function getChatList() {
-  const userInfo = await getUserInfoWithLocal();
-  return userInfo ? getValue("@chatList:" + userInfo.userPhone).then(data => {
-    return data ? JSON.parse(data) : null;
-  }) : userInfo;
-
 }
 
 export async function resetUserToken(token, firstName, lastName) {

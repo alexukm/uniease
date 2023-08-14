@@ -109,6 +109,7 @@ const DriverAcceptDetailScreen = ({route, navigation}) => {
                 navigation.navigate("ChatRoom", {
                     receiverName: orderDetailInfo.userName,
                     receiverUserCode: orderDetailInfo.passengerId,
+                    receiverOrderId: orderDetailInfo.userOrderId,
                 });
             }, () => {
                 showDialog("WARNING", "Warning", data.message);

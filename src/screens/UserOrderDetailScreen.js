@@ -136,6 +136,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                 navigation.navigate("ChatRoom", {
                     receiverName: orderDetailInfo.userName,
                     receiverUserCode: orderDetailInfo.driverId,
+                    receiverOrderId: orderDetailInfo.driverOrderId,
                 });
             }, () => {
                 showDialog("WARNING", "Warning", data.message);

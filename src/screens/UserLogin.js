@@ -1,4 +1,4 @@
-import { Alert, Image, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Image, Keyboard, Platform, ScrollView, TouchableWithoutFeedback, View } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -20,7 +20,7 @@ import {
   Input,
   Text,
   HStack,
-  Radio,
+  Radio, KeyboardAvoidingView,
 } from "native-base";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
@@ -284,9 +284,13 @@ function UserScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '35%' }}>
-          <Image source={require('../picture/user_login_bcg.png')} style={{ width: '90%', height: '90%', resizeMode: 'cover', top: '5%', left: '5%' }} />
+          <Image source={require('../picture/user_login_bcg.png')} style={{ width: '70%', height: '70%', resizeMode: 'cover', top: '15%', left: '15%' }} />
         </View>
         {/* VStack */}
         <VStack space="2.5" px="8">
@@ -383,9 +387,9 @@ function UserScreen() {
             Driver
           </Text>
         </Text>
-
       </VStack>
       </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

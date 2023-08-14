@@ -180,10 +180,6 @@ const DriverSupplyInfo = () => {
     return (
         <NativeBaseProvider>
             <SafeAreaView style={{flex: 1}}>
-                <KeyboardAvoidingView
-                  behavior={Platform.OS === "ios" ? "padding" : "height"}
-                  style={{ flex: 1 }}
-                >
                 <ScrollView contentContainerStyle={{paddingBottom: 80}}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <VStack space={4} alignItems="center" safeArea flex={1} p={4} width="100%">
@@ -542,11 +538,9 @@ const DriverSupplyInfo = () => {
                         </VStack>
                     </TouchableWithoutFeedback>
                 </ScrollView>
-                </KeyboardAvoidingView>
             </SafeAreaView>
         </NativeBaseProvider>
-    )
-        ;
+    );
 };
 
 export default DriverSupplyInfo;

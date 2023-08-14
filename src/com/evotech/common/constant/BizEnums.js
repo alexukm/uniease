@@ -7,7 +7,6 @@ export const OrderStateEnum = {
     CANCELLED: "Cancelled",
 };
 
-
 export const UserTypeEnum = {PASSER: "passer", DRIVER: "driver"};
 
 export const DriverInfoStatusEnum = {

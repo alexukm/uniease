@@ -300,7 +300,7 @@ function DriverScreen() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <View style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '35%' }}>
-                  <Image source={require('../picture/driver_login_bcg.png')} style={{ width: '90%', height: '90%', resizeMode: 'cover', top: '5%', left: '5%' }} />
+                  <Image source={require('../picture/driver_login_bcg.png')} style={{ width: '70%', height: '70%', resizeMode: 'cover', top: '15%', left: '15%' }} />
               </View>
               <VStack space="2.5" px="8">
                   <FormControl isRequired>

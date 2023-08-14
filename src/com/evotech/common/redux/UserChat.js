@@ -43,20 +43,10 @@ export const UserChat = async (needRetry) => {
 
 };
 
-export async function initLocalChat(orderStatusList) {
-  if (!(orderStatusList.pending || orderStatusList.inTransit)) {
-    delChatList().then();
-    delChatMessages().then();
-    return false;
-  }
-
+export async function initLocalChat() {
   const chatMessage = await getChatMessages();
-
-
-  const dispatch = store.dispatch;
-
-
   if (chatMessage) {
+    const dispatch = store.dispatch;
     dispatch(initMessage(chatMessage));
   }
   return true;

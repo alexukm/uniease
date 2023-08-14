@@ -25,7 +25,6 @@ export default function ChatRoom({route}) {
     }, []);
 
     async function onSend(newMessages = []) {
-
         if (!chatStatus) {
             alert("Order completed, unable to send messages.");
             return;
@@ -43,6 +42,7 @@ export default function ChatRoom({route}) {
                 _id: uuid.v4(),
                 userCode: receiverUserCode,
                 text: newMessages[0].text,
+                orderId: orderId,
                 createdAt: param.requestTime,
                 user: {
                     _id: 1,

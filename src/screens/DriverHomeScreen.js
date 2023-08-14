@@ -3,45 +3,20 @@ import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
 import { Box, AspectRatio } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import Swiper from "react-native-swiper";
-import { UserChat, initLocalChat } from "../com/evotech/common/redux/UserChat";
-import { queryDriverOrderStatus } from "../com/evotech/common/http/BizHttpUtil";
+import { initLocalChat } from "../com/evotech/common/redux/UserChat";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
-import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
 import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
 
 
 const DriverHomeScreen = () => {
   const navigation = useNavigation();
-  const initOrderStatusList = (initOrderStatusAfter) => {
-    queryDriverOrderStatus().then((data) => {
-      return responseOperation(data.code, () => {
-        return data.data;
-      }, () => {
-        return null;
-      });
-    }).then((orderStatusList) => {
-      if (orderStatusList) {
-        initOrderStatusAfter(orderStatusList);
-      }
-    });
-  };
-
-  const initChat = (needOpenChat) => {
-    if (needOpenChat) {
-      UserChat(true).then();
-    }
-  };
 
   // const MyContext = createContext();
   useEffect(() => {
     setTimeout(async () => {
       enableSystemNotify().then();
-      /*initOrderStatusList((orderStatusList) => {
-        initLocalChat(orderStatusList).then(data => {
-          initChat(data);
-        });
-      });*/
+      initLocalChat().then();
     }, 0);
   }, []);
 

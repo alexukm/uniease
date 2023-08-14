@@ -1,22 +1,42 @@
-import React, {useEffect} from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, Alert, SafeAreaView } from "react-native";
-import { useSelector } from "react-redux";
-import {selectChatList} from "../com/evotech/common/redux/chatSlice";
-import { Box } from "native-base";
-import {delChatByUserCode} from "../com/evotech/common/redux/UserChat";
+import React, {useEffect, useState} from 'react';
+import {View, Text, Image, FlatList, TouchableOpacity, StyleSheet, Alert, SafeAreaView} from "react-native";
+import {Box} from "native-base";
+import {delChatByUserCode, UserChat} from "../com/evotech/common/redux/UserChat";
+import {queryChatList} from "../com/evotech/common/http/BizHttpUtil";
+import {responseOperation} from "../com/evotech/common/http/ResponseOperation";
+import uuid from "react-native-uuid";
 
 
 export default function ChatList({navigation}) {
-    const chatList = useSelector(selectChatList);
 
+    // const chatList = useSelector(selectChatList);
+    const [chatList, setChatList] = useState({});
 
     useEffect(() => {
-        // 检查每个聊天，如果它的创建时间距离现在超过三天，那么就删除它
-        for (const chatKey in chatList) {
-            if (new Date().getTime() - chatList[chatKey].createdAt > 3 * 24 * 60 * 60 * 1000) {
-                delChatByUserCode(chatKey.userCode).then();
-            }
-        }
+        queryChatList().then((data) => {
+            const chatList = {};
+            responseOperation(data.code, () => {
+                if (data.data.length < 0) {
+                    return;
+                }
+                data.data.map(list => {
+                    chatList[list.orderId] = {
+                        id: uuid.v4(),
+                        title: list.receiverName,
+                        orderId: list.orderId,
+                        userCode: list.receiverUserCode,
+                        createdAt: list.createDateTime,
+                        unread: "",
+                        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                    }
+                })
+                setChatList(chatList);
+                setTimeout(async () => {
+                    await UserChat(true).then();
+                }, 0)
+            }, () => {
+            });
+        });
     }, []);
 
 
@@ -24,10 +44,7 @@ export default function ChatList({navigation}) {
         navigation.navigate('ChatRoom', {
             receiverName: item.title,
             receiverUserCode: item.userCode,
-            orderStatus: item.orderStatus,
             orderId: item.orderId,
-            receiverOrderId: item.receiverOrderId,
-            needQueryOrderStatus: true,
         });
     };
 
@@ -66,56 +83,57 @@ export default function ChatList({navigation}) {
 
 
     return (
-      <SafeAreaView style={{flex: 1}}>
-        <View style={styles.container}>
-            <FlatList
-                data={Object.values(chatList)}
-                keyExtractor={(item) => item.id}
-                ListHeaderComponent={
-                    <View style={styles.header}>
-                    <Box bg="white" shadow={2} rounded="lg" p={4} my={2} style={{marginTop: 0}}>
-                        <Text style={styles.headerText}>Chats</Text>
-                    </Box>
-                    </View>
-                }
-                renderItem={({item}) => (
-                    <TouchableOpacity
-                        style={styles.chatItem}
-                        onPress={() => openChat(item)}
-                        onLongPress={() => {
-                            Alert.alert(
-                                'Delete chat',
-                                'Are you sure you want to delete this chat?',
-                                [
-                                    {
-                                        text: 'Cancel',
-                                        style: 'cancel',
-                                    },
-                                    {
-                                        text: 'OK',
-                                        onPress: () => {
-                                            delChatByUserCode(item.userCode).then()
+        <SafeAreaView style={{flex: 1}}>
+            <View style={styles.container}>
+                <FlatList
+                    data={Object.values(chatList)}
+                    keyExtractor={(item) => item.id}
+                    ListHeaderComponent={
+                        <View style={styles.header}>
+                            <Box bg="white" shadow={2} rounded="lg" p={4} my={2} style={{marginTop: 0}}>
+                                <Text style={styles.headerText}>Chats</Text>
+                            </Box>
+                        </View>
+                    }
+                    renderItem={({item}) => (
+                        <TouchableOpacity
+                            style={styles.chatItem}
+                            onPress={() => openChat(item)}
+                            onLongPress={() => {
+                                Alert.alert(
+                                    'Delete chat',
+                                    'Are you sure you want to delete this chat?',
+                                    [
+                                        {
+                                            text: 'Cancel',
+                                            style: 'cancel',
+                                        },
+                                        {
+                                            text: 'OK',
+                                            onPress: () => {
+                                                delChatByUserCode(item.userCode).then()
+                                            }
                                         }
-                                    }
-                                ],
-                            );
-                        }}
-                    >
-                        <Image source={{uri: item.avatar}} style={styles.avatar}/>
-                        <View style={styles.chatInfo}>
-                            <Text style={styles.chatTitle}>{item.title}</Text>
-                            <Text style={styles.chatMessage}>{item.message}</Text>
-                        </View>
-                        <View style={styles.chatMeta}>
-                            <Text style={styles.chatTime}>{formatChatTime(item.time)}</Text>
-                            {item.unread > 0 &&
-                                <View style={styles.badge}><Text style={styles.badgeText}>{item.unread}</Text></View>}
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
-        </View>
-      </SafeAreaView>
+                                    ],
+                                );
+                            }}
+                        >
+                            <Image source={{uri: item.avatar}} style={styles.avatar}/>
+                            <View style={styles.chatInfo}>
+                                <Text style={styles.chatTitle}>{item.title}</Text>
+                                <Text style={styles.chatMessage}>{item.message}</Text>
+                            </View>
+                            <View style={styles.chatMeta}>
+                                <Text style={styles.chatTime}>{formatChatTime(item.time)}</Text>
+                                {item.unread > 0 &&
+                                    <View style={styles.badge}><Text
+                                        style={styles.badgeText}>{item.unread}</Text></View>}
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
+            </View>
+        </SafeAreaView>
     );
 }
 

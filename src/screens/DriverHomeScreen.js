@@ -37,11 +37,11 @@ const DriverHomeScreen = () => {
   useEffect(() => {
     setTimeout(async () => {
       enableSystemNotify().then();
-      initOrderStatusList((orderStatusList) => {
+      /*initOrderStatusList((orderStatusList) => {
         initLocalChat(orderStatusList).then(data => {
           initChat(data);
         });
-      });
+      });*/
     }, 0);
   }, []);
 

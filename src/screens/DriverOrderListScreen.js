@@ -103,7 +103,7 @@ const DriverOrderListScreen = () => {
     driverAcceptOrder(params).then(data => {
       responseOperation(data.code, () => {
         showDialog("SUCCESS", "Success", "Order successfully Accepted");
-        UserChat(false).then();
+        // UserChat(false).then();
      /*   userOrderWebsocket((body) => {
         }).then();*/
         handleRefreshByUser().then(); //在这里添加代码，接受订单后刷新页面。

@@ -28,20 +28,6 @@ export const UserChat = async (needRetry) => {
       },
     };
 
-    const chatList = {
-      id: uuid.v4(),
-      title: receiveMsg.senderName,
-      message: receiveMsg.message,
-      time: receiveMsg.requestTime,
-      orderId: receiveMsg.orderId,
-      receiverOrderId: receiveMsg.senderOrderId,
-      userCode: receiveMsg.senderUserCode,
-      unread: "",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    };
-
-    // 添加聊天列表
-    dispatch(addChatList(chatList));
     // 添加聊天信息
     dispatch(addMessage(message));
   };

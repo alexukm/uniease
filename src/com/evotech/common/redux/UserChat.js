@@ -3,7 +3,6 @@ import uuid from "react-native-uuid";
 import { userInitChatWebsocket } from "../websocket/UserChatWebsocket";
 import store from "./store";
 import {
-  delChatMessages,
   getChatMessages,
   setChatMessages,
 } from "../appUser/UserConstant";
@@ -65,8 +64,8 @@ export async function clearLocalChat() {
   dispatch(clearChat(null));
 }
 
-export async function delChatByUserCode(userCode) {
+export async function delChatByUserCode(orderId) {
   const dispatch = store.dispatch;
-  dispatch(deleteChat(userCode));
+  dispatch(deleteChat(orderId));
   saveLocalChat().then();
 }

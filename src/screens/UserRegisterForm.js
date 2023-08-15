@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Keyboard, TouchableWithoutFeedback, SafeAreaView, View } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import {
   Box,
   Button,
@@ -19,7 +19,6 @@ import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
-import DeviceInfo from "react-native-device-info";
 import { deviceId } from "../com/evotech/common/system/OSUtils";
 
 
@@ -213,7 +212,7 @@ const RegisterScreen = () => {
           buildUserInfo(data.data, userType.USER, userPhone, "",registryParams.firstName,registryParams.lastName).saveWithLocal();
           setTimeout(() => {
             saveUserAvatar(userPhone, null).then();
-          }, 0.5);
+          }, 0);
           navigation.navigate("User");
         }, () => {
           showDialog("WARNING", "Registration Failed", data.message);

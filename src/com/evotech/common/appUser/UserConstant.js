@@ -180,7 +180,6 @@ export const saveUserAvatar = async (userPhone, data) => {
       fromUrl: assetPath.uri,
       toFile: destinationPath,
     };
-
     const existUserAvatar = await RNFS.exists(destinationPath);
 
     // exist user avatar
@@ -193,7 +192,6 @@ export const saveUserAvatar = async (userPhone, data) => {
     if (!exist) {
       await RNFS.mkdir(LOCAL_USER_INFO_FILE_PATH).then();
     }
-
     await RNFS.downloadFile(options).promise
         .then(() => {
           console.log("Image saved to", destinationPath);

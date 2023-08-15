@@ -18,7 +18,7 @@ import {
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {
     DriverLoginStatusEnum,
-    ImagesEnum,
+
     UserTypeEnum,
 } from "../com/evotech/common/constant/BizEnums";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
@@ -30,7 +30,6 @@ import {
     isSuccess, isUnderReview,
     responseOperation
 } from "../com/evotech/common/http/ResponseOperation";
-import DeviceInfo from "react-native-device-info";
 import {deviceId} from "../com/evotech/common/system/OSUtils";
 
 const countryCodes = {
@@ -204,6 +203,9 @@ function DriverScreen() {
         setUserToken(data.token);
         buildUserInfo(data.token, userType.DRIVER, userPhone, data.loginStatus, data.firstName, data.lastName).saveWithLocal();
         navigation.navigate("DriverSupplyInfo");
+        setTimeout(() => {
+            saveUserAvatar(userPhone, null).then();
+        }, 0);
         showDialog(ALERT_TYPE.SUCCESS, "Action Required", "Please complete your driver information.");
     };
 

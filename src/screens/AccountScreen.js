@@ -16,12 +16,13 @@ import { USER_AVATAR_FILE_NAME, userLocalImagePath, userLogOut } from "../com/ev
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
+import { LocalImageFileEnum } from "../com/evotech/common/constant/BizEnums";
 
 
 const AccountScreen = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState("");
-  const [avatarURI, setAvatarURI] = useState("");
+  const [avatarURI, setAvatarURI] = useState(LocalImageFileEnum.Avatar);
   const handleWalletPress = () => {
     showDialog("WARNING", "Notice", "We are still working on the e-wallet feature. Please wait for the next version update.");
   };
@@ -116,7 +117,8 @@ const AccountScreen = () => {
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleAvatarPress}>
-            {avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}
+            {/*{avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}*/}
+            <Image source={{ uri: avatarURI }} style={styles.avatar} />
           </TouchableOpacity>
           <Text style={styles.name}>{userName}</Text>
         </View>

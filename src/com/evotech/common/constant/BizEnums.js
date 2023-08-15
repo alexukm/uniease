@@ -1,4 +1,4 @@
-import { LOCAL_USER_INFO_FILE_PATH } from "../appUser/UserConstant";
+import { LOCAL_USER_INFO_FILE_PATH, USER_AVATAR_FILE_NAME } from "../appUser/UserConstant";
 
 export const OrderStateEnum = {
     AWAITING: "Awaiting",
@@ -49,6 +49,7 @@ export const LocalImageRequireEnum = {
 export const LocalImageFileEnum = {
     UserAD: `file://${LOCAL_USER_INFO_FILE_PATH}/userAd.png`+'?time=' + new Date().getTime(),
     SWA: `file://${LOCAL_USER_INFO_FILE_PATH}/swa.png`+'?time=' + new Date().getTime(),
+    Avatar: `file://${LOCAL_USER_INFO_FILE_PATH}/${USER_AVATAR_FILE_NAME}`+'?time=' + new Date().getTime(),
 }
 
 export const ResponseCodeEnum = {

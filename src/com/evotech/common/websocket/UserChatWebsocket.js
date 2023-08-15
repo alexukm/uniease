@@ -1,10 +1,11 @@
-import {getSocketClient, whenConnect} from "./SingletonWebSocketClient";
-import {queryDriverOrderStatus, queryUserOrderStatus} from "../http/BizHttpUtil";
+import {closeWebsocket, getSocketClient, whenConnect} from "./SingletonWebSocketClient";
+import {queryChatList, queryDriverOrderStatus, queryUserOrderStatus} from "../http/BizHttpUtil";
 import {UserChat} from "../redux/UserChat";
 import { responseOperation } from "../http/ResponseOperation";
 import { showDialog } from "../alert/toastHelper";
 
-import {  notifyOrderChannel } from "../notify/SystemNotify"; // 这是新导入的库
+import {  notifyOrderChannel } from "../notify/SystemNotify";
+import {clearChat} from "../redux/chatSlice"; // 这是新导入的库
 
 
 
@@ -48,20 +49,25 @@ export const userOrderWebsocket = async (subscribe) => {
 
 
 export const userCancelSubscribe = async () => {
-    queryUserOrderStatus().then((data) => {
-        responseOperation(data.code,()=>{
-            doUserCancelSubscribe(data.data).then();
-        },()=>{
-        })
+    queryChatList().then((data) => {
+        responseOperation(data.code, () => {
+            if (data.data.length === 0) {
+                closeWebsocket();
+            }
+        }, () => {
+        });
     });
 }
 
 export const driverCancelSubscribe = async () => {
-    queryDriverOrderStatus().then((data) => {
-        responseOperation(data.code,()=>{
-            doDriverCancelSubscribe(data.data).then();
-        },()=>{})
-    })
+    queryChatList().then((data) => {
+        responseOperation(data.code, () => {
+            if (data.data.length === 0) {
+                closeWebsocket();
+            }
+        }, () => {
+        });
+    });
 }
 const doUserCancelSubscribe = async (orderStatus) => {
     const client = await getSocketClient().then();

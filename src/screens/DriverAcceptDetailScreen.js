@@ -18,7 +18,7 @@ import {
     createChatList,
     driverCancelOrder,
     driverGetPasserCode, driverOrderCompleted,
-    driverOrderInfo, driverOrderStart, driverQueryUserPhone, driverReviewOrder, queryDriverOrderStatus,
+    driverOrderInfo, driverOrderStart, driverQueryUserPhone, driverReviewOrder, queryChatList, queryDriverOrderStatus,
 } from "../com/evotech/common/http/BizHttpUtil";
 import {OrderStateDescEnum, OrderStateEnum} from "../com/evotech/common/constant/BizEnums";
 import {Rating} from "react-native-ratings";
@@ -32,7 +32,7 @@ import {formatDate} from "../com/evotech/common/formatDate";
 import {googleMapsApiKey} from "../com/evotech/common/apiKey/mapsApiKey";
 import {driverCancelSubscribe} from "../com/evotech/common/websocket/UserChatWebsocket";
 import {useDispatch} from "react-redux";
-import {deleteChatByOrderId} from "../com/evotech/common/redux/chatSlice";
+import {clearChat, deleteChatByOrderId} from "../com/evotech/common/redux/chatSlice";
 import {getUserInfoWithLocal} from "../com/evotech/common/appUser/UserInfo";
 
 
@@ -79,7 +79,7 @@ const DriverAcceptDetailScreen = ({route, navigation}) => {
                 responseOperation(data.code, () => {
                     showToast("SUCCESS", "Success", "Order successfully cancelled");
                     dispatch(deleteChatByOrderId(orderDetailInfo.driverOrderId));
-                    // driverCancelSubscribe().then();
+                    driverCancelSubscribe().then();
                     navigation.goBack(); // After canceling the order, return to the previous screen.
                 }, () => {
                     showDialog("WARNING", "Warning", "Order cancellation failed, Please try again later!");
@@ -140,14 +140,23 @@ const DriverAcceptDetailScreen = ({route, navigation}) => {
         setTimeout(() => {
             //删除当前订单的聊天记录
             dispatch(deleteChatByOrderId(orderDetailInfo.driverOrderId));
-            queryDriverOrderStatus().then(data => {
+             queryChatList().then((data) => {
+                responseOperation(data.code, () => {
+                    if (data.data.length === 0) {
+                        closeWebsocket();
+                        dispatch(clearChat());
+                    }
+                }, () => {
+                });
+            });
+           /* queryDriverOrderStatus().then(data => {
                 responseOperation(data.code, () => {
                     const orderStatus = data.data;
                     if (!(orderStatus.pending || orderStatus.inTransit)) {
                         closeWebsocket();
                     }
                 })
-            });
+            });*/
         }, 0);
     };
     // 更新页面数据

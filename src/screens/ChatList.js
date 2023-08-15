@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearChat, deleteChatByOrderIds, selectChatMessage} from "../com/evotech/common/redux/chatSlice";
 import {clientStatus} from "../com/evotech/common/websocket/SingletonWebSocketClient";
 import {useFocusEffect} from "@react-navigation/native";
+import {tr} from "date-fns/locale";
 
 
 export default function ChatList({navigation}) {
@@ -18,49 +19,55 @@ export default function ChatList({navigation}) {
     const messagesRef = React.useRef(messages);
     const dispatch = useDispatch();
 
-    const initChatList = (messages) => {
-        queryChatList().then((data) => {
+    const initChatList = async (messages) => {
+        const data = await queryChatList().then((data) => {
             const newChatList = {};
-            responseOperation(data.code, () => {
+            return responseOperation(data.code, () => {
                 if (data.data.length === 0) {
                     setChatList({});
                     dispatch(clearChat());
-                    return;
+                    return null;
                 }
-
-                const localOrderIds = Object.keys(messages);
-                if (localOrderIds.length > 0) {
-                    const orderIds = data.data.map(list => list.orderId);
-                    const needDeleteOrderIds = localOrderIds.filter(orderId => !orderIds.includes(orderId));
-                    dispatch(deleteChatByOrderIds(needDeleteOrderIds));
-                }
-
-                data.data.map(list => {
-                    const msg = messages[list.orderId];
-                    let time = null;
-                    let lastMsg = "";
-                    if (msg && msg.length > 0) {
-                        time = msg[0].createdAt;
-                        lastMsg = msg[0].text;
-                    }
-
-                    newChatList[list.orderId] = {
-                        id: uuid.v4(),
-                        title: list.receiverName,
-                        orderId: list.orderId,
-                        receiverOrderId: list.receiverOrderId,
-                        message: lastMsg,
-                        time: time,
-                        userCode: list.receiverUserCode,
-                        createdAt: list.createDateTime,
-                        unread: "",
-                        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                    };
-                });
-                setChatList(newChatList);
+                return data.data;
             }, () => {
             });
         });
+        if (data) {
+            if (!clientStatus()) {
+                await UserChat(true).then();
+            }
+
+            const localOrderIds = Object.keys(messages);
+            if (localOrderIds.length > 0) {
+                const orderIds = data.data.map(list => list.orderId);
+                const needDeleteOrderIds = localOrderIds.filter(orderId => !orderIds.includes(orderId));
+                dispatch(deleteChatByOrderIds(needDeleteOrderIds));
+            }
+
+            data.map(list => {
+                const msg = messages[list.orderId];
+                let time = null;
+                let lastMsg = "";
+                if (msg && msg.length > 0) {
+                    time = msg[0].createdAt;
+                    lastMsg = msg[0].text;
+                }
+
+                newChatList[list.orderId] = {
+                    id: uuid.v4(),
+                    title: list.receiverName,
+                    orderId: list.orderId,
+                    receiverOrderId: list.receiverOrderId,
+                    message: lastMsg,
+                    time: time,
+                    userCode: list.receiverUserCode,
+                    createdAt: list.createDateTime,
+                    unread: "",
+                    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                };
+            });
+            setChatList(newChatList);
+        }
     };
 
     const hasNewOrderMessage = () => {
@@ -68,13 +75,13 @@ export default function ChatList({navigation}) {
         const messageOrderIds = Object.keys(messages);
         return messageOrderIds.some(orderId => !chatOrderIds.includes(orderId));
     };
-    const updateChatListWithNewMessages = (messages) => {
+    const updateChatListWithNewMessages = async (messages) => {
         if (Object.keys(chatList).length === 0) {
-            initChatList(messages);
+            await initChatList(messages);
             return;
         }
         if (hasNewOrderMessage()) {
-            initChatList(messages);
+            await initChatList(messages);
         } else {
             // 遍历chatList，为每个item更新最新的消息内容
             const newChatList = {...chatList};
@@ -92,32 +99,31 @@ export default function ChatList({navigation}) {
         if (!(messages && Object.keys(messages).length > 0)) {
             return;
         }
-        updateChatListWithNewMessages(messages);
+        updateChatListWithNewMessages(messages).then();
         messagesRef.current = messages;
     }, [messages]);
 
     useFocusEffect(
         React.useCallback(() => {
             if (!firstLoad) {
-                initChatList(messagesRef.current);
+                initChatList(messagesRef.current).then();
                 if (Object.keys(chatList).length > 0 && !clientStatus()) {
                     setTimeout(async () => {
                         await UserChat(true).then();
                     }, 0);
                 }
             } else {
-                initChatList(messages);
-                if (Object.keys(chatList).length > 0) {
+                initChatList(messages).then();
+              /*  if (Object.keys(chatList).length > 0) {
                     //第一次进入页面
                     const retry = firstLoad;
                     setTimeout(async () => {
                         await UserChat(retry).then();
                     }, 0);
-                }
+                }*/
                 setFirstLoad(false);
             }
             return () => {
-
             };
         }, [firstLoad])
     );

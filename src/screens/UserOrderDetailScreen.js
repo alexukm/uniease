@@ -171,7 +171,7 @@ const UserOrderDetailScreen = ({route, navigation}) => {
                     navigation.setParams({
                         Departure: Departure,
                         Destination: Destination,
-                        Time: data.data.actualDepartureTime,
+                        Time: Time,
                         Price: Price,
                         Status: data.data.orderState,
                         orderDetailInfo: data.data,

@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { saveLocalChat } from "./UserChat";
+import {createSlice} from "@reduxjs/toolkit";
+import {saveLocalChat} from "./UserChat";
 
 const initialState = {
   chatMessage: {},
@@ -33,6 +33,18 @@ const chatSlice = createSlice({
         saveLocalChat().then();
       }, 0.1);
     },
+    deleteChatByOrderIds(state, action) {
+      const userOrderIds = action.payload;
+      state.chatMessage = Object.keys(state.chatMessage).reduce((result, orderId) => {
+        if (!userOrderIds.includes(orderId)) {
+          result[orderId] = state.chatMessage[orderId];
+        }
+        return result;
+      }, {});
+      setTimeout(() => {
+        saveLocalChat().then();
+      }, 0.1);
+    },
     deleteChatByOrderId(state, action) {
       const userOrderId = action.payload;
       delete state.chatMessage[userOrderId];
@@ -45,7 +57,7 @@ export const {
   addMessage,
   deleteChat,
   initMessage,
-
+  deleteChatByOrderIds,
   deleteChatByOrderId,
 } = chatSlice.actions;
 export const selectChatMessage = state => state.chat.chatMessage;

@@ -9,7 +9,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearChat, deleteChatByOrderIds, selectChatMessage} from "../com/evotech/common/redux/chatSlice";
 import {clientStatus} from "../com/evotech/common/websocket/SingletonWebSocketClient";
 import {useFocusEffect} from "@react-navigation/native";
-import {tr} from "date-fns/locale";
 
 
 export default function ChatList({navigation}) {
@@ -21,7 +20,6 @@ export default function ChatList({navigation}) {
 
     const initChatList = async (messages) => {
         const data = await queryChatList().then((data) => {
-            const newChatList = {};
             return responseOperation(data.code, () => {
                 if (data.data.length === 0) {
                     setChatList({});
@@ -39,11 +37,12 @@ export default function ChatList({navigation}) {
 
             const localOrderIds = Object.keys(messages);
             if (localOrderIds.length > 0) {
-                const orderIds = data.data.map(list => list.orderId);
+                const orderIds = data.map(list => list.orderId);
                 const needDeleteOrderIds = localOrderIds.filter(orderId => !orderIds.includes(orderId));
                 dispatch(deleteChatByOrderIds(needDeleteOrderIds));
             }
 
+            const newChatList = {};
             data.map(list => {
                 const msg = messages[list.orderId];
                 let time = null;
@@ -106,6 +105,7 @@ export default function ChatList({navigation}) {
     useFocusEffect(
         React.useCallback(() => {
             if (!firstLoad) {
+                console.log("no first load chatList");
                 initChatList(messagesRef.current).then();
                 if (Object.keys(chatList).length > 0 && !clientStatus()) {
                     setTimeout(async () => {
@@ -113,6 +113,7 @@ export default function ChatList({navigation}) {
                     }, 0);
                 }
             } else {
+                console.log("first load");
                 initChatList(messages).then();
               /*  if (Object.keys(chatList).length > 0) {
                     //第一次进入页面

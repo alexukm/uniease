@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
-import { setUserToken } from "./src/com/evotech/common/appUser/UserConstant";
+import { saveLocalStaticPicture, setUserToken } from "./src/com/evotech/common/appUser/UserConstant";
 import UserBottomTabNavigator from "./src/screens/UserBottomTabNavigator";
 import DriverBottomTabNavigator from "./src/screens/DriverBottomTabNavigator";
 import store from "./src/com/evotech/common/redux/store";
@@ -16,22 +16,17 @@ import DriverRegisterImage from "./src/screens/DriverRegisterImage";
 import DriverSupplyInfo from "./src/screens/DriverSupplyInfoScreen";
 import { TextEncoder, TextDecoder } from "text-encoding";
 import { accessToken } from "./src/com/evotech/common/http/BizHttpUtil";
-import { buildUserInfo, reBuildUserInfoWithToken, userSkipLogin } from "./src/com/evotech/common/appUser/UserInfo";
-import DriverAccount from "./src/screens/DriverAccountScreen";
+import {  reBuildUserInfoWithToken, userSkipLogin } from "./src/com/evotech/common/appUser/UserInfo";
 import { AlertNotificationRoot } from "react-native-alert-notification";
 import { enableScreens } from "react-native-screens";
 
 import { DriverLoginStatusEnum } from "./src/com/evotech/common/constant/BizEnums";
 import { navigationRef } from "./src/com/evotech/common/navigate/GloableNagivate";
-import { enableSystemNotify, notifyOrderChannel } from "./src/com/evotech/common/notify/SystemNotify";
 import RNBootSplash from "react-native-bootsplash";
 import DeleteAccount from "./src/screens/DeleteAccount";
 import EditProfile from "./src/screens/EditProfileScreen";
-import messaging, {firebase} from "@react-native-firebase/messaging";
-import { NotificationListener, requestUserPermission } from "./src/screens/notification";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { isAndroid, setDeviceId } from "./src/com/evotech/common/system/OSUtils";
-import AccountScreen from "./src/screens/AccountScreen";
+import  {firebase} from "@react-native-firebase/messaging";
+import {  setDeviceId } from "./src/com/evotech/common/system/OSUtils";
 import { AppState } from "react-native";
 import { retrySocketConn } from "./src/com/evotech/common/websocket/SingletonWebSocketClient";
 
@@ -109,6 +104,7 @@ const App = () => {
 
     setTimeout(async () => {
       await setDeviceId();
+      saveLocalStaticPicture().then();
     }, 0);
     if (!firebase.apps.length) {
       const firebaseConfig = {

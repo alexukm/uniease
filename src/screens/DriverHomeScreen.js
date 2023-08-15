@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import Swiper from "react-native-swiper";
 import { initLocalChat } from "../com/evotech/common/redux/UserChat";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
-import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
+import { ImagesEnum, LocalImageFileEnum } from "../com/evotech/common/constant/BizEnums";
 import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
 
 
@@ -80,11 +80,11 @@ const DriverHomeScreen = () => {
         <View style={{ height: "40%", width: "100%" }}>
           <Swiper showsButtons={false}>
             <Box>
-              <Card imageUri={ImagesEnum.UserShare} />
+              <Card imageUri={LocalImageFileEnum.SWA} />
             </Box>
             <Box>
               <Card
-                imageUri={ImagesEnum.UserUniversity} />
+                imageUri={LocalImageFileEnum.UserAD} />
             </Box>
           </Swiper>
         </View>

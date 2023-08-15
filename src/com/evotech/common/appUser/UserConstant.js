@@ -6,7 +6,7 @@ import { clearLocalChat } from "../redux/UserChat";
 import { deviceId } from "../system/OSUtils";
 import * as RNFS from "react-native-fs";
 import { Image } from "react-native";
-import {async} from "@babel/runtime/regenerator";
+import { LocalImageRequireEnum } from "../constant/BizEnums";
 
 export const LOCAL_FILE_PATH = RNFS.DocumentDirectoryPath + "/uniease";
 export const LOCAL_USER_INFO_FILE_PATH = LOCAL_FILE_PATH + "/user_info";
@@ -157,6 +157,17 @@ export const unLinkUserAvatar = async() =>{
   return   await RNFS.unlink(localAvatarPath).then();
 }
 
+export const saveLocalStaticPicture = async()=>{
+  for (let [key, value] of Object.entries(LocalImageRequireEnum)) {
+    const fileName = value.path.split("/").pop();
+    const assetPath =  Image.resolveAssetSource(value.required)
+    saveLocalImage(assetPath.uri, fileName).then();
+  }
+}
+
+export const saveLocalFile = async ()=>{
+
+}
 export const saveUserAvatar = async (userPhone, data) => {
   // 存在自定义头像
   if (data && data.userAvatarPath) {

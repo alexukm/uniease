@@ -1,44 +1,15 @@
 import React, { useEffect } from "react";
 import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
-import { Box, AspectRatio, Button, Center, Text } from "native-base";
+import { Box, AspectRatio } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import Swiper from "react-native-swiper";
-import { initLocalChat, UserChat } from "../com/evotech/common/redux/UserChat";
-import { queryUserOrderStatus } from "../com/evotech/common/http/BizHttpUtil";
+import { initLocalChat } from "../com/evotech/common/redux/UserChat";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
-import { ImagesEnum } from "../com/evotech/common/constant/BizEnums";
-import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
-import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
+import { ImagesEnum, LocalImageFileEnum } from "../com/evotech/common/constant/BizEnums";
 import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
 
 const UserHome = () => {
   const navigation = useNavigation();
-
-  const initChatSocket = (data) => {
-    const orderStatus = data.data;
-    //存在待接单的订单
-    if (orderStatus.pending || orderStatus.inTransit) {
-      setTimeout(async () => {
-        // await userOrderWebsocket((body)=>{}).then();
-        //开启聊天
-        UserChat(true).then();
-      }, 0);
-    }
-    return orderStatus;
-  };
-  const subscriptionOrderAccept = async (orderStatusInitAfter) => {
-    await queryUserOrderStatus().then((data) => {
-      return responseOperation(data.code, () => {
-        return initChatSocket(data);
-      }, () => {
-        return data.data;
-      });
-    }).then(orderStatus => {
-      if (orderStatus) {
-        orderStatusInitAfter(orderStatus);
-      }
-    });
-  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -72,7 +43,7 @@ const UserHome = () => {
       }}
     >
       <AspectRatio w="100%" ratio={16 / 9}>
-        <Image source={{ uri: imageUri }} style={{ flex: 1 }} />
+        <Image source={{uri: imageUri}} style={{ flex: 1 }} />
       </AspectRatio>
     </Box>
   );
@@ -103,18 +74,17 @@ const UserHome = () => {
           flexDirection: "row",
           paddingLeft: 20,
         }}>
-          <Image source={require("../picture/logo.png")}
-                 style={{ width: 100, height: 100 }} />
+          <Image source={require("../picture/logo.png")} style={{ width: 100, height: 100 }} />
         </View>
 
         <View style={{ height: "40%", width: "100%" }}>
           <Swiper showsButtons={false}>
             <Box>
-              <Card imageUri={ImagesEnum.UserShare} />
+              <Card imageUri={LocalImageFileEnum.SWA} />
             </Box>
             <Box>
               <Card
-                imageUri={ImagesEnum.UserUniversity} />
+                imageUri={LocalImageFileEnum.UserAD} />
             </Box>
           </Swiper>
         </View>

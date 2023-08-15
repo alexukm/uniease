@@ -14,11 +14,10 @@ import { responseOperation } from "../com/evotech/common/http/ResponseOperation"
 import {
   copyUserAvatarLocal, getUserToken,
   resetUserToken,
-  saveLocalImage,
   USER_AVATAR_FILE_NAME,
   userLocalImagePath,
 } from "../com/evotech/common/appUser/UserConstant";
-import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
+import {  showToast } from "../com/evotech/common/alert/toastHelper";
 import * as RNFS from "react-native-fs";
 
 

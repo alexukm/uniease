@@ -1,3 +1,5 @@
+import { LOCAL_USER_INFO_FILE_PATH } from "../appUser/UserConstant";
+
 export const OrderStateEnum = {
     AWAITING: "Awaiting",
     PENDING: "Pending",
@@ -34,6 +36,20 @@ export const ImagesEnum = {
     UserOrderCartoonCar: "https://unieaseapp.com/uniEaseImages/app/user_order_cartoon_car.png",
 };
 
+export const LocalImageRequireEnum = {
+    UserAD: {
+        path: "../../../../picture/userAd.png",
+        required: require("../../../../picture/userAd.png"),
+    },
+    SWA: {
+        path: "../../../../picture/swa.png",
+        required: require("../../../../picture/swa.png"),
+    },
+}
+export const LocalImageFileEnum = {
+    UserAD: `file://${LOCAL_USER_INFO_FILE_PATH}/userAd.png`+'?time=' + new Date().getTime(),
+    SWA: `file://${LOCAL_USER_INFO_FILE_PATH}/swa.png`+'?time=' + new Date().getTime(),
+}
 
 export const ResponseCodeEnum = {
     SUCCESS: 200,

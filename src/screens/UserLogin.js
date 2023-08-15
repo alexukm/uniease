@@ -1,15 +1,13 @@
-import { Alert, Image, Keyboard, Platform, ScrollView, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Image, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native";
 import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
-  getUserID,
-  LOCAL_USER_INFO_FILE_PATH,
-  saveLocalImage, saveUserAvatar,
-  setUserToken, USER_AVATAR_FILE_NAME,
+  saveUserAvatar,
+  setUserToken,
   userType,
 } from "../com/evotech/common/appUser/UserConstant";
-import { userLogin, smsSend, downloadUserAvatar, checkUserAccount } from "../com/evotech/common/http/BizHttpUtil";
+import { userLogin, smsSend, checkUserAccount } from "../com/evotech/common/http/BizHttpUtil";
 import {
   FormControl,
   Center,
@@ -23,7 +21,7 @@ import {
   Radio, KeyboardAvoidingView,
 } from "native-base";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
-import { ImagesEnum, UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
+import { UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
 import { showDialog, showToast } from "../com/evotech/common/alert/toastHelper";
 import {
   isAccountNotFound, isDisabled,
@@ -31,10 +29,7 @@ import {
   isSuccess,
   responseOperation,
 } from "../com/evotech/common/http/ResponseOperation";
-import DeviceInfo from "react-native-device-info";
 import { deviceId } from "../com/evotech/common/system/OSUtils";
-import * as RNFS from "react-native-fs";
-import { requestPrefix } from "../com/evotech/common/http/HttpUtil";
 import { ALERT_TYPE } from "react-native-alert-notification";
 
 const countryCodes = {
@@ -98,8 +93,8 @@ function UserScreen() {
 
     const checkParam = {
       userPhone: phoneNumber,
-      userType: 'passer',
-    }
+      userType: "passer",
+    };
 
     checkUserAccount(checkParam)
       .then(data => {
@@ -115,7 +110,7 @@ function UserScreen() {
               }, () => {
                 showDialog(ALERT_TYPE.WARNING, "Warning", data.message);
                 return false;
-              })
+              });
             })
             .catch(error => {
               showDialog(ALERT_TYPE.DANGER, "Error", "Error: " + error.message);
@@ -133,15 +128,15 @@ function UserScreen() {
                 {
                   text: "Yes, Register",
                   onPress: () => {
-                    navigation.navigate('UserSignUp'); // 请根据您的路由配置进行调整
-                  }
+                    navigation.navigate("UserSignUp"); // 请根据您的路由配置进行调整
+                  },
                 },
                 {
                   text: "No, Thanks",
-                  style: "cancel"
-                }
+                  style: "cancel",
+                },
               ],
-              { cancelable: false }
+              { cancelable: false },
             );
             return;
           }
@@ -285,110 +280,111 @@ function UserScreen() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '35%' }}>
-          <Image source={require('../picture/user_login_bcg.png')} style={{ width: '70%', height: '70%', resizeMode: 'cover', top: '15%', left: '15%' }} />
-        </View>
-        {/* VStack */}
-        <VStack space="2.5" px="8">
-          <FormControl isRequired>
-            <FormControl.Label>Please enter your phone number</FormControl.Label>
-            <HStack space={2}>
-              <Button
-                backgroundColor="#0055A4"
-                color="white"
-                onPress={() => setShowModal(true)}
-              >
-                {buttonText()}
-              </Button>
-            <Input
-              placeholder="Phone Number"
-              value={value}
-              onChangeText={setValueAndCheckLength}
-              keyboardType="numeric"
-              size="lg"
-              width={inputWidth}
-            />
-          </HStack>
-          <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
-            <Modal.Content maxWidth="350">
-              <Modal.CloseButton />
-              <Modal.Header>Select Country Code</Modal.Header>
-              <Modal.Body>
-                <Radio.Group defaultValue={selectedValue} name="countryCode" size="sm" onChange={handleSelect}>
-                  <VStack space={3}>
-                    <Radio
-                      alignItems="flex-start"
-                      _text={{ mt: "-1", ml: "2", fontSize: "sm" }}
-                      value="my"
-                      colorScheme="blue"
-                    >
-                      +60 Malaysia
-                    </Radio>
-                    <Radio
-                      alignItems="flex-start"
-                      _text={{ mt: "-1", ml: "2", fontSize: "sm" }}
-                      value="cn"
-                      colorScheme="blue"
-                    >
-                      +86 China
-                    </Radio>
-                  </VStack>
-                </Radio.Group>
-              </Modal.Body>
-              <Modal.Footer>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <View style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "35%" }}>
+            <Image source={require("../picture/user_login_bcg.png")}
+                   style={{ width: "70%", height: "70%", resizeMode: "cover", top: "15%", left: "15%" }} />
+          </View>
+          {/* VStack */}
+          <VStack space="2.5" px="8">
+            <FormControl isRequired>
+              <FormControl.Label>Please enter your phone number</FormControl.Label>
+              <HStack space={2}>
                 <Button
-                  flex="1"
-                  onPress={() => {
-                    setShowModal(false);
-                  }}
                   backgroundColor="#0055A4"
                   color="white"
+                  onPress={() => setShowModal(true)}
                 >
-                  Continue
+                  {buttonText()}
                 </Button>
-              </Modal.Footer>
-            </Modal.Content>
-          </Modal>
-        </FormControl>
-        {!isPhoneNumberValid && (
-          <Text color="orange.500" mt="1" fontSize="sm">
-            {selectedValue === "cn" ? "Enter 11-digit phone number for China" : "Enter phone number. Not allowed 60 or 0 in the beginning."}
-          </Text>
-        )}
-        {isOtpVisible && (
-          <Input
-            size="lg"
-            placeholder="Enter OTP"
-            mt="4"
-            value={otp}
-            onChangeText={handleOtpInputChange}
-          />
-        )}
-        {renderButton()}
-        <Text mt="4" textAlign="center">
-          Don't have an account?{" "}
-          <Text
-            onPress={() => navigation.navigate("UserSignUp")}
-            color="blue.500"
-            _underline={{}}
-          >
-            Sign Up
-          </Text>
-          {" "}. Switch to{" "}
-          <Text
-            onPress={() => navigation.navigate("DriverLogin")}
-            color="blue.500"
-            _underline={{}}
-          >
-            Driver
-          </Text>
-        </Text>
-      </VStack>
-      </View>
+                <Input
+                  placeholder="Phone Number"
+                  value={value}
+                  onChangeText={setValueAndCheckLength}
+                  keyboardType="numeric"
+                  size="lg"
+                  width={inputWidth}
+                />
+              </HStack>
+              <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
+                <Modal.Content maxWidth="350">
+                  <Modal.CloseButton />
+                  <Modal.Header>Select Country Code</Modal.Header>
+                  <Modal.Body>
+                    <Radio.Group defaultValue={selectedValue} name="countryCode" size="sm" onChange={handleSelect}>
+                      <VStack space={3}>
+                        <Radio
+                          alignItems="flex-start"
+                          _text={{ mt: "-1", ml: "2", fontSize: "sm" }}
+                          value="my"
+                          colorScheme="blue"
+                        >
+                          +60 Malaysia
+                        </Radio>
+                        <Radio
+                          alignItems="flex-start"
+                          _text={{ mt: "-1", ml: "2", fontSize: "sm" }}
+                          value="cn"
+                          colorScheme="blue"
+                        >
+                          +86 China
+                        </Radio>
+                      </VStack>
+                    </Radio.Group>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      flex="1"
+                      onPress={() => {
+                        setShowModal(false);
+                      }}
+                      backgroundColor="#0055A4"
+                      color="white"
+                    >
+                      Continue
+                    </Button>
+                  </Modal.Footer>
+                </Modal.Content>
+              </Modal>
+            </FormControl>
+            {!isPhoneNumberValid && (
+              <Text color="orange.500" mt="1" fontSize="sm">
+                {selectedValue === "cn" ? "Enter 11-digit phone number for China" : "Enter phone number. Not allowed 60 or 0 in the beginning."}
+              </Text>
+            )}
+            {isOtpVisible && (
+              <Input
+                size="lg"
+                placeholder="Enter OTP"
+                mt="4"
+                value={otp}
+                onChangeText={handleOtpInputChange}
+              />
+            )}
+            {renderButton()}
+            <Text mt="4" textAlign="center">
+              Don't have an account?{" "}
+              <Text
+                onPress={() => navigation.navigate("UserSignUp")}
+                color="blue.500"
+                _underline={{}}
+              >
+                Sign Up
+              </Text>
+              {" "}. Switch to{" "}
+              <Text
+                onPress={() => navigation.navigate("DriverLogin")}
+                color="blue.500"
+                _underline={{}}
+              >
+                Driver
+              </Text>
+            </Text>
+          </VStack>
+        </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );

@@ -154,6 +154,9 @@ function UserScreen() {
           }
           showDialog("WARNING", "Login Failed", "Unable to detect valid account information. Please contact customer service at 60-184682878.");
         }
+      })
+      .catch(err =>{
+        showDialog(ALERT_TYPE.WARNING, "Warning", err.message);
       });
   };
 

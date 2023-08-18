@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {Keyboard, TouchableWithoutFeedback, SafeAreaView,View} from 'react-native';
+import {Keyboard, TouchableWithoutFeedback, SafeAreaView} from 'react-native';
 import {
     Box,
     Button,
@@ -13,13 +13,12 @@ import {
 } from "native-base";
 import {MD5} from 'crypto-js';
 import {smsSend, driverRegister} from "../com/evotech/common/http/BizHttpUtil";
-import {getUserID, setUserToken, userType} from "../com/evotech/common/appUser/UserConstant";
+import {getUserID,  userType} from "../com/evotech/common/appUser/UserConstant";
 import {useNavigation} from '@react-navigation/native';
 import {buildUserInfo} from "../com/evotech/common/appUser/UserInfo";
 import {UserTypeEnum} from "../com/evotech/common/constant/BizEnums";
 import {showDialog, showToast} from "../com/evotech/common/alert/toastHelper";
 import { responseOperation } from "../com/evotech/common/http/ResponseOperation";
-import DeviceInfo from "react-native-device-info";
 import { deviceId } from "../com/evotech/common/system/OSUtils";
 
 

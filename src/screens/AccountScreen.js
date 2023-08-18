@@ -22,7 +22,7 @@ import { LocalImageFileEnum } from "../com/evotech/common/constant/BizEnums";
 const AccountScreen = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState("");
-  const [avatarURI, setAvatarURI] = useState(LocalImageFileEnum.Avatar);
+  const [avatarURI, setAvatarURI] = useState(LocalImageFileEnum.Avatar+ "?time=" + new Date().getTime());
   const handleWalletPress = () => {
     showDialog("WARNING", "Notice", "We are still working on the e-wallet feature. Please wait for the next version update.");
   };

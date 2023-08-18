@@ -99,7 +99,7 @@ const DriverHomeScreen = () => {
           <TouchableOpacity onPress={() => handlePress("DriverOrderListScreen")} style={{ width: "47%" }}>
             <Box>
               <CardWithoutDescription
-                imageUri={ImagesEnum.DriverRide} />
+                imageUri={LocalImageFileEnum.DriverRide} />
             </Box>
           </TouchableOpacity>
           <TouchableOpacity
@@ -107,7 +107,7 @@ const DriverHomeScreen = () => {
             style={{ width: "47%" }}>
             <Box>
               <CardWithoutDescription
-                imageUri={ImagesEnum.UserService} />
+                imageUri={LocalImageFileEnum.UserService} />
             </Box>
           </TouchableOpacity>
         </View>

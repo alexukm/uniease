@@ -99,7 +99,7 @@ const UserHome = () => {
           <TouchableOpacity onPress={() => handlePress("RideOrderScreen")} style={{ width: "47%" }}>
             <Box>
               <CardWithoutDescription
-                imageUri={ImagesEnum.UserRide} />
+                imageUri={LocalImageFileEnum.UserRide} />
             </Box>
           </TouchableOpacity>
           <TouchableOpacity
@@ -107,7 +107,7 @@ const UserHome = () => {
             style={{ width: "47%" }}>
             <Box>
               <CardWithoutDescription
-                imageUri={ImagesEnum.UserService} />
+                imageUri={LocalImageFileEnum.UserService} />
             </Box>
           </TouchableOpacity>
         </View>

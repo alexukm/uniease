@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
-import { Box, AspectRatio } from "native-base";
+import { Box } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import Swiper from "react-native-swiper";
 import { initLocalChat } from "../com/evotech/common/redux/UserChat";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
-import { ImagesEnum, LocalImageFileEnum } from "../com/evotech/common/constant/BizEnums";
 import { enableSystemNotify } from "../com/evotech/common/notify/SystemNotify";
 
 const UserHome = () => {
@@ -38,29 +37,27 @@ const UserHome = () => {
           height: 2,
         },
         shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        shadowRadius: 4.84,
         elevation: 5,
       }}
     >
-      <AspectRatio w="100%" ratio={16 / 9}>
-        <Image source={{uri: imageUri}} style={{ flex: 1 }} />
-      </AspectRatio>
+      <Image source={imageUri} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
+     {/* <AspectRatio w="100%" ratio={16 / 9}>
+        <Image source={imageUri} style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
+      </AspectRatio>*/}
     </Box>
   );
   const CardWithoutDescription = ({ imageUri }) => (
-    <View style={{ height: 200 }}>
-      <Box
-        rounded="lg"
-        overflow="hidden"
-        borderColor="coolGray.200"
-        borderWidth="1"
-        backgroundColor="gray.50"
-      >
-        <AspectRatio w="100%" ratio={2 / 3}>
-          <Image source={{ uri: imageUri }} style={{ flex: 1 }} />
-        </AspectRatio>
-      </Box>
-    </View>
+    <Box
+      rounded="lg"
+      overflow="hidden"
+      borderColor="coolGray.200"
+      borderWidth="1"
+      backgroundColor="gray.50"
+      style={{ aspectRatio: 2/3, width: '100%' }}
+    >
+      <Image source={imageUri} style={{ width: '100%', height: '100%', resizeMode: 'cover' }} />
+    </Box>
   );
 
   return (
@@ -80,11 +77,11 @@ const UserHome = () => {
         <View style={{ height: "40%", width: "100%" }}>
           <Swiper showsButtons={false}>
             <Box>
-              <Card imageUri={LocalImageFileEnum.SWA} />
+              <Card imageUri={require('../picture/userShare.png')} />
             </Box>
             <Box>
               <Card
-                imageUri={LocalImageFileEnum.UserAD} />
+                imageUri={require('../picture/userAd.png')} />
             </Box>
           </Swiper>
         </View>
@@ -98,16 +95,36 @@ const UserHome = () => {
         }}>
           <TouchableOpacity onPress={() => handlePress("RideOrderScreen")} style={{ width: "47%" }}>
             <Box>
+             {/* <Box
+                rounded="lg"
+                overflow="hidden"
+                borderColor="coolGray.200"
+                borderWidth="1"
+                backgroundColor="gray.50"
+                style={{ aspectRatio: 2/3, width: '100%' }}
+              >
+                <Image source={require('../picture/UserRide.png')} style={{ width: '100%', height: '100%', resizeMode: 'cover' }} />
+              </Box>*/}
               <CardWithoutDescription
-                imageUri={LocalImageFileEnum.UserRide} />
+                imageUri={require('../picture/UserRide.png')} />
             </Box>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => showDialog("WARNING", "Action Waiting", "Other features will be available soon, please wait")}
             style={{ width: "47%" }}>
             <Box>
+             {/* <Box
+                rounded="lg"
+                overflow="hidden"
+                borderColor="coolGray.200"
+                borderWidth="1"
+                backgroundColor="gray.50"
+                style={{ aspectRatio: 2/3, width: '100%' }}
+              >
+                <Image source={require('../picture/UserService.png')} style={{ width: '100%', height: '100%', resizeMode: 'cover' }} />
+              </Box>*/}
               <CardWithoutDescription
-                imageUri={LocalImageFileEnum.UserService} />
+                imageUri={require('../picture/UserService.png')} />
             </Box>
           </TouchableOpacity>
         </View>

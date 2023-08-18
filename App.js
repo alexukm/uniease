@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
-import { saveLocalStaticPicture, setUserToken } from "./src/com/evotech/common/appUser/UserConstant";
+import { setUserToken } from "./src/com/evotech/common/appUser/UserConstant";
 import UserBottomTabNavigator from "./src/screens/UserBottomTabNavigator";
 import DriverBottomTabNavigator from "./src/screens/DriverBottomTabNavigator";
 import store from "./src/com/evotech/common/redux/store";
@@ -104,7 +104,7 @@ const App = () => {
 
     setTimeout(async () => {
       await setDeviceId();
-      saveLocalStaticPicture().then();
+      // saveLocalStaticPicture().then();
     }, 0);
     if (!firebase.apps.length) {
       const firebaseConfig = {

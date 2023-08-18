@@ -12,7 +12,11 @@ import {
 } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 import { userLogoutIt } from "../com/evotech/common/http/BizHttpUtil";
-import { USER_AVATAR_FILE_NAME, userLocalImagePath, userLogOut } from "../com/evotech/common/appUser/UserConstant";
+import {
+  USER_AVATAR_FILE_NAME,
+  userLocalImagePath,
+  userLogOut,
+} from "../com/evotech/common/appUser/UserConstant";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { showDialog } from "../com/evotech/common/alert/toastHelper";
 import { getUserInfoWithLocal } from "../com/evotech/common/appUser/UserInfo";
@@ -28,9 +32,12 @@ const AccountScreen = () => {
   };
   useFocusEffect(
     React.useCallback(() => {
-      userLocalImagePath(USER_AVATAR_FILE_NAME).then((fileName) => {
-        setAvatarURI("file://" + fileName + "?time=" + new Date().getTime());
-      });
+      console.log(avatarURI);
+      setTimeout(async () => {
+        await userLocalImagePath(USER_AVATAR_FILE_NAME).then((fileName) => {
+          setAvatarURI("file://" + fileName + "?time=" + new Date().getTime());
+        });
+      }, 0);
 
       const fillUserInfo = async () => {
         const userInfo = await getUserInfoWithLocal();
@@ -51,18 +58,6 @@ const AccountScreen = () => {
   const handleSharePress = () => {
     Linking.openURL("https://unieaseapp.com/unieaseapp/").then();
   };
-
-
-  // const handleCustomerServicePress = () => {
-  //   navigation.navigate("ChatRoom", {
-  //     receiverName: "Customer Service",
-  //     receiverUserCode: "user202307150002",
-  //     orderStatus: "Pending",
-  //     needQueryOrderStatus: false,
-  //     orderId: "user202307150002",
-  //     receiverOrderId: "user202307150002",
-  //   });
-  // };
 
   const handlePricingRulesPress = () => {
     Linking.openURL("https://unieaseapp.com/unieaseConditions/").then();
@@ -117,8 +112,7 @@ const AccountScreen = () => {
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleAvatarPress}>
-            {/*{avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}*/}
-            <Image source={{ uri: avatarURI }} style={styles.avatar} />
+            {avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}
           </TouchableOpacity>
           <Text style={styles.name}>{userName}</Text>
         </View>

@@ -115,8 +115,8 @@ const DriverAccount = () => {
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleAvatarPress}>
-            {/*{avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}*/}
-            <Image source={{ uri: avatarURI }} style={styles.avatar} />
+            {avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}
+            {/*<Image source={{ uri: avatarURI }} style={styles.avatar} />*/}
           </TouchableOpacity>
           <Text style={styles.name}>{userName}</Text>
         </View>

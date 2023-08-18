@@ -36,31 +36,8 @@ export const ImagesEnum = {
     UserOrderCartoonCar: "https://unieaseapp.com/uniEaseImages/app/user_order_cartoon_car.png",
 };
 
-export const LocalImageRequireEnum = {
-    UserAD: {
-        path: "../../../../picture/userAd.png",
-        required: require("../../../../picture/userAd.png"),
-    },
-    SWA: {
-        path: "../../../../picture/swa.png",
-        required: require("../../../../picture/swa.png"),
-    },
-    UserRide: {
-        path: "../../../../picture/UserRide.png",
-        required: require("../../../../picture/UserRide.png"),
-    },
-    UserService: {
-        path: "../../../../picture/UserService.png",
-        required: require("../../../../picture/UserService.png"),
-    },
-    DriverRide: {
-        path: "../../../../picture/DriverRide.png",
-        required: require("../../../../picture/DriverRide.png"),
-    },
-}
 export const LocalImageFileEnum = {
-    UserAD: `file://${LOCAL_USER_INFO_FILE_PATH}/userAd.png`+'?time=' + new Date().getTime(),
-    SWA: `file://${LOCAL_USER_INFO_FILE_PATH}/swa.png`+'?time=' + new Date().getTime(),
+    UserAD: `file://${LOCAL_USER_INFO_FILE_PATH}/userAd.png`,
     Avatar: `file://${LOCAL_USER_INFO_FILE_PATH}/${USER_AVATAR_FILE_NAME}`+'?time=' + new Date().getTime(),
     UserRide: `file://${LOCAL_USER_INFO_FILE_PATH}/UserRide.png`+'?time=' + new Date().getTime(),
     UserService: `file://${LOCAL_USER_INFO_FILE_PATH}/UserService.png`+'?time=' + new Date().getTime(),

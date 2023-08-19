@@ -3,7 +3,12 @@ import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { checkUserAccount, driverLogin, smsSend } from "../com/evotech/common/http/BizHttpUtil";
 import { useNavigation } from "@react-navigation/native";
-import { saveUserAvatar, setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
+import {
+  createUserInfoDirectory,
+  saveUserAvatar,
+  setUserToken,
+  userType,
+} from "../com/evotech/common/appUser/UserConstant";
 import {
   FormControl,
   Center,
@@ -207,7 +212,9 @@ function DriverScreen() {
     buildUserInfo(data.token, userType.DRIVER, userPhone, data.loginStatus, data.firstName, data.lastName).saveWithLocal();
     navigation.navigate("DriverSupplyInfo");
     setTimeout(() => {
-      saveUserAvatar(userPhone, null).then();
+      createUserInfoDirectory().then(()=>{
+        saveUserAvatar(userPhone, null).then();
+      })
     }, 0);
     showDialog(ALERT_TYPE.SUCCESS, "Action Required", "Please complete your driver information.");
   };
@@ -219,7 +226,9 @@ function DriverScreen() {
     setUserToken(data.token);
     buildUserInfo(data.token, userType.DRIVER, userPhone, data.loginStatus, data.firstName, data.lastName).saveWithLocal();
     setTimeout(() => {
-      saveUserAvatar(userPhone, data).then();
+      createUserInfoDirectory().then(()=>{
+        saveUserAvatar(userPhone, data).then();
+      })
     }, 0);
     navigation.replace("Driver");
   };

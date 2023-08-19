@@ -13,7 +13,12 @@ import {
 } from "native-base";
 import { MD5 } from "crypto-js";
 import { smsSend, userRegistry } from "../com/evotech/common/http/BizHttpUtil";
-import { saveUserAvatar, setUserToken, userType } from "../com/evotech/common/appUser/UserConstant";
+import {
+  createUserInfoDirectory,
+  saveUserAvatar,
+  setUserToken,
+  userType,
+} from "../com/evotech/common/appUser/UserConstant";
 import { useNavigation } from "@react-navigation/native";
 import { buildUserInfo } from "../com/evotech/common/appUser/UserInfo";
 import { UserTypeEnum } from "../com/evotech/common/constant/BizEnums";
@@ -211,7 +216,9 @@ const RegisterScreen = () => {
           setUserToken(data.data);
           buildUserInfo(data.data, userType.USER, userPhone, "",registryParams.firstName,registryParams.lastName).saveWithLocal();
           setTimeout(() => {
-            saveUserAvatar(userPhone, null).then();
+            createUserInfoDirectory().then(()=>{
+              saveUserAvatar(userPhone, null).then();
+            })
           }, 0);
           navigation.navigate("User");
         }, () => {

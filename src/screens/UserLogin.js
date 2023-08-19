@@ -3,6 +3,7 @@ import { MD5 } from "crypto-js";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
+  createUserInfoDirectory,
   saveUserAvatar,
   setUserToken,
   userType,
@@ -229,7 +230,9 @@ function UserScreen() {
           setUserToken(loginResult.token);
           buildUserInfo(loginResult.token, userType.USER, userPhone, "", loginResult.firstName, loginResult.lastName).saveWithLocal();
           setTimeout(() => {
-            saveUserAvatar(userPhone, loginResult);
+            createUserInfoDirectory().then(()=>{
+              saveUserAvatar(userPhone, loginResult).then();
+            })
           }, 0);
           navigation.replace("User");
           showToast("SUCCESS", "Login Successful", "You have successfully logged in!");

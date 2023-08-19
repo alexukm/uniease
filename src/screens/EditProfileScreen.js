@@ -17,9 +17,8 @@ import {
   USER_AVATAR_FILE_NAME,
   userLocalImagePath,
 } from "../com/evotech/common/appUser/UserConstant";
-import {  showToast } from "../com/evotech/common/alert/toastHelper";
+import { showToast } from "../com/evotech/common/alert/toastHelper";
 import * as RNFS from "react-native-fs";
-
 
 
 const EditProfile = () => {
@@ -38,11 +37,11 @@ const EditProfile = () => {
       if (userInfo) {
         setFirstName(userInfo.firstName);
         setLastName(userInfo.lastName);
-        setUserInfo(userInfo)
+        setUserInfo(userInfo);
       }
     };
     userLocalImagePath(USER_AVATAR_FILE_NAME).then((fileName) => {
-      setAvatar("file://" + fileName+'?time=' + new Date().getTime() );
+      setAvatar(fileName);
     });
     fillUserInfo().then();
   }, []);
@@ -73,17 +72,17 @@ const EditProfile = () => {
   };
 
 
-  const navigationSkip= ()=>{
+  const navigationSkip = () => {
     if (userInfo) {
       if (userInfo.isUser()) {
         navigation.navigate("AccountScreen");
-      }else if (userInfo.isDriver()) {
+      } else if (userInfo.isDriver()) {
         navigation.navigate("DriverAccount");
       } else {
         navigation.goBack();
       }
     }
-  }
+  };
   const handleResponse = (data, firstName, lastName, navigationOp) => {
     responseOperation(data.code, () => {
       resetUserToken(data.data, firstName, lastName).then(() => {
@@ -111,7 +110,7 @@ const EditProfile = () => {
     const userToken = await getUserToken();
     await launchImageLibrary(options, async response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        console.log("User cancelled image picker");
       } else if (response.error) {
         showToast("WARNING", "ImagePicker Error", response.error);
       } else {
@@ -135,10 +134,10 @@ const EditProfile = () => {
 
         responseOperation(uploadResponse.code, () => {
           showToast("SUCCESS", "Upload Successful", "Avatar uploaded successfully.");
-          copyUserAvatarLocal(selectedImageUri, USER_AVATAR_FILE_NAME).then(data=>{
-            setAvatar("file://" + data+'?time=' + new Date().getTime() );
+          copyUserAvatarLocal(selectedImageUri, USER_AVATAR_FILE_NAME).then(data => {
+            setAvatar("file://" + data + "?time=" + new Date().getTime());
           });
-           // 上传成功后在本地设置新的头像
+          // 上传成功后在本地设置新的头像
         }, () => {
           showToast("WARNING", "Upload Failed", "Failed to upload avatar.");
           console.error("Failed to upload avatar.");
@@ -152,7 +151,7 @@ const EditProfile = () => {
     return (
       <View style={styles.header}>
         <TouchableOpacity onPress={() => {
-          navigationSkip()
+          navigationSkip();
         }} style={styles.backButton}>
           <Text style={styles.backButtonText}>&lt; Back</Text>
         </TouchableOpacity>
@@ -163,40 +162,40 @@ const EditProfile = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-    <View style={styles.container}>
-      <Header title="Edit Profile" />
-      <Image
-        style={styles.halfBackgroundImage}
-        source={require("../picture/acc_bg.png")}
-      />
-      <View style={styles.avatarContainer}>
-        {avatar ? <Image source={{ uri: avatar }} style={styles.avatar} /> : null}
-        <TouchableOpacity style={styles.changeAvatarButton} onPress={changeAvatar}>
-          <Text style={styles.changeAvatarButtonText}>Change Avatar</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.form}>
-        <Text style={styles.label}>First Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter First Name"
-          value={firstName}
-          onChangeText={setFirstName}
+      <View style={styles.container}>
+        <Header title="Edit Profile" />
+        <Image
+          style={styles.halfBackgroundImage}
+          source={require("../picture/acc_bg.png")}
         />
-        <Text style={styles.label}>Last Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Last Name"
-          value={lastName}
-          onChangeText={setLastName}
-        />
+        <View style={styles.avatarContainer}>
+          {avatar ? <Image source={{ uri: avatar }} style={styles.avatar} /> : null}
+          <TouchableOpacity style={styles.changeAvatarButton} onPress={changeAvatar}>
+            <Text style={styles.changeAvatarButtonText}>Change Avatar</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.form}>
+          <Text style={styles.label}>First Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter First Name"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+          <Text style={styles.label}>Last Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Last Name"
+            value={lastName}
+            onChangeText={setLastName}
+          />
+        </View>
+        <View style={styles.submitButtonContainer}>
+          <TouchableOpacity style={styles.button} onPress={() => handleSubmit({ firstName, lastName })}>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.submitButtonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => handleSubmit({ firstName, lastName })}>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
     </SafeAreaView>
   );
 };
@@ -238,8 +237,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 50,
     width: "90%",
-    justifyContent: 'center', // 垂直居中
-    alignItems: 'center',     // 水平居中
+    justifyContent: "center", // 垂直居中
+    alignItems: "center",     // 水平居中
   },
   buttonText: {
     color: "#fff",

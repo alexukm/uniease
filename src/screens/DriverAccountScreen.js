@@ -22,12 +22,12 @@ import { LocalImageFileEnum } from "../com/evotech/common/constant/BizEnums";
 const DriverAccount = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState("");
-  const [avatarURI, setAvatarURI] = useState(LocalImageFileEnum.Avatar+ "?time=" + new Date().getTime());
+  const [avatarURI, setAvatarURI] = useState("");
 
   useFocusEffect(
     React.useCallback(() => {
       userLocalImagePath(USER_AVATAR_FILE_NAME).then((fileName) => {
-        setAvatarURI("file://" + fileName + "?time=" + new Date().getTime());
+        setAvatarURI(fileName);
       });
     const fillUserInfo = async () => {
       const userInfo = await getUserInfoWithLocal();
@@ -115,7 +115,7 @@ const DriverAccount = () => {
       <ImageBackground source={require("../picture/acc_bg.png")} style={styles.background}>
         <View style={styles.header}>
           <TouchableOpacity onPress={handleAvatarPress}>
-            {avatarURI ? <Image source={{ uri: avatarURI }} style={styles.avatar} /> : null}
+            {avatarURI ? <Image key={avatarURI} source={{ uri: avatarURI }} style={styles.avatar} /> : null}
             {/*<Image source={{ uri: avatarURI }} style={styles.avatar} />*/}
           </TouchableOpacity>
           <Text style={styles.name}>{userName}</Text>

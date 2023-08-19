@@ -3,7 +3,7 @@ import { defaultHeaders, defaultRequestAddress, requestPrefix } from "../http/Ht
 import { buildUserInfo, getUserInfoWithLocal, removeUserInfo } from "./UserInfo";
 import { closeWebsocket } from "../websocket/SingletonWebSocketClient";
 import { clearLocalChat } from "../redux/UserChat";
-import { deviceId } from "../system/OSUtils";
+import { deviceId, isAndroid, isIOS } from "../system/OSUtils";
 import * as RNFS from "react-native-fs";
 import { Image } from "react-native";
 
@@ -58,6 +58,8 @@ export function removeUserToken() {
 }
 
 export function userLogOut() {
+  //删除用户头像
+  unLinkUserAvatar().then();
   //删除token
   asyncDelKey(defaultHeaders.TOKEN).then();
   //删除用户信息
@@ -66,8 +68,6 @@ export function userLogOut() {
   closeWebsocket();
   // clear chat room
   clearLocalChat().then();
-  //删除用户头像
-  unLinkUserAvatar().then();
 }
 
 export async function getUserToken() {
@@ -109,7 +109,9 @@ export async function resetUserToken(token, firstName, lastName) {
 
 //保存image到本地
 export async function saveLocalImage(imageUrl, fileName) {
-  const path = `${LOCAL_USER_INFO_FILE_PATH}/${fileName}`;
+  const userInfo = await getUserInfoWithLocal();
+  const userInfoPath = `${LOCAL_USER_INFO_FILE_PATH}/${userInfo.userPhone}/`;
+  const path = `${userInfoPath}${fileName}`;
   const options = {
     fromUrl: imageUrl,
     toFile: path,
@@ -119,7 +121,7 @@ export async function saveLocalImage(imageUrl, fileName) {
   if (existFile) {
     await RNFS.unlink(path);
   } else {
-    await RNFS.mkdir(LOCAL_USER_INFO_FILE_PATH).then();
+    await RNFS.mkdir(userInfoPath).then();
   }
   await RNFS.downloadFile(options).promise
     .then(() => {
@@ -130,8 +132,15 @@ export async function saveLocalImage(imageUrl, fileName) {
     });
 }
 
+export async function createUserInfoDirectory() {
+  const userInfo = await getUserInfoWithLocal();
+  const path = `${LOCAL_USER_INFO_FILE_PATH}/${userInfo.userPhone}/`;
+  await RNFS.mkdir(path);
+}
+
 export async function copyUserAvatarLocal(sourceUri, fileName) {
-  const path = `${LOCAL_USER_INFO_FILE_PATH}/${fileName}`;
+  const userInfo = await getUserInfoWithLocal();
+  const path = `${LOCAL_USER_INFO_FILE_PATH}/${userInfo.userPhone}/${fileName}`;
   try {
     const exist = await RNFS.exists(path);
     if (exist) {
@@ -147,15 +156,28 @@ export async function copyUserAvatarLocal(sourceUri, fileName) {
 
 // 获取image在本地的路径
 export async function userLocalImagePath(fileName) {
-  const localFileName = `${LOCAL_USER_INFO_FILE_PATH}/${fileName}`;
+  const userInfo = await getUserInfoWithLocal();
+  const localFileName = `${LOCAL_USER_INFO_FILE_PATH}/${userInfo.userPhone}/${fileName}`;
   return await RNFS.exists(localFileName).then(data => {
-    return localFileName;
+    if (data) {
+      return "file://" + localFileName + "?time=" + new Date().getTime();
+    } else {
+      if (isAndroid()) {
+        return "asset:/avatar.jpg";
+      } else {
+        return "file://" + localFileName + "?time=" + new Date().getTime();
+      }
+    }
   });
 }
 
 export const unLinkUserAvatar = async () => {
-  const localAvatarPath = `${LOCAL_USER_INFO_FILE_PATH}/${USER_AVATAR_FILE_NAME}`;
-  return await RNFS.unlink(localAvatarPath).then();
+  const userInfo = await getUserInfoWithLocal();
+  const localAvatarPath = `${LOCAL_USER_INFO_FILE_PATH}/${userInfo.userPhone}/${USER_AVATAR_FILE_NAME}`;
+  const exist = await RNFS.exists(localAvatarPath);
+  if (exist) {
+    return await RNFS.unlink(localAvatarPath).then();
+  }
 };
 
 export const saveUserAvatar = async (userPhone, data) => {
@@ -164,30 +186,21 @@ export const saveUserAvatar = async (userPhone, data) => {
     const imageUrl = `${requestPrefix.httpPrefix}/uniEaseApp/pia/avatar/${userPhone}/${data.userAvatarPath}`;
     saveLocalImage(imageUrl, USER_AVATAR_FILE_NAME).then();
   } else {
-    const assetPath = Image.resolveAssetSource(require("../../../../picture/avatar.jpg"));
-    const destinationPath = `${LOCAL_USER_INFO_FILE_PATH}/${USER_AVATAR_FILE_NAME}`;
-    const options = {
-      fromUrl: assetPath.uri,
-      toFile: destinationPath,
-    };
-    const existUserAvatar = await RNFS.exists(destinationPath);
-
-    // exist user avatar
-    if (existUserAvatar) {
-      return;
+    if (isIOS()) {
+      const userInfo = await getUserInfoWithLocal();
+      const assetPath = Image.resolveAssetSource(require("../../../../picture/avatar.jpg"));
+      const destinationPath = `${LOCAL_USER_INFO_FILE_PATH}/${userInfo.userPhone}/${USER_AVATAR_FILE_NAME}`;
+      const options = {
+        fromUrl: assetPath.uri,
+        toFile: destinationPath,
+      };
+      await RNFS.downloadFile(options).promise
+        .then(() => {
+          console.log("Image saved to", destinationPath);
+        })
+        .catch(error => {
+          console.error("Failed to save image:", error);
+        });
     }
-
-    const exist = await RNFS.exists(LOCAL_USER_INFO_FILE_PATH);
-
-    if (!exist) {
-      await RNFS.mkdir(LOCAL_USER_INFO_FILE_PATH).then();
-    }
-    await RNFS.downloadFile(options).promise
-      .then(() => {
-        console.log("Image saved to", destinationPath);
-      })
-      .catch(error => {
-        console.error("Failed to save image:", error);
-      });
   }
 };

@@ -10,9 +10,9 @@ const contextPath = "/uniEase";
 
 
 export const requestPrefix = {
-    // httpPrefix: "https://" + defaultRequestAddress,
+    httpPrefix: "https://" + defaultRequestAddress,
     // 测试环境
-    httpPrefix: "http://" + defaultRequestAddress,
+    // httpPrefix: "http://" + defaultRequestAddress,
 }
 
 // 默认请求头

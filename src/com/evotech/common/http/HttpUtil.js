@@ -1,18 +1,18 @@
 import axios from "axios";
 import { getUserID, getUserToken} from "../appUser/UserConstant";
 
-// const defaultRequestAddress = "unieaseapp.com"
+const defaultRequestAddress = "unieaseapp.com"
 // 测试环境
-const defaultRequestAddress = "35.197.128.231"
+// const defaultRequestAddress = "35.197.128.231"
 
 
 const contextPath = "/uniEase";
 
 
 export const requestPrefix = {
-    // httpPrefix: "https://" + defaultRequestAddress,
+    httpPrefix: "https://" + defaultRequestAddress,
     // 测试环境
-    httpPrefix: "http://" + defaultRequestAddress,
+    // httpPrefix: "http://" + defaultRequestAddress,
 }
 
 // 默认请求头

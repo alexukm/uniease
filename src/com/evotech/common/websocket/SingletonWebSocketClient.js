@@ -5,10 +5,14 @@ import defaultClient from "./WebSocketClient";
 let socketClient;
 let intervalJob;
 let newSocket;
-export const getSocketClient = async (newSocket) => {
+
+export const getSocketClient = async () => {
     //  存在
-    if (socketClient && !newSocket) {
+    if (socketClient) {
         return socketClient;
+    }
+    if (newSocket) {
+        return newSocket;
     }
     const token = defaultHeaders.getAuthentication(await getUserToken());
     socketClient = defaultClient(token)
@@ -33,7 +37,7 @@ export const mergeSocketClient = (newClient) => {
     if (!socketClient) {
         return newClient;
     }
-
+    socketClient.disconnect();
     //重试订阅
     connect(newClient, (client) => {
         Object.keys(socketClient.subscriptions).forEach(subscription => {
@@ -107,13 +111,15 @@ const reSetSocketConn = async () => {
 }
 export const retrySocketConn = async () =>{
     // socketClient 为null  newSocket 不为null 则任务当前正在重试 为null则认为当前不需要 socket连接
-    console.log("尝试 重试socket");
     //异常关闭
     if (socketClient && !socketClient.shouldClosed && socketClient.closed) {
         //重试
-        console.log("socket 重试");
         await reSetSocketConn();
     }
+}
+
+export const existSocketClient = () => {
+    return socketClient != null;
 }
 
 
@@ -122,7 +128,6 @@ export const clientStatus = () => {
         return false
     }
     return socketClient.client.connected;
-
 }
 
 export const closeWebsocket = () => {

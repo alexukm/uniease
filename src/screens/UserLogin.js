@@ -285,10 +285,6 @@ function UserScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <View style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "35%" }}>
             <Image source={require("../picture/user_login_bcg.png")}
@@ -391,7 +387,6 @@ function UserScreen() {
             </Text>
           </VStack>
         </View>
-      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

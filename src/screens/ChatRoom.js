@@ -6,7 +6,7 @@ import { addMessage, selectChatMessage } from "../com/evotech/common/redux/chatS
 import uuid from "react-native-uuid";
 import { UserChat } from "../com/evotech/common/redux/UserChat";
 import {
-  clientStatus,
+  clientStatus, existSocketClient, retrySocketConn,
   whenConnect,
 } from "../com/evotech/common/websocket/SingletonWebSocketClient";
 import { SafeAreaView } from "react-native";
@@ -42,15 +42,23 @@ export default function ChatRoom({ route }) {
           name: receiverName,
         },
       };
-      // 连接被异常关闭
-      if (!clientStatus()) {
+      //不存在 则是第一次进入
+      if (!existSocketClient) {
         await UserChat(true).then();
         await sleep(500).then()
+      }else {
+        // 连接被异常关闭 或 未连接
         if (!clientStatus()) {
-          alert("Send failed,Please try again!");
-          return;
+          //尝试重新连接
+          await retrySocketConn();
+          await sleep(500).then()
+          if (!clientStatus()) {
+            alert("Send failed,Please try again!");
+            return;
+          }
         }
       }
+
       await whenConnect((socketClient) => {
         socketClient.publish({ destination: "/uniEase/v1/order/chat/ride", body: JSON.stringify(param) });
       });

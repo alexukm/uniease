@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 10,
     marginBottom: 5,
+    color: "black"
   },
   buttonContainer: {
     backgroundColor: "green",

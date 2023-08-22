@@ -366,15 +366,6 @@ const DriverAcceptDetailScreen = ({route, navigation}) => {
 
         const actionSheet = useRef();
 
-        //  const [animatePress, setAnimatePress] = useState(new Animated.Value(1));
-
-        /*   const animateIn = () => {
-             Animated.timing(animatePress, {
-               toValue: 0.5,
-               duration: 500,
-               useNativeDriver: true, // Add This line
-             }).start();
-           };*/
         const showActionSheet = () => {
             actionSheet.current.show();
         };
@@ -512,7 +503,7 @@ const DriverAcceptDetailScreen = ({route, navigation}) => {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    {Status !== OrderStateEnum.CANCELLED && Status !== OrderStateEnum.COMPLETED && (
+                    {Status !== OrderStateEnum.CANCELLED && Status !== OrderStateEnum.COMPLETED && Status !== OrderStateEnum.DELIVERED && (
                         <HStack justifyContent="space-between" alignItems="center" px={0}>
                             <HStack space={4} alignItems="center">
                                 <Avatar

@@ -17,7 +17,9 @@ export default function ChatRoom({ route }) {
 
   const messages = useSelector(selectChatMessage);
 
-  const sleep = new Promise(resolve => setTimeout(resolve, 0.5));
+  const sleep = async (timeout)=>{
+    return await new Promise(resolve => setTimeout(resolve, timeout));
+  }
 
   async function onSend(newMessages = []) {
     try {
@@ -43,7 +45,7 @@ export default function ChatRoom({ route }) {
       // 连接被异常关闭
       if (!clientStatus()) {
         await UserChat(true).then();
-        await sleep;
+        await sleep(500).then()
         if (!clientStatus()) {
           alert("Send failed,Please try again!");
           return;

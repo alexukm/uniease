@@ -31,6 +31,7 @@ export default function ChatList({navigation}) {
             });
         });
         if (data) {
+            console.log("chat list clientStatus");
             if (!clientStatus()) {
                 await UserChat(true).then();
             }
@@ -105,7 +106,6 @@ export default function ChatList({navigation}) {
     useFocusEffect(
         React.useCallback(() => {
             if (!firstLoad) {
-                console.log("no first load chatList");
                 initChatList(messagesRef.current).then();
                 if (Object.keys(chatList).length > 0 && !clientStatus()) {
                     setTimeout(async () => {

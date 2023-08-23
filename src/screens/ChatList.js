@@ -8,10 +8,11 @@ import uuid from "react-native-uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { clearChat, deleteChatByOrderIds, selectChatMessage } from "../com/evotech/common/redux/chatSlice";
 import {
-  clientStatus, closeWebsocket,
+  clientStatus, closeWebsocket, existSocketClient,
   retrySocketConn,
 } from "../com/evotech/common/websocket/SingletonWebSocketClient";
 import { useFocusEffect } from "@react-navigation/native";
+import { format } from "date-fns";
 
 
 export default function ChatList({ navigation }) {
@@ -19,10 +20,11 @@ export default function ChatList({ navigation }) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [chatList, setChatList] = useState({});
   const messagesRef = React.useRef(messages);
+  const chatListLength = React.useRef(0);
   const initSocketRef = React.useRef(false);
   const dispatch = useDispatch();
 
-  const firstInitChatList = async (messages)=>{
+  const firstInitChatList = async (messages) => {
     const data = await queryChatList().then((data) => {
       return responseOperation(data.code, () => {
         return data.data;
@@ -73,7 +75,7 @@ export default function ChatList({ navigation }) {
         initSocketChat().then();
       }
     }
-  }
+  };
 
   const initChatList = async (messages) => {
     const data = await queryChatList().then((data) => {
@@ -121,17 +123,26 @@ export default function ChatList({ navigation }) {
       });
       setChatList({});
       setChatList(newChatList);
+      chatListLength.current = Object.keys(newChatList).length;
+      return newChatList;
     }
+    chatListLength.current = 0;
+    return null;
   };
 
   const initSocketChat = async () => {
     // alert("initSocketChat status:" + initSocketRef.current);
     if (!initSocketRef.current) {
       // alert("first inti chat ");
-      await UserChat(true).then();
-      initSocketRef.current = true;
+      //不存在 则认为是为建立连接
+      if (!existSocketClient()) {
+        initSocketRef.current = true;
+        await UserChat(true).then();
+        //已存在 但未连接 尝试重连
+      } else if (!clientStatus()) {
+        await retrySocketConn();
+      }
     } else {
-      // alert("retrySocketConn inti  ");
       //已经执行过 UserChat
       if (!clientStatus()) {
         await retrySocketConn();
@@ -174,7 +185,17 @@ export default function ChatList({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       if (!firstLoad) {
-        initChatList(messagesRef.current).then();
+        initChatList(messagesRef.current).then(async () => {
+          if (chatListLength.current > 0) {
+            if (!initSocketRef.current) {
+              //是第一次连接
+              await UserChat(true).then();
+              initSocketRef.current = true;
+            } else if (!clientStatus()) {
+              await retrySocketConn().then();
+            }
+          }
+        });
       } else {
         firstInitChatList(messages).then();
         setFirstLoad(false);
@@ -195,7 +216,13 @@ export default function ChatList({ navigation }) {
 
   function formatChatTime(timestamp) {
     const now = new Date();
-    const messageDate = new Date(timestamp);
+    let messageDate;
+    if (timestamp) {
+      messageDate = new Date(timestamp);
+    } else {
+      messageDate = new Date();
+    }
+
 
     // Check if it's the same day
     if (now.toDateString() === messageDate.toDateString()) {

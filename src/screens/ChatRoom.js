@@ -6,7 +6,8 @@ import { addMessage, selectChatMessage } from "../com/evotech/common/redux/chatS
 import uuid from "react-native-uuid";
 import { UserChat } from "../com/evotech/common/redux/UserChat";
 import {
-  clientStatus, existSocketClient, retrySocketConn,
+  checkClientStatus,
+   existSocketClient, retrySocketConn,
   whenConnect,
 } from "../com/evotech/common/websocket/SingletonWebSocketClient";
 import { SafeAreaView } from "react-native";
@@ -43,16 +44,16 @@ export default function ChatRoom({ route }) {
         },
       };
       //不存在 则是第一次进入
-      if (!existSocketClient) {
+      if (!existSocketClient()) {
         await UserChat(true).then();
-        await sleep(500).then()
+        await sleep(700).then()
       }else {
         // 连接被异常关闭 或 未连接
-        if (!clientStatus()) {
+        if (checkClientStatus()) {
           //尝试重新连接
           await retrySocketConn();
-          await sleep(500).then()
-          if (!clientStatus()) {
+          await sleep(1000).then()
+          if (checkClientStatus()) {
             alert("Send failed,Please try again!");
             return;
           }

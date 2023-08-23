@@ -1,5 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {saveLocalChat} from "./UserChat";
+import { createSlice } from "@reduxjs/toolkit";
+import { saveLocalChat } from "./UserChat";
 
 const initialState = {
   chatMessage: {},
@@ -15,7 +15,12 @@ const chatSlice = createSlice({
     addMessage(state, action) {
       const message = action.payload;
       if (state.chatMessage[message.orderId]) {
-        state.chatMessage[message.orderId] = [message, ...state.chatMessage[message.orderId]];
+        const isDuplicate = state.chatMessage[message.orderId].some(existingMessage =>
+          existingMessage.text === message.text && existingMessage.createdAt === message.createdAt,
+        );
+        if (!isDuplicate) {
+          state.chatMessage[message.orderId] = [message, ...state.chatMessage[message.orderId]];
+        }
       } else {
         state.chatMessage[message.orderId] = [message];
       }

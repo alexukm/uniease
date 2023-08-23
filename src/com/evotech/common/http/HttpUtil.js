@@ -1,19 +1,6 @@
 import axios from "axios";
 import { getUserID, getUserToken} from "../appUser/UserConstant";
-
-const defaultRequestAddress = "unieaseapp.com"
-// 测试环境
-// const defaultRequestAddress = "35.197.128.231"
-
-
-const contextPath = "/uniEase";
-
-
-export const requestPrefix = {
-    httpPrefix: "https://" + defaultRequestAddress,
-    // 测试环境
-    // httpPrefix: "http://" + defaultRequestAddress,
-}
+import { getServerRequestUrl } from "../env/Server";
 
 // 默认请求头
 export const defaultHeaders = {
@@ -79,7 +66,7 @@ async function headerMap({supportContextType = null, header = {}},) {
 
 export class HttpUtil {
     constructor(timeOut, http = true) {
-        this.requestBaseURL = requestPrefix.httpPrefix + contextPath;
+        this.requestBaseURL = getServerRequestUrl();
         this.http = http;
         this.instance = axios.create({
             baseURL: this.requestBaseURL,

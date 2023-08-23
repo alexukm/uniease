@@ -71,11 +71,10 @@ const connect = async (socketClient, onConnect) => {
         socketClient.client.forceDisconnect();
         socketClient.closed = true;
         //异常关闭
-        if (!socketClient.shouldClosed) {
+      /*  if (!socketClient.shouldClosed) {
             if (!intervalJob) {
-                intervalJob = setInterval(async () => {
-                    await reSetSocketConn();
-                  /*  const socketClient = await newSocketClient();
+             /!*   intervalJob = setInterval(async () => {
+                  /!*  const socketClient = await newSocketClient();
                     mergeSocketClient(socketClient)
 
                     setTimeout(async () => {
@@ -87,10 +86,10 @@ const connect = async (socketClient, onConnect) => {
                                 clearInterval(intervalJob);
                             }
                         }
-                    }, 1000);*/
-                }, 5000);
+                    }, 1000);*!/
+                }, 5000);*!/
             }
-        }
+        }*/
     });
 
 }
@@ -128,6 +127,10 @@ export const clientStatus = () => {
         return false
     }
     return socketClient.client.connected;
+}
+
+export const checkClientStatus = () => {
+    return socketClient && !socketClient.shouldClosed && socketClient.closed;
 }
 
 export const closeWebsocket = () => {

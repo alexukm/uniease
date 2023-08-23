@@ -11,7 +11,6 @@ import { clientStatus } from "../websocket/SingletonWebSocketClient";
 
 export const UserChat = async (needRetry) => {
   const dispatch = store.dispatch;
-  console.log("UserChat UserChat");
   const buildChatMsg = (body) => {
     const receiveMsg = JSON.parse(body);
     const message = {

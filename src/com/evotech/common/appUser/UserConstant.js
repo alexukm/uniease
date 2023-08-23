@@ -1,11 +1,12 @@
 import { asyncDelKey, getValue, setKeyValue } from "./LocalStorageUtil";
-import { defaultHeaders, defaultRequestAddress, requestPrefix } from "../http/HttpUtil";
+import { defaultHeaders } from "../http/HttpUtil";
 import { buildUserInfo, getUserInfoWithLocal, removeUserInfo } from "./UserInfo";
 import { closeWebsocket } from "../websocket/SingletonWebSocketClient";
 import { clearLocalChat } from "../redux/UserChat";
 import { deviceId, isAndroid, isIOS } from "../system/OSUtils";
 import * as RNFS from "react-native-fs";
 import { Image } from "react-native";
+import {  getServerRequestUrlPrefix } from "../env/Server";
 
 
 export const LOCAL_FILE_PATH = RNFS.DocumentDirectoryPath + "/uniease";
@@ -183,7 +184,7 @@ export const unLinkUserAvatar = async () => {
 export const saveUserAvatar = async (userPhone, data) => {
   // 存在自定义头像
   if (data && data.userAvatarPath) {
-    const imageUrl = `${requestPrefix.httpPrefix}/uniEaseApp/pia/avatar/${userPhone}/${data.userAvatarPath}`;
+    const imageUrl = `${getServerRequestUrlPrefix()}/uniEaseApp/pia/avatar/${userPhone}/${data.userAvatarPath}`;
     saveLocalImage(imageUrl, USER_AVATAR_FILE_NAME).then();
   } else {
     if (isIOS()) {

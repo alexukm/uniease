@@ -249,7 +249,6 @@ function DriverScreen() {
       .then(data => {
         responseOperation(data.code, () => {
           const loginResult = data.data;
-          console.log("driver login result: " + loginResult);
           //审核通过
           if (DriverLoginStatusEnum.ACTIVE === loginResult.loginStatus) {
             driverActive(loginResult, userPhone);

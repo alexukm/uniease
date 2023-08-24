@@ -117,6 +117,8 @@ const featureAndPath = {
 
     QUERY_CHAT_LIST: {method: supportRequestMethod.GET, path: "/v1/oms/api/public/order/getChatList",},
 
+    QUERY_USER_CHAT_ONLINE: {method: supportRequestMethod.GET, path: "/v1/oms/api/public/order/getUserChatOnline",},
+
     CREATE_CHAT_LIST: {method: supportRequestMethod.POST, path: "/v1/oms/api/public/order/createChatList",},
 };
 
@@ -126,6 +128,9 @@ export function createChatList(params = {}) {
 
 export function queryChatList() {
     return request.get(featureAndPath.QUERY_CHAT_LIST.path);
+}
+export function getUserChatOnline() {
+    return request.get(featureAndPath.QUERY_USER_CHAT_ONLINE.path);
 }
 
 

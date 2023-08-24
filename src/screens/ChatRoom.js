@@ -11,6 +11,7 @@ import {
   whenConnect,
 } from "../com/evotech/common/websocket/SingletonWebSocketClient";
 import { SafeAreaView } from "react-native";
+import { socketConnect } from "../com/evotech/common/websocket/UserChatWebsocket";
 
 export default function ChatRoom({ route }) {
   const { receiverName, receiverUserCode, orderId, receiverOrderId } = route.params;
@@ -45,7 +46,8 @@ export default function ChatRoom({ route }) {
       };
       //不存在 则是第一次进入
       if (!existSocketClient()) {
-        await UserChat(true).then();
+        await socketConnect();
+        // await UserChat(true).then();
         await sleep(700).then()
       }else {
         // 连接被异常关闭 或 未连接

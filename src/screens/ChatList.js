@@ -13,6 +13,7 @@ import {
 } from "../com/evotech/common/websocket/SingletonWebSocketClient";
 import { useFocusEffect } from "@react-navigation/native";
 import { format } from "date-fns";
+import { socketConnect } from "../com/evotech/common/websocket/UserChatWebsocket";
 
 
 export default function ChatList({ navigation }) {
@@ -72,7 +73,7 @@ export default function ChatList({ navigation }) {
       setChatList({});
       setChatList(newChatList);
       if (Object.keys(newChatList).length > 0) {
-        initSocketChat().then();
+        await UserChat(true);
       }
     }
   };
@@ -130,25 +131,6 @@ export default function ChatList({ navigation }) {
     return null;
   };
 
-  const initSocketChat = async () => {
-    // alert("initSocketChat status:" + initSocketRef.current);
-    if (!initSocketRef.current) {
-      // alert("first inti chat ");
-      //不存在 则认为是为建立连接
-      if (!existSocketClient()) {
-        initSocketRef.current = true;
-        await UserChat(true).then();
-        //已存在 但未连接 尝试重连
-      } else if (!clientStatus()) {
-        await retrySocketConn();
-      }
-    } else {
-      //已经执行过 UserChat
-      if (!clientStatus()) {
-        await retrySocketConn();
-      }
-    }
-  };
   const hasNewOrderMessage = () => {
     const chatOrderIds = Object.keys(chatList);
     const messageOrderIds = Object.keys(messages);
@@ -187,13 +169,7 @@ export default function ChatList({ navigation }) {
       if (!firstLoad) {
         initChatList(messagesRef.current).then(async () => {
           if (chatListLength.current > 0) {
-            if (!initSocketRef.current) {
-              //是第一次连接
-              await UserChat(true).then();
-              initSocketRef.current = true;
-            } else if (!clientStatus()) {
-              await retrySocketConn().then();
-            }
+            await socketConnect();
           }
         });
       } else {
